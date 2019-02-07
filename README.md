@@ -1,2 +1,2 @@
 # slickplan
-Web application used for designe of web sites
+Web application used for web sites designe
