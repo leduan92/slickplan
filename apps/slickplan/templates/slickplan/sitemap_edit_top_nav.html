@@ -1,0 +1,79 @@
+<div class="top-nav">
+    <ul id="sitemap-menu" class="userColor">
+        <li class="file"><span class="text">File</span><span class="arrow"></span>
+            <ul>
+                <li><a href="#" class="text icon open" data-modal="open">Open</a></li>
+
+                {% if sitemap.is_locked %}
+                    <li class="parent"><span class="text icon save editdisabled">Save</span></li>
+                {% else %}
+                    <li class="parent"><span class="text icon save">Save</span><span class="arrow"></span>
+                        <ul>
+                            <li><a href="#" class="text icon save" id="action-save">Save</a></li>
+                            <li><a href="#" class="text icon save-as" data-modal="save-as">Save As</a></li>
+                            <li><a href="#" class="text icon save-ver" data-modal="save-version">Save New Version</a>
+                            </li>
+                        </ul>
+                    </li>
+                {% endif %}
+
+                <li><a href="#" class="text icon print" id="action-print">Print</a></li>
+                <li><a href="#" class="text icon shortcuts {{ editdisabled }}" data-modal="shortcuts">Shortcuts</a></li>
+
+                {% if sitemap.is_locked %}
+                    <li><a href="#" class="text icon lock" id="action-unlock">Unlock Sitemap</a></li>
+                {% else %}
+                    <li><a href="#" class="text icon lock" id="action-lock">Lock Sitemap</a></li>
+                {% endif %}
+
+                {% if not sitemap.is_status_approved %}
+                    <li><a href="#" class="text icon approve" id="action-approve">Approve Sitemap</a></li>
+                {% endif %}
+
+                <li><a href="{% url 'slickplan:slickplan_dashboard' %}" class="text icon close">Close</a>
+                </li>
+            </ul>
+        </li>
+
+        {% if sitemap.is_locked %}
+            <li class="orientation editdisabled"><a href="#" class="text editdisabled">Orientation</a></li>
+        {% else %}
+            <li class="orientation"><a href="#" class="text horizontal" id="action-orientation">Orientation</a></li>
+        {% endif %}
+
+
+
+        <li class="colors {{ editdisabled }}"><span class="text">Edit Styles</span><span class="arrow"></span>
+            <ul>
+                <li><a href="#" class="text icon themes {{ editdisabled }}" id="action-color-themes">Color Themes</a></li>
+                <li><a href="#" class="text icon swatch {{ editdisabled }}" id="action-swatch-presets">Swatch Presets</a></li>
+                <li><a href="#" class="text icon custom-color {{ editdisabled }}" id="action-custom-color">Custom Color</a></li>
+                <li><a href="#" class="text icon line-text {{ editdisabled }}" id="action-lines-text-color">Text &amp; Line Color</a></li>
+                <li><a href="#" class="text icon shadow-grad {{ editdisabled }}" id="action-shadows-gradients">Shadows &amp;Gradients</a></li>
+            </ul>
+        </li>
+
+{#        <li class="export"><a href="#" class="text" data-modal="export">Import / Export</a></li>#}
+
+        <li class="batch faicon  {{ editdisabled }}"><a href="#" class="text  {{ editdisabled }}" id="action-batch"><i class="fa fa-cogs"></i> Batch Edit</a></li>
+
+        <li class="buttons">
+            <div class="group {{ editdisabled }}">
+                <a href="#" id="action-undo" class="{{ editdisabled }}"><span></span><div class="tooltip">Undo</div></a>
+                <a href="#" id="action-redo" class=" {{ editdisabled }}"><span></span><div class="tooltip">Redo</div></a>
+            </div>
+            <div class="group">
+                <a href="#" id="action-zoom-out"><span></span>
+
+                    <div class="tooltip">Zoom Out</div>
+                </a>
+                <a href="#" id="action-zoom-in"><span></span>
+
+                    <div class="tooltip">Zoom In</div>
+                </a>
+            </div>
+        </li>
+        <li class="block-edit"></li>
+    </ul>
+</div>
+

@@ -1,0 +1,73 @@
+/* Content Block style 1 modifications */
+.content-block-1 {
+    background: #333333 url('/static/images/frontend/bg6.jpg');
+}
+
+/* Retina background support - use x2 size image background */
+@media only screen and (-Webkit-min-device-pixel-ratio: 1.5),
+only screen and (-moz-min-device-pixel-ratio: 1.5),
+only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (min-device-pixel-ratio: 1.5) {
+    .content-block-1 {
+        background: #333333 url('/static/images/frontend/bg6.jpg');
+    }
+}
+.content-block-1 p {
+    color: #CCCCCC;
+    text-shadow: 0 1px 3px rgb(0,0,0);
+}
+
+/* Content Block style 3 modifications */
+.content-block-3 {
+    background: #333333
+}
+.content-block-3 p {
+    color: #CCCCCC
+}
+.content-block-3 img {
+    margin-bottom: -150px
+}
+
+/* Content Block style 11 modifications */
+.content-block-11 {
+    background: #333333 url('/static/images/frontend/bg11.jpg');
+}
+/* Retina background support - use x2 size image background */
+@media only screen and (-Webkit-min-device-pixel-ratio: 1.5),
+only screen and (-moz-min-device-pixel-ratio: 1.5),
+only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (min-device-pixel-ratio: 1.5) {
+    .content-block-11 {
+        background: #333333 url('/static/images/frontend/bg11.jpg');
+    }
+}
+.content-block-11 .main-icon,
+.content-block-11 .subh-basic-light {
+    color: #FFFFFF;
+}
+.content-block-11 p {
+    color: #CCCCCC
+}
+/* Contact style 1 modifications */
+
+.contact-1 {
+    background: #333333 url('/static/images/frontend/bg7.jpg');
+}
+/* Retina background support - use x2 size image background */
+@media only screen and (-Webkit-min-device-pixel-ratio: 1.5),
+only screen and (-moz-min-device-pixel-ratio: 1.5),
+only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (min-device-pixel-ratio: 1.5) {
+    .contact-1 {
+        background: #333333 url('/static/images/frontend/bg7.jpg');
+    }
+}
+.contact-1 h3 span {
+    color: #bfadf9
+}
+.contact-1 hr {
+    border-top-color: #856cd4
+}
+.contact-1 .social a {
+    border-color: #856cd4
+}

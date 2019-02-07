@@ -1,0 +1,23 @@
+{% extends "email/template.html" %}
+{% block header_title %}
+    <h3>Registro de usuario</h3>
+{% endblock %}
+{% block body_title %}
+    <h3>Confirmación de nueva cuenta {{ net.domain }}</h3>
+{% endblock %}
+{% block body %}
+
+    {% if invite_message == '' %}
+        <p >Hola {{ nick }}, Gracias por registrarse en una cuenta {{ net.domain }}:        </p>
+    {% else %}
+        <p>{{invite_message}} </p>
+    {% endif %}
+
+    <p>
+        Debe activar su subscripción antes de las próximas 48 horas, puede hacerlo presionando el siguiente botón.
+        <a class="btn btn-primary" href="{{ ADDRESS_SITE }}/app/activation/confirm/{{secret_key}}">Acepto solicitud</a>
+    </p>
+
+    <p>Atentamente</p>
+
+{% endblock %}

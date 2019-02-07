@@ -1,0 +1,306 @@
+{% extends 'slickplan/layout.html' %}
+
+{% block title %}Dashboard{% endblock title %}
+
+{% block javascripts %}
+    {{ block.super }}
+
+    <script type="text/javascript">
+        jQuery.noConflict();
+        jQuery(document).ready(function ($) {
+
+            var params= {
+                "route": ["dashboard", "archived"],
+                "users_list": [{% for guest in user_slick.my_guests %}{
+                    "first_name": "{{ guest.first_name }}",
+                    "last_name": "{{ guest.last_name }}",
+                    "email": "{{ guest.email }}",
+                    "name": "{{ guest.full_name }}",
+                    "label": "{{ guest.get_label }}",
+                    "value": {{ guest.id }},
+                    "type": 9
+                    },{% endfor %}''],
+                autocomplete:[''{% for sitemap in sitemaps %},'{{ sitemap }}'{% endfor %}]
+            };
+            Slickplan.appInit(Object.assign(params_init,params));
+        });
+    </script>
+
+{% endblock javascripts %}
+
+{% block layout_content %}
+
+    <div id="main" class="dashboard">
+        <noscript>
+            <div id="form-notify" class="error nojs">
+                <span>Please enable JavaScript for a better overall experience.</span>
+            </div>
+        </noscript>
+        <div class="top">
+            <button type="button" class="button" data-modal="create-sitemap">Create A New Sitemap</button>
+            <button type="button" class="button light" id="delete"><span>Delete</span></button>
+            <button type="button" class="button light" id="unarchive">Unarchive</button>
+            <form action="/dashboard/archived" method="post" id="dashboard-autocomplete">
+                <input type="text" name="search" placeholder="SEARCH SITEMAPS">
+                <input type="submit" value="Search">
+                <input type="reset" value="Clear">
+                <input type="hidden" name="_nonce" value="R4SDEh6/GwQeJR85a14r+qiYLIPIz2caxhl6TeW99xE="/>
+            </form>
+        </div>
+        <form action="/dashboard/archived" method="post" id="dashboard-form">
+            <div class="table" id="sitemaps-table" data-orderby="date" data-orderdir="desc">
+                <table>
+                    {% if not sitemaps %}
+                        <tr class="no-sitemaps">
+                            <td>
+                                No Archived Sitemaps
+                            </td>
+                        </tr>
+                    {% else %}
+                        <thead class="archived">
+                        <tr>
+{#                            <th class="name"><a href="/dashboard/order/name-desc">Name</a></th>#}
+{#                            <th class="version"><a href="/dashboard/order/version-desc">Version</a></th>#}
+{#                            <th class="born"><a href="/dashboard/order/born-desc">Born</a></th>#}
+{#                            <th class="date desc"><a href="/dashboard/order/date-asc">Last Saved</a></th>#}
+{#                            <th class="user"><a href="/dashboard/order/user-desc">User</a></th>#}
+
+                            <th class="name {{ order.name.current }}"><a href="name-{{ order.name.next }}">Name</a></th>
+                            <th class="version"><span>Version</span></th>
+                            <th class="born"><span>Born</span></th>
+                            <th class="date"><span>Last Saved</span></th>
+                            <th class="user"><span>User</span></th>
+
+
+                        </tr>
+                        </thead>
+                        <tbody class="version">
+                        {% for sitemap in sitemaps %}
+                            <tr>
+                                <td>
+                                    <div class="checkbox">
+                                        <input type="checkbox" name="ids[]" value="{{ sitemap.id }}" id="form-ids-{{ sitemap.id }}">
+                                        <label for="form-ids-{{ sitemap.id }}">Check</label>
+                                    </div>
+                                    <a href="#" class="archived">
+                                        {{ sitemap }}
+                                        <div class="row-shadow"></div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <select name="version" class="ui-version" id="version1">
+                                        {% for version in sitemap.versions.all %}
+                                            <option value="{{ version.id }}">{{ version.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td>
+                                    {#<span class="verspan verspan-{{ sitemap.id }}">{{ sitemap.created | date:"m / d / y" }}</span>#}
+                                    {% for version in sitemap.versions.all %}
+                                        <span class="verspan verspan-{{ version.id }}">{{ version.created | date:"m / d / y" }}</span>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {#<span class="verspan verspan-{{ sitemap.id }}">{{ sitemap.modified | date:"m / d / y" }}</span>#}
+                                    {% for version in sitemap.versions.all %}
+                                        <span class="verspan verspan-{{ version.id }}">{{ version.modified | date:"m / d / y" }}</span>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    <div class="userrow">
+                                        {#<span class="verspan verspan-{{ sitemap.id }}">{{ sitemap.owner.user.username }}</span>#}
+                                        {% for version in sitemap.versions.all %}
+                                            <span class="verspan verspan-{{ version.id }}">{{ version.sitemap.owner }}</span>
+                                        {% endfor %}
+
+                                        <div class="row-shadow"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    {% endif %}
+                </table>
+            </div>
+            <input type="hidden" name="_nonce" value="R4SDEh6/GwQeJR85a14r+qiYLIPIz2caxhl6TeW99xE="/>
+        </form>
+        <div class="bottom">
+            <button type="button" class="button" data-modal="create-sitemap">Create A New Sitemap</button>
+            <ul class="pagination">
+                <li class="archive"><a href="{% url 'slickplan:slickplan_dashboard' %}">Active Sitemaps</a>
+            </ul>
+        </div>
+    </div>
+
+    <div id="modal-create-sitemap" class="modal withcontrib">
+        <form action="" method="post" enctype="multipart/form-data">
+            <fieldset>
+                <h1>Create New Sitemap <a href="#" class="button light ico-close close">&#10005;</a></h1>
+
+                <div class="input left first">
+                    <label for="form-name">Sitemap Name</label>
+                    <input type="text" name="form[name]" id="form-name">
+                </div>
+                <div class="input left second">
+                    <label for="form-version">Version</label>
+                    <input type="text" name="form[version]" value="1.0" id="form-version" maxlength="6">
+                </div>
+            </fieldset>
+{#            <fieldset class="col margin">#}
+{#                <h1>Editors#}
+{#                    <a href="#" class="button light ico-plus" data-topmodal="add-contributor" data-type="editor">Add Editor</a>#}
+{#                </h1>#}
+{##}
+{#                <div class="usersbox editors"></div>#}
+{#            </fieldset>#}
+{#            <fieldset class="col margin">#}
+{#                <h1>Viewers#}
+{#                    <a href="#" class="button light ico-plus" data-topmodal="add-contributor" data-type="viewer">Add Viewer</a>#}
+{#                </h1>#}
+{##}
+{#                <div class="usersbox viewers"></div>#}
+{#            </fieldset>#}
+            <div class="submit nomargin">
+                <input type="submit" value="Create Sitemap">
+            </div>
+            <input type="hidden" name="_nonce" value="R4SDEh6/GwQeJR85a14r+qiYLIPIz2caxhl6TeW99xE="/></form>
+    </div>
+
+    <div id="topmodal-add-contributor" class="top-modal">
+        <form action="#" method="post">
+            <a href="#" class="add" data-topmodal="add-new-contributor">Add new User</a>
+            <a href="#" class="button light ico-close close">&#10005;</a>
+            <fieldset>
+                <div class="input">
+                    <input type="text" name="user" placeholder="SEARCH EXISTING USERS">
+                </div>
+                <div class="autocomplete-placeholder"></div>
+                <div class="checkbox topm lockunlock">
+                    <input type="checkbox" id="tm-sitemap-admin-check">
+                    <label for="tm-sitemap-admin-check">Lock/Unlock Permissions</label>
+                </div>
+                <div class="checkbox topm approval">
+                    <input type="checkbox" id="tm-sitemap-approval-check">
+                    <label for="tm-sitemap-approval-check">Responsible For Approval</label>
+                </div>
+            </fieldset>
+            <input type="hidden" name="_nonce" value="R4SDEh6/GwQeJR85a14r+qiYLIPIz2caxhl6TeW99xE="/></form>
+    </div>
+
+    <div id="topmodal-add-new-contributor" class="top-modal">
+        <h1 class="add">Add new User <a href="#" class="button light ico-close close">&#10005;</a></h1>
+
+        <form action="/account/users" method="post">
+            <fieldset>
+                <div class="input">
+                    <label for="form-contributor-firstname">First Name</label>
+                    <input type="text" id="form-contributor-firstname" name="add[first_name]">
+                </div>
+                <div class="input">
+                    <label for="form-contributor-lastname">Last Name</label>
+                    <input type="text" id="form-contributor-lastname" name="add[last_name]">
+                </div>
+                <div class="input">
+                    <label for="form-contributor-email">Email</label>
+                    <input type="text" id="form-contributor-email" name="add[email]">
+                </div>
+                <div class="checkbox topm lockunlock">
+                    <input type="checkbox" id="tmn-sitemap-admin-check">
+                    <label for="tmn-sitemap-admin-check">Lock/Unlock Permissions</label>
+                </div>
+                <div class="checkbox topm approval">
+                    <input type="checkbox" id="tmn-sitemap-approval-check">
+                    <label for="tmn-sitemap-approval-check">Responsible For Approval</label>
+                </div>
+            </fieldset>
+            <div class="submit">
+                <input type="submit" class="button light compact" value="Submit">
+
+                <div class="loading"></div>
+            </div>
+            <input type="hidden" name="_nonce" value="R4SDEh6/GwQeJR85a14r+qiYLIPIz2caxhl6TeW99xE="/>
+        </form>
+
+    </div>
+
+    <div id="topmodal-edit-contributor" class="top-modal">
+        <h1 class="add">Edit User <a href="#" class="button light ico-close close">&#10005;</a></h1>
+
+        <form action="/account/users" method="post">
+            <fieldset>
+                <div class="input">
+                    <label for="form-contributor-firstname">First Name</label>
+                    <input type="text" id="form-econtributor-firstname" name="edit[first_name]">
+                </div>
+                <div class="input">
+                    <label for="form-contributor-lastname">Last Name</label>
+                    <input type="text" id="form-econtributor-lastname" name="edit[last_name]">
+                </div>
+                <div class="input">
+                    <label for="form-contributor-email">Email</label>
+                    <input type="text" id="form-econtributor-email" name="edit[email]">
+                </div>
+                <div class="checkbox topm lockunlock">
+                    <input type="checkbox" id="tme-sitemap-admin-check">
+                    <label for="tme-sitemap-admin-check">Lock/Unlock Permissions</label>
+                </div>
+                <div class="checkbox topm approval">
+                    <input type="checkbox" id="tme-sitemap-approval-check">
+                    <label for="tme-sitemap-approval-check">Responsible For Approval</label>
+                </div>
+            </fieldset>
+            <div class="submit">
+                <input type="submit" class="button light compact" value="Save">
+
+                <div class="loading"></div>
+            </div>
+            <input type="hidden" name="_nonce" value="R4SDEh6/GwQeJR85a14r+qiYLIPIz2caxhl6TeW99xE="/></form>
+    </div>
+
+    <div id="modal-delete" class="modal">
+        <form action="/dashboard" method="post">
+            <fieldset>
+                <h1>Delete <a href="#" class="button light ico-close close">&#10005;</a></h1>
+
+                <div class="sitemaps table tablefont">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>
+                                <div class="checkbox">
+                                    <input type="checkbox" id="form-select-all">
+                                    <label for="form-select-all">Select All</label>
+                                </div>
+                            </th>
+                            <th>Version</th>
+                            <th>Created By</th>
+                        </tr>
+                        </thead>
+                    </table>
+                    <div class="table-scroll">
+                        <table>
+                            <tbody id="deletemtbl">
+                            <tr>
+                                <td>
+                                    <div class="checkbox">
+                                        <input type="checkbox" name="deleteversion[]">
+                                        <label></label>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <div></div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="submit nomargin">
+                <input type="submit" value="Delete">
+            </div>
+            <input type="hidden" name="_nonce" value="R4SDEh6/GwQeJR85a14r+qiYLIPIz2caxhl6TeW99xE="/></form>
+    </div>
+
+{% endblock layout_content %}

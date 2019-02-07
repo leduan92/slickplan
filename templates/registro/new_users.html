@@ -1,0 +1,105 @@
+{% extends "base_site.html"%}
+{% block title %} Configuración de acceso {% endblock %}
+{% load staticfiles %}
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'plataforma/css/login.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'plataforma/css/main.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'conceptboard/css/base.css' %}" />
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="margin-t-10 margin-b-10" style="text-align:center">
+            <div class="login-header">
+                <a id="login-logo" href="/">
+                    <img src="/static/conceptboard/images/logo_medium_black.png" alt="Mosasicbloom" style="width: 180px;">
+                </a>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="page-header" style="text-align: center">
+                    <h2>Bienvenido a Mosaicbloom</h2>
+                    <p class="title-5">{{invitacion.creador.first_name}} te ha invitado a participar en Mosaicbloom.</p>
+                    <p>Complete los datos solicitados a continuación para comenzar. Solo tendras que llenar este formulario una vez.</p>
+                </div>
+                <div id="login-container" style="margin: 0 auto; max-width: 700px; margin-bottom: 20px; " class="gradient">
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <form method="post" action="" class="form-horizontal">
+                                {{form.errors}}
+                                {% csrf_token %}
+                                <div class="form-group row">
+                                    <div class="col-md-3 col-lg-3 col-sm-2 col-xs-12">
+                                        <label class="control-label">Tu correo:</label>
+                                    </div>
+                                    <div class="col-md-7 col-lg-7 col-sm-8 col-xs-12">
+                                        <input type="text" disabled="disabled" value="{{invitacion.invitado.email}}" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3 col-lg-3 col-sm-2 col-xs-12">
+                                        <label class="control-label">Nombre:</label>
+                                    </div>
+                                    <div class="col-md-7 col-lg-7 col-sm-8 col-xs-12">
+                                        {{ form.first_name }}
+                                        {{ form.first_name.errors }}
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3 col-lg-3 col-sm-2 col-xs-12">
+                                        <label class="control-label">Apellido:</label>
+                                    </div>
+                                    <div class="col-md-7 col-lg-7 col-sm-8 col-xs-12">
+                                        {{ form.last_name }}
+                                        {{ form.last_name.errors }}
+                                    </div>
+                                </div>
+                                <div class="form-group row hide" style="height: 0;">
+                                        {{ form.username }}
+                                </div>
+                                <div class="form-group row hide" style="height: 0;">
+                                        {{ form.email }}
+                                </div>
+                                <div class="form-group row hide" style="height: 0;">
+                                        {{ form.company }}
+                                </div>
+                                <!-- <div class="line-separator margin-b-10"></div> -->
+                                <div class="form-group row">
+                                    <div class="col-md-3 col-lg-3 col-sm-2 col-xs-12">
+                                        <label class="control-label">Contraseña:</label>
+                                    </div>
+                                    <div class="col-md-7 col-lg-7 col-sm-8 col-xs-12">
+                                        {{ form.password1 }}
+                                        {{ form.password1.errors }}
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3 col-lg-3 col-sm-2 col-xs-12">
+                                        <label class="control-label">Repetir Contraseña:</label>
+                                    </div>
+                                    <div class="col-md-7 col-lg-7 col-sm-8 col-xs-12">
+                                        {{ form.password2 }}
+                                        {{ form.password2.errors }}
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3 col-lg-3 col-sm-2 col-xs-12">
+
+                                    </div>
+                                    <div class="col-md-7 col-lg-7 col-sm-8 col-xs-12">
+                                        <button class="btn btn-primary btn-lg">Ir a Mosaicbloom</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="col-lg-3 col-md-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include "plataforma/footer_login.html" %}
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "email/template.html" %}
+{% block header_title %}
+    <h3>Cambio de contraseña</h3>
+{% endblock %}
+{% block body_title %}
+    <h3>Cambio de contraseña en su red {{ net.domain }}</h3>
+{% endblock %}
+{% block body %}
+
+
+
+    {% if invite_message == '' %}
+        <p>Hola {{ nick }}, debido a gestiones administrativas en su red {{ net.domain }} fue necesario cambiarle su clave de acceso : </p>
+    {% else %}
+         <p>{{invite_message}} </p>
+    {% endif %}
+
+
+    Su nueva clave es <b>{{new_pass}}</b>, si desea ingresar al sitio puede hacerlo  desde el siquiente vínculo con esta credencial. <br>
+    <a class="" href="{{ ADDRESS_SITE }}">{{ ADDRESS_SITE }}</a>
+    </p>
+
+
+    <p>Atentamente</p>
+
+{% endblock %}

@@ -1,0 +1,134 @@
+{% extends 'slickplan/layout_profile.html' %}
+{% load static from staticfiles %}
+
+{% block title %}Company Settings{% endblock title %}
+
+{% block javascripts %}
+    {{ block.super }}
+
+    <script type="text/javascript">
+        jQuery.noConflict();
+        jQuery(document).ready(function ($) {
+            var params= {
+                route: ["account", "company"]
+            };
+            Slickplan.appInit(Object.assign(params_init,params));
+            var is_uselogo2_checked = $("#form-uselogo2:checked").length > 0;
+            if (is_uselogo2_checked) {
+                $(".logochang").show();
+                $(".logoplace").show();
+            }
+            $("#form-uselogo2").change(function () {
+                $(".logochang").show();
+                $(".logoplace").show();
+            });
+            $("#form-uselogo1").change(function () {
+                $(".logochang").hide();
+                $(".logoplace").hide();
+            });
+            $("#pluploadbtn").click(function () {
+                $("input:file").trigger('click');
+            })
+        });
+    </script>
+
+{% endblock javascripts %}
+
+{% block layout_content %}
+
+    <div id="main" class="account account-settings company-settings">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset>
+                <h1>Company Settings</h1>
+
+                <div class="input">
+                    <label for="form-name1">Company Name</label>
+                    <input type="text" id="form-name1" name="form[{{ form.company_name.name }}]" tabindex="1" value="{{ form.company_name.value }}" autocomplete="off">
+                </div>
+                <div class="input">
+                    <label for="form-name2">Company Name 2</label>
+                    <input type="text" id="form-name2" name="form[{{ form.company_name_2.name }}]" tabindex="2" value="{{ form.company_name_2.value }}" autocomplete="off">
+                </div>
+                <div class="input">
+                    <label for="form-subdomain">Company URL</label>
+                    <input type="text" id="form-subdomain" name="form[{{ form.subdomain.name }}]" tabindex="3" value="{{ form.subdomain.value }}" autocomplete="off">
+                </div>
+                <div class="input fullwidth">
+                    <label for="form-billingaddress">Billing Address</label>
+                    <textarea id="form-billingaddress" name="form[{{ form.billing_address.name }}]" tabindex="4" autocomplete="off">{{ form.billing_address.value }}</textarea>
+                </div>
+            </fieldset>
+            <fieldset>
+                <div class="radio">
+                    <div class="left">
+                        <input type="radio" id="form-uselogo1" data-id="logo_type" name="form[{{ form.company_logo_type.name }}]" value="0" tabindex="5" {% if not form.company_logo_type.value %}checked{% endif %}>
+                        <label for="form-uselogo1">Use company name</label>
+                    </div>
+                    <div class="left">
+                        <input type="radio" id="form-uselogo2" data-id="logo_type" name="form[{{ form.company_logo_type.name }}]" value="1" data-value="{{ MEDIA_URL }}{{ user_slick.company_logo_img }}" tabindex="6" {% if form.company_logo_type.value %}checked{% endif %}>
+                        <label for="form-uselogo2">Use company logo</label>
+                    </div>
+                </div>
+                <div class="input logochang" style="display: none">
+                    <label>Company Logo</label>
+                    <button type="button" class="button light uploadbutton" id="pluploadbtn" tabindex="7" data-maxsize="409800">Change Logo</button>
+                    <div class="loading"></div>
+                </div>
+                <div class="logoplace" style="display: none">
+                    <div id="logoplaceholder">
+                        <span>235px</span>
+                        <span>76px</span>
+                        <div><img src="{% static "slickplan/img/default-logo.png" %}" alt="Company Logo" id="image-form-companylogo"></div>
+                    </div>
+                    <p>.png .jpg or .gif (400 KB max)</p>
+
+                    <p>We recommend a .png file with a transparent background</p>
+                </div>
+                <div class="input" style="border: 0; padding-top: 33px;">
+                    <label>Site Color</label>
+                    <button type="button" class="button light" id="colordefault" tabindex="8">Switch to Default</button>
+                </div>
+                <div class="colorpicker">
+                    <div id="colorpicker"></div>
+                    <div id="colortest">
+                        <div>Can you read this?</div>
+                        <div>What about this?</div>
+                    </div>
+                    <label>Hex color</label>
+                    <input type="text" id="colorinput" name="form[{{ form.site_color.name }}]" maxlength="6" tabindex="9" value="{{ form.site_color.value }}">
+
+                    <div class="checkbox">
+                        <input type="checkbox" id="form-darkfont" name="form[{{ form.dark_font.name }}]" value="1" tabindex="10" {% if form.dark_font.value %}checked{% endif %}>
+                        <label for="form-darkfont">Use dark text</label>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="submit">
+                <input type="submit" value="Save New Settings" tabindex="11">
+            </div>
+            <input type="hidden" name="_nonce" value="R4SDEh6/GwQeJR85a14r+qiYLIPIz2caxhl6TeW99xE="/></form>
+    </div>
+
+    {#    <div id="modal-confirm" class="modal">#}
+    {#        <form action="" method="post">#}
+    {#            <fieldset>#}
+    {#                <h1><span></span> <a href="#" class="button light ico-close close">&#10005;</a></h1>#}
+    {##}
+    {#                <p></p>#}
+    {#            </fieldset>#}
+    {#            <div class="submit">#}
+    {#                <div class="checkboxes clearfix"></div>#}
+    {#                <div class="confirm-checkbox clearfix">#}
+    {#                    <div class="checkbox">#}
+    {#                        <input type="checkbox" id="modal-confirm-checkbox" value="1">#}
+    {#                        <label for="modal-confirm-checkbox">Don’t show me this again</label>#}
+    {#                    </div>#}
+    {#                </div>#}
+    {#                <input type="reset" value="No" class="cancel" id="modal-confirm-cancel">#}
+    {#                <input type="submit" value="Yes" id="modal-confirm-submit">#}
+    {#            </div>#}
+    {#            <input type="hidden" name="_nonce" value="R4SDEh6/GwQeJR85a14r+qiYLIPIz2caxhl6TeW99xE="/></form>#}
+    {#    </div>#}
+
+{% endblock layout_content %}

@@ -1,0 +1,267 @@
+{% extends "base_site.html"%}
+{% block title %} Inicio {% endblock %}
+
+{% load staticfiles %}
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'plataforma/css/main.css' %}" />
+{% endblock %}
+{% block body %}
+	{% include "plataforma/top_menu.html" %}
+	<div class="main-container container">
+		<h2 class="page-title">Listado de aplicaciones disponibles</h2>
+		<div class="col-lg-6 col-md-6 col-sm-12 group-app-col">
+			<div class="group-app shadow-box">
+				<div class="group-app-icon"><i class="fa fa-bar-chart fa-4x"></i></div>
+				<div class="group-app-wrapper">
+					<h4 class="group-app-title">Software Analysis</h4>
+					<div class="group-app-options dropdown">
+						<a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-caret-down"></i></a>
+					    <ul class="dropdown-menu pull-right">
+					        <li><a href="#">Configurar Acceso</a></li>
+					        <li><a href="#">Ordenar aplicaciones</a></li>
+					        <li><a href="#">Ordenar Grupos</a></li>
+					        <li><a href="#">Ocultar Grupo</a></li>
+					    </ul>
+					</div>
+					<ul class="group-app-list">
+						<strong>Inspiration</strong>
+						<li style="position: relative; left: 10px;">
+							<a href="{% url 'evernote:home' %}" style="color: red">Evernote</a><text style="font-size: 11px; color: #999"> (28-03-2016)</text>
+						</li>
+						<li style="position: relative; left: 10px;">
+							<a href="#">Realtime Board</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="separator"></div>
+			<div class="group-app shadow-box">
+				<div class="group-app-icon"><i class="fa fa-cogs fa-4x"></i></div>
+				<div class="group-app-wrapper">
+					<h4 class="group-app-title">Software Management</h4>
+					<div class="group-app-options dropdown">
+						<a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-caret-down"></i></a>
+					    <ul class="dropdown-menu pull-right">
+					        <li><a href="#">Configurar Acceso</a></li>
+					        <li><a href="#">Ordenar aplicaciones</a></li>
+					        <li><a href="#">Ordenar Grupos</a></li>
+					        <li><a href="#">Ocultar Grupo</a></li>
+					    </ul>
+					</div>
+					<ul class="group-app-list">
+						<strong>Proposal</strong>
+						<li style="position: relative; left: 10px; padding-bottom: 10px;">
+							<a href="{% url 'sharedocs:index' %}" style="color: red">Panda Doc</a><text style="font-size: 11px; color: #999"> (21-03-2016)</text>
+						</li>
+						<strong>Customer Conversation</strong>
+						<li style="position: relative; left: 10px;">
+							<a href="{% url 'lucid:index' %}" style="color: red">Lucid Meeting</a><text style="font-size: 11px; color: #999"> (10-06-2016)</text>
+						</li>
+						<li style="position: relative; left: 10px;">
+							<a href="#">Zendesk</a>
+						</li>
+						<li style="position: relative; left: 10px;">
+							<a href="#">Clickdesk</a>
+						</li>
+						<li style="position: relative; left: 10px;">
+							<a href="{% url 'conceptboard:index' %}" style="color: red">Concept Board</a><text style="font-size: 11px; color: #999"> (21-03-2016)</text>
+						</li>
+						<li style="position: relative; left: 10px;">
+							<a href="#">Invision</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="separator"></div>
+			<div class="group-app shadow-box">
+				<div class="group-app-icon"><i class="fa fa-cubes fa-4x"></i></div>
+				<div class="group-app-wrapper">
+					<h4 class="group-app-title">Software Design</h4>
+					<div class="group-app-options dropdown">
+						<a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-caret-down"></i></a>
+					    <ul class="dropdown-menu pull-right">
+					        <li><a href="#">Configurar Acceso</a></li>
+					        <li><a href="#">Ordenar aplicaciones</a></li>
+					        <li><a href="#">Ordenar Grupos</a></li>
+					        <li><a href="#">Ocultar Grupo</a></li>
+					    </ul>
+					</div>
+					<ul class="group-app-list">
+						<strong>Information Architecture</strong>
+						<li style="position: relative; left: 10px;">
+							<a href="{% url 'slickplan:slickplan_home' %}" style="color: red">SlickPlan</a><text style="font-size: 11px; color: #999"> (02-02-2016)</text>
+						</li>
+						<li style="position: relative; left: 10px; padding-bottom: 10px;">
+							<a href="#">Balsamiq</a>
+						</li>
+						<strong>User Interface Prototyping</strong>
+						<li style="position: relative; left: 10px;">
+							<a href="{% url 'popapp:projects'  %}" style="color: red">POP Prototyping on Paper</a><text style="font-size: 11px; color: #999"> (20-07-2016)</text>
+						</li>
+						<li style="position: relative; left: 10px; padding-bottom: 10px;">
+							<a href="{% url 'solidifyapp:home' %}" style="color: red">Solidify</a><text style="font-size: 11px; color: #999"> (24-01-2016)</text>
+						</li>
+						<strong>Visual Design</strong>
+						<li style="position: relative; left: 10px;">
+							<a href="{% url 'conceptboard:index' %}" style="color: red">Concept Board</a><text style="font-size: 11px; color: #999"> (21-03-2016)</text>
+						</li>
+						<li style="position: relative; left: 10px; padding-bottom: 10px;">
+							<a href="#">Concept Inbox</a>
+						</li>
+						<strong>User Interface Design</strong>
+						<li style="position: relative; left: 10px;">
+							<a href="#">Antetype</a>
+						</li>
+						<li style="position: relative; left: 10px;">
+							<a href="{% url 'proto:index' %}" style="color: red">Proto.io</a><text style="font-size: 11px; color: #999"> (20-07-2016)</text>
+						</li>
+						<li style="position: relative; left: 10px;">
+							<a href="#">Invision</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="separator"></div>
+			<div class="group-app shadow-box">
+				<div class="group-app-icon"><i class="fa fa-history fa-4x"></i></div>
+				<div class="group-app-wrapper">
+					<h4 class="group-app-title">Software Lifecycle</h4>
+					<div class="group-app-options dropdown">
+					<a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-caret-down"></i></a>
+					<ul class="dropdown-menu pull-right">
+					    <li><a href="#">Configurar Acceso</a></li>
+					    <li><a href="#">Ordenar aplicaciones</a></li>
+					    <li><a href="#">Ordenar Grupos</a></li>
+					    <li><a href="#">Ocultar Grupo</a></li>
+					</ul>
+				</div>
+					<ul class="group-app-list">
+						<li>
+							<a href="#">Liveops</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<div class="col-lg-6 col-md-6 col-sm-12 group-app-col">
+			<div class="group-app shadow-box">
+				<div class="group-app-icon"><i class="fa fa-globe fa-4x"></i></div>
+				<div class="group-app-wrapper">
+					<h4 class="group-app-title">Software Governance</h4>
+					<div class="group-app-options dropdown">
+						<a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-caret-down"></i></a>
+					    <ul class="dropdown-menu pull-right">
+					        <li><a href="#">Configurar Acceso</a></li>
+					        <li><a href="#">Ordenar aplicaciones</a></li>
+					        <li><a href="#">Ordenar Grupos</a></li>
+					        <li><a href="#">Ocultar Grupo</a></li>
+					    </ul>
+					</div>
+					<ul class="group-app-list">
+						<strong>Project Planning</strong>
+						<li style="position: relative; left: 10px; padding-bottom: 10px;">
+							<a href="#">Aha!</a>
+						</li>
+						<strong>Project Organization</strong>
+						<li style="position: relative; left: 10px; padding-bottom: 10px;">
+							<a href="{# url 'controltareas:inicio' #}http://plataforma.cloudmicry.com/controltareas" style="color: red">Kambanize</a><text style="font-size: 11px; color: #999"> (05-04-2016)</text>
+						</li>
+						<strong>Work Organization</strong>
+						<li style="position: relative; left: 10px; padding-bottom: 10px;">
+							<a href="{# url 'controltareas:inicio' #}http://plataforma.cloudmicry.com/controltareas" style="color: red">Kambanize</a><text style="font-size: 11px; color: #999"> (05-04-2016)</text>
+						</li>
+						<strong>Team Organization</strong>
+						<li style="position: relative; left: 10px; padding-bottom: 10px;">
+							<a href="#">GlassFrog</a>
+						</li>
+						<strong>Project Management</strong>
+						<li style="position: relative; left: 10px; padding-bottom: 10px;">
+							<a href="#">Twodoo</a>
+						</li>
+						<strong>Work Management</strong>
+						<li style="position: relative; left: 10px; padding-bottom: 10px;">
+							<a href="#">Twodoo</a>
+						</li>
+						<strong>Process Awareness</strong>
+						<li style="position: relative; left: 10px;">
+							<a href="#">Workstack</a>
+						</li>
+						<li style="position: relative; left: 10px;">
+							<a href="{% url 'timeneyes:dashboard' %}" style="color: red">Timeneyes</a><text style="font-size: 11px; color: #999"> (20-07-2016)</text>
+						</li>
+						<li style="position: relative; left: 10px;">
+							<a href="#">Hiveed</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="separator"></div>
+			<div class="group-app shadow-box">
+				<div class="group-app-icon"><i class="fa fa-image fa-4x"></i></div>
+				<div class="group-app-wrapper">
+					<h4 class="group-app-title">Software Engineering</h4>
+					<div class="group-app-options dropdown">
+						<a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-caret-down"></i></a>
+					    <ul class="dropdown-menu pull-right">
+					        <li><a href="#">Configurar Acceso</a></li>
+					        <li><a href="#">Ordenar aplicaciones</a></li>
+					        <li><a href="#">Ordenar Grupos</a></li>
+					        <li><a href="#">Ocultar Grupo</a></li>
+					    </ul>
+					</div>
+					<ul class="group-app-list">
+						<strong>Software Definition</strong>
+						<li style="position: relative; left: 10px; padding-bottom: 10px;">
+							<a href="http://plataforma.cloudmicry.com/casecomplete/index" style="color: red">Case Complete</a><text style="font-size: 11px; color: #999"> (27-04-2016)</text>
+						</li>
+                        <strong>Product Engineering</strong>
+						<li style="position: relative; left: 10px;">
+							<a href="{% url 'boardhistory:index' %}" style="color: red">Stories on Board</a><text style="font-size: 11px; color: #999"> (05-04-2016)</text>
+						</li>
+						<li style="position: relative; left: 10px;">
+							<a href="#">Storm Board</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="separator"></div>
+			<div class="group-app shadow-box">
+				<div class="group-app-icon"><i class="fa fa-users fa-4x"></i></div>
+				<div class="group-app-wrapper">
+					<h4 class="group-app-title">Software Collaboration</h4>
+					<div class="group-app-options dropdown">
+						<a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-caret-down"></i></a>
+						<ul class="dropdown-menu pull-right">
+							<li><a href="#">Configurar Acceso</a></li>
+							<li><a href="#">Ordenar aplicaciones</a></li>
+							<li><a href="#">Ordenar Grupos</a></li>
+							<li><a href="#">Ocultar Grupo</a></li>
+						</ul>
+					</div>
+					<ul class="group-app-list">
+						<li>
+							<a href="#">Slack</a>
+						</li>
+						<li>
+							<a href="#">Basecamp</a>
+						</li>
+						<li>
+							<a href="#">Badgeville</a>
+						</li>
+						<li>
+							<a href="#">Todoist</a>
+						</li>
+						<li>
+							<a href="{% url 'campfire:lobby' %}" style="color: red">Campfire</a><text style="font-size: 11px; color: #999"> (20-07-2016)</text>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+
+	{% include "plataforma/footer.html" %}
+{% endblock %}

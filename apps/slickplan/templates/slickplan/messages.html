@@ -1,0 +1,197 @@
+{% extends 'slickplan/layout_profile.html' %}
+
+{% block title %}Edit Users{% endblock title %}
+
+{% block javascripts %}
+    {{ block.super }}
+
+    <script type="text/javascript">
+        jQuery.noConflict();
+        jQuery(document).ready(function ($) {
+
+            var params= {
+                route: ["account", "messages"]
+            };
+            Slickplan.appInit(Object.assign(params_init, params));
+        });
+    </script>
+
+{% endblock javascripts %}
+
+{% block layout_content %}
+
+    <div id="main" class="account account-settings manage-messages">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h1>Manage Messages</h1>
+            <fieldset>
+                <div id="manage-messages">
+                    <ul class="nav">
+                        <li><a href="#tab_new_comment" title="New Comment Notification">New Comment Notification</a></li>
+                        <li><a href="#tab_user_invitation" title="New User Confirmation">New User Confirmation</a></li>
+                        <li><a href="#tab_user_invitation_role" title="User Invitation to Sitemap (with role)">User Invitation to Sitemap (with role)</a></li>
+                        <li><a href="#tab_user_invitation_permission" title="User Invitation to Sitemap (with permission)">User Invitation to Sitemap (with permission)</a></li>
+                        <li><a href="#tab_user_invitation_role_permission" title="User Invitation to Sitemap (with role and permission)">User Invitation to Sitemap (with role and permission)</a></li>
+                        <li><a href="#tab_approved_sitemap" title="Sitemap Approval">Sitemap Approval</a></li>
+                        <li><a href="#tab_request_unlock" title="Unlock Sitemap Request">Unlock Sitemap Request</a></li>
+                        <li><a href="#tab_sitemap_unlocked" title="Unlocked Sitemap Approval">Unlocked Sitemap Approval</a>
+                        </li>
+                    </ul>
+                    <div id="tab_new_comment">
+                        <button type="button" class="button light todefault">Switch to Default</button>
+                        <div class="textarea">
+                            <textarea name="{{ form.new_comment.name }}" data-default="{{ new_comment }}" data-formatting="bold italic first_name last_name sitemap comment url">{% if form.new_comment.value %}{{ form.new_comment.value }}{% else %}{{ new_comment }}{% endif %}</textarea>
+                        </div>
+                    </div>
+                    <div id="tab_user_invitation">
+                        <button type="button" class="button light todefault">Switch to Default</button>
+                        <div class="textarea">
+                            <textarea name="{{ form.user_invitation.name }}" data-default="{{ user_invitation }}" data-formatting="bold italic first_name last_name username owner_name company_name url password">{% if form.user_invitation.value %}{{ form.user_invitation.value }}{% else %}{{ user_invitation }}{% endif %}</textarea>
+                        </div>
+                    </div>
+                    <div id="tab_user_invitation_role">
+                        <button type="button" class="button light todefault">Switch to Default</button>
+                        <div class="textarea">
+                            <textarea name="{{ form.user_invitation_role.name }}" data-default="{{ user_invitation_role }}" data-formatting="bold italic first_name last_name username role owner_name company_name sitemap url">{% if form.user_invitation_role.value %}{{ form.user_invitation_role.value }}{% else %}{{ user_invitation_role }}{% endif %}</textarea>
+                        </div>
+                    </div>
+                    <div id="tab_user_invitation_permission">
+                        <button type="button" class="button light todefault">Switch to Default</button>
+                        <div class="textarea">
+                            <textarea name="{{ form.user_invitation_permission.name }}" data-default="{{ user_invitation_permission }}" data-formatting="bold italic first_name last_name username permissions owner_name company_name sitemap url">{% if form.user_invitation_permission.value %}{{ form.user_invitation_permission.value }}{% else %}{{ user_invitation_permission }}{% endif %}</textarea>
+                        </div>
+                    </div>
+                    <div id="tab_user_invitation_role_permission">
+                        <button type="button" class="button light todefault">Switch to Default</button>
+                        <div class="textarea">
+                            <textarea name="{{ form.user_invitation_role_permission.name }}" data-default="{{ user_invitation_role_permission }}" data-formatting="bold italic first_name last_name username role permissions owner_name company_name sitemap url">{% if form.user_invitation_role_permission.value %}{{ form.user_invitation_role_permission.value }}{% else %}{{ user_invitation_role_permission }}{% endif %}</textarea>
+                        </div>
+                    </div>
+                    <div id="tab_approved_sitemap">
+                        <button type="button" class="button light todefault">Switch to Default</button>
+                        <div class="textarea">
+                            <textarea name="{{ form.approved_sitemap.name }}" data-default="{{ approved_sitemap }}" data-formatting="bold italic first_name last_name username sitemap url">{% if form.approved_sitemap.value %}{{ form.approved_sitemap.value }}{% else %}{{ approved_sitemap }}{% endif %}</textarea>
+                        </div>
+                    </div>
+                    <div id="tab_request_unlock">
+                        <button type="button" class="button light todefault">Switch to Default</button>
+                        <div class="textarea">
+                            <textarea name="{{ form.request_unlock.name }}" data-default="{{ request_unlock }}" data-formatting="bold italic first_name last_name username role sitemap url">{% if form.request_unlock.value %}{{ form.request_unlock.value }}{% else %}{{ request_unlock }}{% endif %}</textarea>
+                        </div>
+                    </div>
+                    <div id="tab_sitemap_unlocked">
+                        <button type="button" class="button light todefault">Switch to Default</button>
+                        <div class="textarea">
+                            <textarea name="{{ form.sitemap_unlocked.name }}" data-default="{{ sitemap_unlocked }}" data-formatting="bold italic first_name last_name username role sitemap url">{% if form.sitemap_unlocked.value %}{{ form.sitemap_unlocked.value }}{% else %}{{ sitemap_unlocked }}{% endif %}</textarea>
+                        </div>
+                    </div>
+                    <a href="#" class="formatting" data-modal="formatting">Formatting Help</a>
+                </div>
+            </fieldset>
+            <div class="submit">
+                <input type="submit" value="Save Messages" tabindex="1">
+            </div>
+            <input type="hidden" name="_nonce" value="R4SDEh6/GwQeJR85a14r+qiYLIPIz2caxhl6TeW99xE="/></form>
+    </div>
+    <div id="modal-formatting" class="modal">
+        <form action="" method="post">
+            <fieldset>
+                <h1 class="noborder">Formatting Help <a href="#" class="button light ico-close close">&#10005;</a></h1>
+
+                <div class="sitemaps table tablefont">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <th>Action</th>
+                            <th>Tag</th>
+                        </tr>
+                        <tr class="bold">
+                            <td>Bold Text</td>
+                            <td>**Text Here**</td>
+                        </tr>
+                        <tr class="italic">
+                            <td>Italic Text</td>
+                            <td>__Text Here__</td>
+                        </tr>
+                        <tr class="first_name">
+                            <td>Recipient's First Name</td>
+                            <td>%first_name%</td>
+                        </tr>
+                        <tr class="last_name">
+                            <td>Recipient's Last Name</td>
+                            <td>%last_name%</td>
+                        </tr>
+                        <tr class="username">
+                            <td>Recipient's Username</td>
+                            <td>%username%</td>
+                        </tr>
+                        <tr class="permissions">
+                            <td>Recipient's Permissions</td>
+                            <td>%permissions%</td>
+                        </tr>
+                        <tr class="role">
+                            <td>Recipient's Role</td>
+                            <td>%role%</td>
+                        </tr>
+                        <tr class="owner_name">
+                            <td>Your Name</td>
+                            <td>%owner_name%</td>
+                        </tr>
+                        <tr class="company_name">
+                            <td>Company Name</td>
+                            <td>%company_name%</td>
+                        </tr>
+                        <tr class="sitemap">
+                            <td>Sitemap Name</td>
+                            <td>%sitemap%</td>
+                        </tr>
+                        <tr class="password">
+                            <td>Password</td>
+                            <td>%password%</td>
+                        </tr>
+                        <tr class="comment">
+                            <td>Comment</td>
+                            <td>%comment%</td>
+                        </tr>
+                        <tr class="url">
+                            <td>URL</td>
+                            <td>%url%</td>
+                        </tr>
+                        <tr class="url">
+                            <td>Link</td>
+                            <td>[Text Here](%url%)</td>
+                        </tr>
+                        <tr class="domain">
+                            <td>Slickplan Subdomain</td>
+                            <td>%domain%</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+            <input type="hidden" name="_nonce" value="R4SDEh6/GwQeJR85a14r+qiYLIPIz2caxhl6TeW99xE="/></form>
+    </div>
+
+    {#    <div id="modal-confirm" class="modal">#}
+    {#        <form action="" method="post">#}
+    {#            <fieldset>#}
+    {#                <h1><span></span> <a href="#" class="button light ico-close close">&#10005;</a></h1>#}
+    {##}
+    {#                <p></p>#}
+    {#            </fieldset>#}
+    {#            <div class="submit">#}
+    {#                <div class="checkboxes clearfix"></div>#}
+    {#                <div class="confirm-checkbox clearfix">#}
+    {#                    <div class="checkbox">#}
+    {#                        <input type="checkbox" id="modal-confirm-checkbox" value="1">#}
+    {#                        <label for="modal-confirm-checkbox">Don’t show me this again</label>#}
+    {#                    </div>#}
+    {#                </div>#}
+    {#                <input type="reset" value="No" class="cancel" id="modal-confirm-cancel">#}
+    {#                <input type="submit" value="Yes" id="modal-confirm-submit">#}
+    {#            </div>#}
+    {#            <input type="hidden" name="_nonce" value="R4SDEh6/GwQeJR85a14r+qiYLIPIz2caxhl6TeW99xE="/></form>#}
+    {#    </div>#}
+
+
+{% endblock layout_content %}

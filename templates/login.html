@@ -1,0 +1,167 @@
+{% extends "base_site.html"%}
+{% block title %} Login {% endblock %}
+{% load staticfiles %}
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'plataforma/css/login.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'plataforma/css/main.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'conceptboard/css/base.css' %}" />
+{% endblock %}
+{% block body %}
+
+    <div class="container" id="login-container">
+        {#        <div class="alert alert-success alert-reset-done" role="alert" hidden>#}
+        {#            <button type="button" class="close" data-dismiss="alert" aria-label="Close">#}
+        {#                <span aria-hidden="true">&times;</span>#}
+        {#            </button>#}
+        {#            <p class="mb-0">Se ha enviado un correo con las instrucciones</p>#}
+        {#        </div>#}
+        <div class="logo-container">
+
+        </div>
+        <div id="main-login" class="shadow-box login-container">
+            <div class="login-header">
+                <a id="login-logo" href="/">
+                    <img src="/static/conceptboard/images/logo_medium_black.png" alt="Mosasicbloom" style="width: 180px;">
+                </a>
+            </div>
+            {% if message != None and message %}
+                <div class="alert alert-danger alert-dismissible" style="text-align: center;">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
+            <div id="form-container" style="display: block">
+                <div id="form-login">
+                    <form action="" method="post" id="form-login">
+                        {% csrf_token %}
+                        {# form.as_p #}
+                        {% for field in form %}
+                            <div class="field_container">
+                                <div class="form-group">
+                                    {% if field.html_name != 'password' %}
+                                        <input placeholder="Usuario" class="form-control input-lg" required="required" name="{{ field.html_name }}" type="text">
+                                    {% else %}
+                                        <input placeholder="Contraseña" class="form-control input-lg" required="required" name="{{ field.html_name }}" type="password">
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <div class="form-group">
+                            <label class="checkbox" style="font-weight: normal; display: inline-block">
+                                <input type="checkbox" style="margin-top: 1px" value="remember-me">Recordarme en este equipo
+                            </label>
+                            <button type="submit" class="btn btn-primary pull-right" style="font-weight: bold; padding-left:20px; padding-right: 20px;" id="submit-login">Entrar</button>
+
+                        </div>
+                    </form>
+                    <div class="text-center">
+                        <a onclick="password_reset()" id="go-forgot-password">¿Has olvidado tu contraseña?</a>
+                    </div>
+                </div>
+                <div id="forgot-password-form" style="display: none">
+                    <form method="post" id="password-reset" action="{% url 'password_reset' %}">
+                        {% csrf_token %}
+                        {# form.as_p #}
+                        <div class="field_container">
+                            <div class="form-group reset-form">
+                                <input placeholder="Email" id="id_email" class="form-control input-lg"
+                                       required="required" name="email" type="email">
+                            </div>
+                            <div class="btn-toolbar btn-reset-pass">
+                                <button type="submit" id="btn-submit" class="btn btn-primary pull-right">Enviar correo</button>
+                                <button type="reset" onclick="back()" class="btn btn-link btn-back" tabindex="3">
+                                    Atras
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div id="dialog" title="Basic dialog" style="display: none">
+                        <p>Se ha enviado un correo con las instrucciones para cambiar su contrase&ntilde;a.</p>
+                    </div>
+
+                    <style>
+                        .btn-reset-pass {
+                            margin: 10px 0 20px 0;
+                        }
+                        #id_email {
+                            border-radius: unset;
+                        }
+                        .btn{
+                            font-weight: bold;
+                        }
+                        .btn-back:hover {
+                            border: solid 1px lightgrey;
+                            border-radius:10px;
+                            text-decoration: none;
+                        }
+                    </style>
+
+                    <script>
+
+                        function back() {
+                            var form_container = $("#form-container");
+                            $(form_container).hide(true);
+                            $("#forgot-password-form").hide(true);
+                            $(form_container).show("swing", function () {
+                                $("#form-login").show();
+                            });
+                        }
+
+
+                        $("#btn-submit").click(function (e) {
+                            if (!$.isEmptyObject($("#id_email").val())) {
+                                e.preventDefault();
+                                $("#dialog").dialog({
+                                    title: "Information",
+                                    buttons: [
+                                        {
+                                            text: "OK",
+                                            click: function() {
+                                                $( this ).dialog( "close" );
+                                                $("#password-reset").trigger('submit');
+                                            }
+                                        }
+                                    ]
+                                });
+                            }
+                        })
+
+                    </script>
+                </div>
+            </div>
+
+        </div>
+        <div class="text-center">
+            <!-- <div>Créate una cuenta <a href="#">Aquí!</a></div> -->
+            <div id="login-redes-sociales">
+                <a href="#" class="red-social"><i class="fa fa-facebook"></i></a>
+                <a href="#" class="red-social"><i class="fa fa-linkedin"></i></a>
+                <a href="#" class="red-social"><i class="fa fa-google-plus"></i></a>
+                <a href="#" class="red-social"><i class="fa fa-twitter"></i></a>
+                <a href="#" class="red-social"><i class="fa fa-pinterest"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        {#$('.close').click(function () {#}
+        {#   $().alert('dispose');#}
+        {#});#}
+        function password_reset() {
+            var form_container = $("#form-container");
+            $(form_container).hide(true);
+            $("#form-login").hide(true);
+            $(form_container).show("fast", function () {
+                $("#forgot-password-form").show();
+            });
+        }
+
+    </script>
+
+    {% include "plataforma/footer_login.html" %}
+{% endblock %}

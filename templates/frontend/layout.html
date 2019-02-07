@@ -1,0 +1,549 @@
+<!doctype html>
+<html class="no-js" lang="es">
+    <head>
+        <title>Mosaicbloom {% block title %} Inicio {% endblock %}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="{% block description %} {% endblock%}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% block metas %}{% endblock %}
+        {% load staticfiles %}
+        <link rel="icon" type="image/x-icon" href="{% block favicon %}{% static 'conceptboard/images/logo_icon_small.png' %}{% endblock %}" />
+        {% block stylesheets %}
+        <!-- CSS Stylesheets
+            ============================================= -->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome/css/font-awesome.css' %}" />
+
+        <link rel="stylesheet" type="text/css" href="{% static 'css/frontend/main.style.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/frontend/themify-icons.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/frontend/style.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/frontend/magnific-popup.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/frontend/demo9.css' %}" />
+        {% endblock %}
+
+
+        <script src="{% static 'js/modernizr.js' %}"></script>
+
+    </head>
+
+
+    <!-- Main body tag content goes here
+        ============================================= -->
+    <body>
+
+        <!-- Preloader
+            ============================================= -->
+        <div id="preloader">
+            <div id="status">
+                <div data-loader="circle-side"></div>
+            </div>
+            <span class="loading-text">Loading...</span>
+        </div>
+        <!-- /end of preloader -->
+
+        <!-- Main content goes here
+            ============================================= -->
+        <main id="top">
+
+            <!-- Hero Header Style 5 -->
+            <section id="main-section" class="section-padding hero-header-5 bg-cover" data-stellar-background-ratio="0.5">
+                <div class="container">
+                    <!-- content wrapper -->
+                    <div class="main-wrapper just-center text-center">
+                        <!-- sub-heading -->
+                        <span class="subh-basic-light">Software para</span>
+                        <!-- main heading -->
+                        <h2 class="text-capitalize font-playfair text-white letter-spacing1">Colaboración Visual</h2>
+                        <!-- info -->
+                        <p class="font-hind margin-top30">Gestiona tus proyectos creativos colaborando online con tu equipo de trabajo, tus clientes y tus partners</p>
+                        <!-- button -->
+                        <a href="{% url 'login' %}" class="bttn bttn-blue bttn-med bttn-scale bttn75 margin-top30">Saber más</a>
+                    </div>
+                </div>
+               <!--  <section class="clients-2" style="background: transparent;margin-top:50px;padding-bottom:0;">
+                    <div class="container">
+                        <h6 class="subh-basic-dark text-center" style="color: white;">Una forma de pensar</h6>
+                        <ul>
+                            <li><img src="/static/images/frontend/icon1.png" alt="Icono"></li>
+                            <li><img src="/static/images/frontend/icon2.png" alt="Icono"></li>
+                            <li><img src="/static/images/frontend/icon3.png" alt="Icono"></li>
+                            <li><img src="/static/images/frontend/icon4.png" alt="Icono"></li>
+                        </ul>
+                    </div>
+                </section> -->
+            </section>
+
+
+            <!-- Major Clients -->
+            <section class="clients-2">
+                <div class="container">
+                    <h6 class="subh-basic-dark text-center">
+                        <span style="display:block; margin-bottom:5px;">Herramientas para</span>
+                        Una forma de pensar
+                    </h6>
+                    <ul>
+                        <li>
+                            <img src="/static/images/frontend/icon1.png" alt="Icono">
+                            <p>
+                                Pensamiento Visual
+                            </p>
+                            <p>
+                                Resolución de problemas de forma holística, no lineal
+                            </p>
+                        </li>
+                        <li>
+                            <img src="/static/images/frontend/icon2.png" alt="Icono">
+                            <p>
+                                Design Thinking
+                            </p>
+                            <p>
+                                Empatía y experimentación en movimiento
+                            </p>
+                        </li>
+                        <li>
+                            <img src="/static/images/frontend/icon3.png" alt="Icono">
+                            <p>
+                                Co-Creación
+                            </p>
+                            <p>
+                                Un nuevo paradigma para la generación de valor
+                            </p>
+                        </li>
+                        <li>
+                            <img src="/static/images/frontend/icon4.png" alt="Icono">
+                            <p>
+                                Innovación Agil
+                            </p>
+                            <p>
+                                Inspiración y efervecencia creativa
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+
+            <!-- Content Block 1 -->
+            <section class="section-padding content-block-1 bg-cover" data-stellar-background-ratio="0.5">
+                <div class="container">
+                    <div class="row">
+                        <!-- all wrapper -->
+                        <div class="col-md-10 just-center">
+                            <!-- main heading with sub-text -->
+                            <div class="row">
+                                <div class="col-md-6 col-sm-8">
+                                    <h2 class="text-white font-playfair">Tableros Online</h2>
+                                    <p class="subtext font-hind margin-top20">MosaicBloom te ofrece una poderosa herramienta para desarrollar tu trabajo visual. Un tablero expandible para capturar ideas, generar brainstorming y presentar tus creaciones.</p>
+                                </div>
+                            </div>
+                            <!-- info box wrapper -->
+                            <div class="row all-details-wrapper">
+                                <!-- info box -->
+                                <div class="col-sm-4">
+                                    <!-- info box heading -->
+                                    <span class="subh-basic-light">Colaboración en tiempo real</span>
+                                    <!-- info -->
+                                    <p class="margin-top20">Trabaja con tu equipo y con tus clientes directamente sobre el contenido al mismo tiempo, desde diferentes lugares y sobre un único espacio visual.</p>
+                                </div>
+                                <div class="col-sm-4">
+                                    <span class="subh-basic-light">Gestión de proyectos</span>
+                                    <p class="margin-top20">Optimiza el ida y vuelta y reduce el ciclo de revisiones.</p>
+                                </div>
+                                <div class="col-sm-4">
+                                    <span class="subh-basic-light">Espacio de feedback y discusión</span>
+                                    <p class="margin-top20">Propone un espacio único donde todos tengan acceso al mismo contenido y las últimas actualizaciones.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Content Block 16  -->
+            <section class="section-padding content-block-16">
+                <div class="container">
+                    <div class="row">
+                        <!-- image wrapper -->
+                        <div class="col-md-6 col-sm-8 col-xs-10">
+                            <img class="img-center foo" src="/static/images/frontend/mobile_one_side_2.png" alt="">
+                        </div>
+                        <!-- content wrapper -->
+                        <div class="col-md-6 col-sm-8 col-xs-10">
+                            <!-- Main heading -->
+                            <h3 class="text-white font-playfair">Contenido Visual</h3>
+                            <!-- main text -->
+                            <p class="text-extra-large margin-top20 font-hind">Maneja todo el proceso creativo, desde la idea inicial hasta la aprobación final, en un espacio virtual flexible y facil de usar.</p>
+                            <!-- features wrapper -->
+                            <div class="row features">
+                                <!-- feature -->
+                                <div class="col-md-6 col-sm-6 col-xs-10">
+                                    <span class="subh-basic-light">Ayudas contextuales</span>
+                                    <p class="text-extra-large margin-top20">Podés agregar imágenes, documentos, archivos y bosquejos para darle un contexto claro y preciso a tus ideas.</p>
+                                </div>
+                                <!-- feature -->
+                                <div class="col-md-6 col-sm-6 col-xs-10">
+                                    <span class="subh-basic-light">Tableros expansivos</span>
+                                    <p class="text-extra-large margin-top20">El tamaño de los espacios de creación se adapta a las necesidades de tus proyectos y a las de tus equipos de trabajo.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Content Block 11  -->
+            <section class="section-padding content-block-11 bg-cover" data-stellar-background-ratio="0.5">
+                <div class="container">
+                    <!-- main icon, heading and sub-text -->
+                    <div class="center-block-1">
+                        <i class="ti-heart main-icon"></i>
+                        <h3 class="text-white font-playfair">Tu espacio creativo</h3>
+                        <p class="margin-top30 font-hind text-extra-large">Un lugar seguro, simplificado e intuitivo. MosaicBloom te acompaña durante todo el proceso de creación.</p>
+                    </div>
+                    <!-- main wrapper -->
+                    <div class="all-details-wrapper row">
+                        <!-- feature -->
+                        <div class="col-md-3 col-sm-6 col-xs-8 text-center feature foo">
+                            <!-- icon -->
+                            <img src="/static/images/frontend/comunicacion.png" alt="Comunicación">
+                            <!-- feature heading -->
+                            <span class="subh-basic-light">Comunicación</span>
+                            <!-- feature info -->
+                            <p class="feature-info">Eliminá el caos de las cadenas de emails. Gestioná las versiones y los cambios desde tu propio tablero de mensajes.</p>
+                        </div>
+                        <!-- feature -->
+                        <div class="col-md-3 col-sm-6 col-xs-8 text-center feature foo">
+                            <img src="/static/images/frontend/tareas.png" alt="Tareas">
+                            <span class="subh-basic-light">Tareas</span>
+                            <p class="feature-info">Creá y asigná tareas en base a los comentarios de tu equipo de trabajo y de tus clientes.</p>
+                        </div>
+                        <!-- feature -->
+                        <div class="col-md-3 col-sm-6 col-xs-8 text-center feature foo">
+                            <img src="/static/images/frontend/proyectos.png" alt="Proyectos">
+                            <span class="subh-basic-light">Proyectos</span>
+                            <p class="feature-info">Gestioná múltiples proyectos, campañas y tableros desde un solo lugar.</p>
+                        </div>
+                        <!-- feature -->
+                        <div class="col-md-3 col-sm-6 col-xs-8 text-center feature foo">
+                            <img src="/static/images/frontend/acceso.png" alt="Acceso">
+                            <span class="subh-basic-light">Acceso</span>
+                            <p class="feature-info">Compartí tableros, espacios y proyectos con tu equipo de trabajo, colaboradores externos y clientes.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- content block 3 -->
+            <section class="section-padding content-block-3">
+                <div class="container text-center">
+                    <!-- main heading -->
+                    <h3 class="font-playfair text-white">¿Querés conocer más?</h3>
+                    <!-- text -->
+                    <p class="margin-top30 center-block-1 font-hind text-large">Te mostramos en detalle cómo hacer para aprovechar al máximo MosaicBloom, la plataforma de colaboración visual, gestión ágil de los procesos creativos e interacción profesional con los clientes.</p>
+                    <!-- button -->
+                    <a class="bttn bttn-med bttn-blue bttn75 margin-top30 bttn-scale">Agenda una demo</a>
+                    <!-- image -->
+                    <img class="img-center img-responsive margin-top30 foo" src="/static/images/frontend/mobile_middle_2.png" width="600" alt="">
+                </div>
+            </section>
+
+
+            <!-- Content Block 17  -->
+            <section class="section-padding content-block-17 bg-cover" data-stellar-background-ratio="0.5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-8 col-xs-10">
+                            <!-- hidden heading / not required -->
+                            <h6 class="hidden">Quote</h6>
+                            <!-- Quote -->
+                            <p class="font-poppins font-w300 quote text-white">Animáte a una nueva forma de trabajo. Optimizá tus procesos creativos. Agilizá las relaciones con tus clientes. Visualizá el feedback de tu equipo de trabajo. Organizá tus proyectos y campañas en un ambiente totalmente web.</p>
+                        </div>
+                        <div class="col-md-6 col-sm-8 col-xs-10">
+                            <!-- info -->
+                            <p>MosaicBloom te permite armar un complejo ecosistema online para gestionar tus proyectos, colaborar con tu equipo de trabajo, administrar tu agencia de diseño o profesionalizar tu empresa creativa.</p>
+                            <!-- button -->
+                            <a class="bttn bttn-small bttn-white bttn75 bttn-scale margin-top20">Saber más</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Content Block 7 -->
+            <section class="section-padding content-block-7">
+                <div class="container">
+                    <!-- main heading and sub-text -->
+                    <div class="center-block-1">
+                        <h3 class="letter-spacing0 font-poppins text-white">Un ecosistema completo</h3>
+                        <p class="margin-top30 text-large">MosaicBloom está diseñado para ofrecerte una solución completa para comunicar, colaborar, compartir, discutir, co-crear y visualizar.</p>
+                    </div>
+                    <!-- all details wrapper -->
+                    <div class="col-md-10 just-center all-details-wrapper-md">
+                        <div class="row">
+                            <!-- feature wrapper -->
+                            <div class="col-sm-6 col-xs-8 feature foo">
+                                <div class="row">
+                                    <!-- icon -->
+                                    <div class="col-sm-2">
+                                        <img style="width: 100%;" src="/static/images/frontend/punteros.png" alt="Punteros">
+                                    </div>
+                                    <!-- text -->
+                                    <div class="col-sm-10">
+                                        <span class="subh-basic-dark text-white">Punteros personalizados</span>
+                                        <p>Cada colaborador tiene asignado un puntero diferente de navegación con su nombre y su color.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-8 feature foo">
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <img style="width: 100%;" src="/static/images/frontend/video_conferencia.png" alt="Video conferencia">
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <span class="subh-basic-dark text-white">Video Conferencia</span>
+                                        <p>La herramienta de videoconferencia contribuye a que todos los participantes estén en la misma sintonía.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-8 feature foo">
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <img style="width: 100%;" src="/static/images/frontend/chat.png" alt="Chat">
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <span class="subh-basic-dark text-white">Chat</span>
+                                        <p>Existe un chat dedicado y exclusivo a cada tablero, en el que participan las personas involucradas en cada proyecto en particular.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-8 feature foo">
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <img style="width: 100%;" src="/static/images/frontend/moderador.png" alt="Moderador">
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <span class="subh-basic-dark text-white">Moderador</span>
+                                        <p>Activa el rol de moderador para acompañar a tus clientes en la navegación por los tableros.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Contact Section 1 -->
+            <section class="contact-1 section-padding bg-cover" data-stellar-background-ratio="0.5">
+                <div class="container">
+                    <div class="center-block-3">
+                        <!-- main heading -->
+                        <h3 class="foo">Queremos aportar y participar activamente en los espacios generadores de riqueza y abundancia creativa
+                            <span class="font-pt-serif-italic font-w400">Conta con nosotros!</span>
+                        </h3>
+                        <!-- say hello button -->
+                        <div class="foo">
+                            <a class="bttn bttn-black bttn-med bttn75 bttn-scale margin-top50">Contactanos</a>
+                        </div>
+                    </div>
+                    <hr class="hr-small foo"/>
+                    <div class="row all-details-wrapper">
+                        <div class="col-md-4 just-center text-center">
+                            <span class="subh-basic-light foo">Estemos en contacto</span>
+                            <!-- social links -->
+                            <div class="social">
+                                <div class="display-inline foo"><a class="ti-facebook"></a></div>
+                                <div class="display-inline foo"><a class="ti-tumblr"></a></div>
+                                <div class="display-inline foo"><a class="ti-linkedin"></a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Footer Style 1 -->
+            <footer class="footer-1">
+                <div class="container">
+                    <div class="row">
+                        <!-- logo -->
+                        <div class="col-md-2">
+                            <img class="img-responsive" src="/static/conceptboard/images/logo_icon_small_gray.png" alt="MosaicBloom"/>
+                        </div>
+                        <!-- main navigation links -->
+                        <div class="col-md-7">
+
+                        </div>
+                        <!-- social buttons -->
+                        <div class="col-md-3">
+                            <div class="social-dark">
+                                <a href="#"><span class="ti-facebook"></span></a>
+                                <a href="#"><span class="ti-twitter-alt"></span></a>
+                                <a href="#"><span class="ti-linkedin"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="hr-dark"/>
+                <div class="container">
+                    <!-- Copyright text -->
+                    <div class="copyright">
+                        <p>Copyright &copy; {%now "Y"%} | Todos los derechos reservados.</p>
+                    </div>
+                    <!-- Terms and Privacy links -->
+                    <div class="terms">
+                        <a href="#">Términos y condiciones</a><span>&nbsp;/</span>
+                        <a href="#">Política de privacidad</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+
+
+        <!-- Navigation goes here
+            ============================================= -->
+
+        <!-- logo goes here -->
+        <a href="#" class="logo">
+        <img src="/static/conceptboard/images/logo_big_black.png" width="200" alt="MosaicBloom">
+        </a>
+        <a href="{% url 'login' %}" class="login-link btn btn-primary">LOGIN</a>
+
+        <!-- Navigation icon -->
+        <!-- <a href="#navigation" class="nav-button">Menu
+        <span class="nav-icon"></span>
+        </a> -->
+
+        <!-- Navigation wrapper -->
+        <div id="navigation" class="navigation">
+            <div class="nav-wrapper">
+                <div class="container">
+                    <div class="col-md-10 just-center navigation-pre-block">
+                        <div class="navigation-block">
+                            <h6><span>Multi-Page Demo's</span></h6>
+                            <div class="row">
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <ul>
+                                        <li><a href="home_agency.html">Agency</a></li>
+                                        <li><a href="home_business.html">Business</a></li>
+                                        <li><a href="home_classic.html">Classic</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <ul>
+                                        <li><a href="home_corporate.html">Corporate</a></li>
+                                        <li><a href="home_event.html">Event</a></li>
+                                        <li><a href="home_landing.html">Landing Page</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <ul>
+                                        <li><a href="home_media.html">Media Agency</a></li>
+                                        <li><a href="home_minimal.html">Minimal</a></li>
+                                        <li><a href="home_parallax.html" class="active">Parallax</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <ul>
+                                        <li><a href="home_personal.html">Personal</a></li>
+                                        <li><a href="home_portfolio.html">Portfolio</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <h6 class="sections-head"><span>One Page Demos</span></h6>
+                            <div class="row">
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <ul>
+                                        <li><a href="one_page_agency.html">Agency</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <h6 class="sections-head"><span>Blog</span></h6>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <ul>
+                                        <li><a href="../blog/blog_cards.html"><span class="label label-danger">New</span>&nbsp;Blog Cards</a></li>
+                                        <li><a href="../blog/blog_single_page.html"><span class="label label-danger">New</span>&nbsp;Single Page Blog</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <ul>
+                                        <li><a href="../blog/blog_cards_small.html"><span class="label label-danger">New</span>&nbsp;Small Cards</a></li>
+                                        <li><a href="../blog/blog_cards_with_sidebar.html"><span class="label label-danger">New</span>&nbsp;Small Cards - Sidebar</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <ul>
+                                        <li><a href="../blog/blog_single_column.html"><span class="label label-danger">New</span>&nbsp;Single Column Blog</a></li>
+                                        <li><a href="../blog/blog_single_column_sidebar.html"><span class="label label-danger">New</span>&nbsp;1 Col with Sidebar</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <h6 class="sections-head"><span>Sections</span></h6>
+                            <div class="row">
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <ul>
+                                        <li><a href="../404_1.html"><i class="fa fa-exclamation-triangle"></i>404-Page-1</a></li>
+                                        <li><a href="../404_2.html"><i class="fa fa-exclamation-triangle"></i>404-Page-2</a></li>
+                                        <li><a href="../clients.html"><i class="fa fa-user"></i>Clients</a></li>
+                                        <li><a href="../coming_soon.html"><i class="fa fa-clock-o"></i>Coming Soon</a></li>
+                                        <li><a href="../contact_us.html"><i class="fa fa-phone"></i>Contact Us</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <ul>
+                                        <li><a href="../Content_Blocks.html"><i class="fa fa-th-large"></i>Content Blocks</a></li>
+                                        <li><a href="../counters.html"><i class="fa fa-calculator"></i>Counters</a></li>
+                                        <li><a href="../elements.html"><i class="fa fa-circle-o"></i>Elements</a></li>
+                                        <li><a href="../footers.html"><i class="fa fa-link"></i>Footers</a></li>
+                                        <li><a href="../Hero_Headers.html"><i class="fa fa-header"></i>Hero Headers</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <ul>
+                                        <li><a href="../maintenance_1.html"><i class="fa fa-cog"></i>Maintenance-1</a></li>
+                                        <li><a href="../maintenance_2.html"><i class="fa fa-cog"></i>Maintenance-2</a></li>
+                                        <li><a href="../page_titles.html"><i class="fa fa-paragraph"></i>Page Titles</a></li>
+                                        <li><a href="../portfolio.html"><i class="fa fa-th"></i>Portfolio</a></li>
+                                        <li><a href="../Pricing_tables.html"><i class="fa fa-usd"></i>Pricing Tables</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <ul>
+                                        <li><a href="../promo.html"><i class="fa fa-pie-chart"></i>Promo/CTA</a></li>
+                                        <li><a href="../sign_in.html"><i class="fa fa-sign-in"></i>Sign In</a></li>
+                                        <li><a href="../team.html"><i class="fa fa-users"></i>Team</a></li>
+                                        <li><a href="../Testimonials.html"><i class="fa fa-quote-left"></i>Testimonials</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Go to top arrow
+            ============================================= -->
+        <a href="#top" class="goto-top ti-arrow-up"></a>
+
+        <!-- Necessary Scripts -->
+        <script src="{% static 'js/frontend/jquery-2.1.1.js' %}"></script>
+        <script src="{% static 'js/frontend/scripts.js' %}"></script>
+        <script src="{% static 'js/frontend/scrollreveal.js' %}"></script>
+        <script src="{% static 'js/frontend/jquery.magnific-popup.min.js' %}"></script>
+        <script src="{% static 'js/frontend/demo9.js' %}"></script>
+
+        <!-- page-wise script initialization -->
+        <script>
+            jQuery(document).ready(function($){
+                initialize_scrollreveal();
+                demo_9();
+            });
+        </script>
+    </body>
+</html>

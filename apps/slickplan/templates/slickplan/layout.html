@@ -1,0 +1,275 @@
+{% extends "base_site.html" %}
+{% load static from staticfiles %}
+{% load account %}
+
+{% block favicon %}{% static "slickplan/img/favicon.ico" %}{% endblock favicon %}
+
+{% block main_title %}Slickplan &middot; {% block title %}{% endblock title %}{% endblock main_title %}
+
+{% block stylesheets %}
+    {#    {{ block.super }}#}
+
+
+    <link rel="stylesheet" type="text/css" href="{% static "slickplan/css/font-awesome.min.css" %}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="{% static "slickplan/css/slickplan.min.css" %}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="{% static "slickplan/css/print.min.css" %}" media="print"/>
+
+    {% with site_color=user.userslick.site_color %}
+
+        <style type="text/css">
+            .userColor, #map-dropdown a:hover, #sitemap-menu > li > ul .text:hover, #sitemap-menu > li > ul li:hover > span.text, #topmodal-cell-archetype .types .archetype > a:hover, .ui-tooltip-modal .buttons > *:hover, #batch-groups-scroll .group:hover, #sitemap-approve-toolbar .userColor, #lightbox-cell-files .toolbar button, #lightbox-cell-files .files-thumbs .uploadbutton, #lightbox-scroll-files .single-file.selected .selected {  background-color: #{{ site_color }} !important;  }
+
+            #header > .logo-text + div + ul {  background-color: #{{ site_color }} !important;  box-shadow: -20px 12px 10px #{{ site_color }};}
+
+            #sitemap-menu > li.buttons .group a .tooltip, #main.dashboard tbody td.status .tooltip, #lightbox-scroll-files .single-file.selected img {  color: #{{ site_color }};  border-color: #{{ site_color }};  }
+
+            #sitemap-menu > li.buttons .group a .tooltip:before, #main.dashboard tbody td.status .tooltip:before {  border-top-color: #{{ site_color }};  border-bottom-color: #{{ site_color }};  }
+
+            #login-box h1 {  background-color: #{{ site_color }};  background-image: none;  }
+
+        </style>
+
+    {% endwith %}
+
+{% endblock stylesheets %}
+
+{#{% block javascripts_first %}{% endblock javascripts_first %}#}
+
+{% block body_attrs %}
+    {{ block.super }}
+    {% if user_slick.dark_font %}class="darkFont"{% endif %}
+{% endblock body_attrs %}
+
+{% block body %}
+    {% with user_slick=user.userslick %}
+        {{ block.super }}
+
+        {% block header %}
+            <div id="header-wrapper" class="userColor">
+                <div id="header">
+
+                    {% with logo_type=user_slick.company_logo_type %}
+                        <div class="logo {% if logo_type %}logo-img{% else %}logo-text{% endif %}">
+                            <a href="{% url 'slickplan:slickplan_dashboard' %}">
+                                <img src="{{ MEDIA_URL }}{{ user_slick.company_logo_img }}" alt="{{ user.username }}">
+                                {#                                <img src="{% static user_slick.get_company_logo_img %}" alt="{{ user.username }}">#}
+                            </a>
+                            <a href="{% url 'slickplan:slickplan_dashboard' %}">
+                                <span>{{ user_slick.get_company_logo }}</span>
+                                {% if user_slick.company_name_2 %}
+                                    <span>{{ user_slick.company_name_2 }}</span>
+                                {% endif %}
+                            </a>
+                        </div>
+                    {% endwith %}
+
+                    <div id="user-box">
+                        <p>{{ user.get_full_name }}</p>
+
+                        <p>
+                            <a href="{% url 'slickplan:accounts_home' %}">
+                                <img src="{{ user_slick.get_avatar }}" data-default="{{ user_slick.get_avatar }}" data-blank="0">
+                            </a>
+                        </p>
+                        <ul>
+                            {#                        <li><a href="{% url 'account_logout' %}">Log out</a>#}
+                            <li><a href="" data-modal="logout">Log out</a>
+                                {#                            <li><a href="http://help.slickplan.com/hc/" target="_blank">Help</a>#}
+                            <li><a href="" target="_blank">Help</a>
+                        </ul>
+                    </div>
+                    <ul>
+                        <li class="dashboard"><a href="{% url 'slickplan:slickplan_dashboard' %}">Dashboard</a></li>
+                        <li class="settings">
+                            <a href="{% url 'slickplan:accounts_home' %}">Accounts & Settings</a>
+                            <ul>
+                                <li><span>Accounts & Settings</span></li>
+                                <li><a href="{% url 'slickplan:accounts_settings' %}">My Account</a></li>
+                                <li><a href="{% url 'slickplan:accounts_users' %}">Edit Users</a></li>
+                                <li><a href="{% url 'slickplan:accounts_preferences' %}">General Settings</a></li>
+                                <li><a href="{% url 'slickplan:accounts_company' %}">Company Settings</a></li>
+                                <li><a href="{% url 'slickplan:accounts_messages' %}">Manage Messages</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        {% endblock header %}
+
+        {% block top %}{% endblock top %}
+
+        {% block layout_content %}{% endblock layout_content %}
+
+        {% block footer %}
+            <div id="footer">
+                <ul>
+                    <li><a href="{% url 'slickplan:slickplan_home' %}" target="_blank">Slickplan</a>
+                    <li class="feedback"><a href="#" data-modal="feedback">Support</a>
+                    <li><a href="{% url 'slickplan:accounts_home' %}">Account & Settings</a>
+                    <li><a href="{% url 'slickplan:slickplan_dashboard' %}">Dashboard</a>
+                </ul>
+            </div>
+        {% endblock footer %}
+
+        <div id="modal-feedback" class="modal">
+            <form action="{% url 'slickplan:slickplan_feedback' %}" method="post">
+                <fieldset>
+                    <h1>Share an Idea <a href="#" class="button light ico-close close">&#10005;</a></h1>
+
+                    <div class="wysiwyg" style="width: 519px; height: 200px;">
+                        <textarea name="feedback" id="form-feedback"></textarea>
+                    </div>
+                    <div class="upload">
+                        <div id="pluploaddrop">
+                            <span class="drop_instructions">Drop files here or</span>
+                            <a href="#" class="uploadbutton" id="pluploadbtndrop" data-maxsize="2048000" data-multiple="1"
+                               data-droptarget="pluploaddrop" data-mimes="images,videos,pdf,xml,csv,txt">select files</a>
+                            <input type="hidden" name="feedback_files" id="feedback_files">
+                        </div>
+                        <p class="desc">Allowed formats: jpg, gif, png, mov, mp4, avi, mpg, m4a, pdf, xml, csv, txt; max.
+                            2MB</p>
+
+                        <div id="pluploadfileslist" style="display: none"></div>
+                    </div>
+                </fieldset>
+                <div class="submit nomargin">
+                    <input type="submit" value="Send Feedback">
+                </div>
+                <input type="hidden" name="_nonce" value="R4SDEh6/GwQeJR85a14r+qiYLIPIz2caxhl6TeW99xE="/>
+            </form>
+        </div>
+
+        <div id="modal-confirm" class="modal">
+            <form action="" method="post">
+                <fieldset>
+                    <h1><span></span> <a href="#" class="button light ico-close close">&#10005;</a></h1>
+
+                    <p></p>
+                </fieldset>
+                <div class="submit">
+                    <div class="checkboxes clearfix"></div>
+                    <div class="confirm-checkbox clearfix">
+                        <div class="checkbox">
+                            <input type="checkbox" id="modal-confirm-checkbox" value="1">
+                            <label for="modal-confirm-checkbox">Don’t show me this again</label>
+                        </div>
+                    </div>
+                    <input type="reset" value="No" class="cancel" id="modal-confirm-cancel">
+                    <input type="submit" value="Yes" id="modal-confirm-submit">
+                </div>
+                <input type="hidden" name="_nonce" value="yxfyE8eJUZocpiWBaJI41y65Se+V9+RCdEsQjuTDL1k="/></form>
+        </div>
+
+        <div id="modal-logout" class="modal">
+            {#            <form method="post" action="{% url 'slickplan:account_logout' %}">#}
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+
+                <fieldset style="margin: 0px 10px 0px 10px;">
+                    <h1 style="width: 85%">Sign Out<a href="#" class="button light ico-close close">&#10005;</a></h1>
+
+                    <div class="input left first" style="width: 300px; height: 150px;">
+                        <label for="form-name">'Are you sure you want to sign out?</label>
+                        <button class="button" type="submit">Sign Out</button>
+                    </div>
+
+                </fieldset>
+                {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                {% endif %}
+
+            </form>
+        </div>
+    {% endwith %}
+
+    {% block custom_javascripts %}
+        {% with user_slick=user.userslick %}
+            {#        {{ block.super }}#}
+
+            <script type="text/javascript" src="{% static "slickplan/js/base.pack.js" %}"></script>
+            <script type="text/javascript" src="{% static "slickplan/js/libs.pack.js" %}"></script>
+            <script type="text/javascript" src="{% static "slickplan/js/slickplan.pack.js" %}"></script>
+
+            <script type="text/javascript">
+                var params_init = {
+                    "statics_path": '{% static '' %}slickplan/',
+                    "websocket_addr": "1.2.3.4",//"216.70.99.105:8080",
+                    "ip_address": "1.2.3.4",//"178.162.208.141",
+                    "https_uri": "https:\/\/slickplan.com\/",
+                    {% if user.is_authenticated %}
+                        "cells_uppercase": false,
+                        "cells_numbering": false,
+                        "all_privileges": true,
+                        "payment_url": "https:\/\/slickplan.com\/account\/payment",
+                        "user_id": {{ user_slick.id }},
+                        "me": {
+                            "id": {{ user_slick.id }},
+                            "first_name": "{{ user.first_name }}",
+                            "last_name": "{{ user.last_name }}",
+                            "full_name": "{{ user.get_full_name }}",
+                            "username": "{{ user.username }}",
+                            "email": "{{ user.email }}",
+                            "initials": "{{ user_slick.get_initials }}"
+                        },
+                        "warn_before_leave": {{ user_slick.warn_before_leaving_page|lower }},
+                        "auto_save": {{ user_slick.autosave|lower }},
+                        "account": {
+                            "name": "Unlimited",
+                            "storage_limit": 5368709120,
+                            "storage_used": 0,
+                            "sitemaps_limit": -1,
+                            "sitemaps_count": 1,
+                            "type_id": 4,
+                            "contributors": 1,
+                            "active_contributors": 1,
+                            "subdomain": "{{ user_slick.subdomain }}"
+                        },
+                        "permissions": {
+                            "price": 34.99,
+                            "contributors": -1,
+                            {#                        "sitemaps": -1,#}
+                            "sitemaps": 1,
+                            "storage_limit": 5368709120,
+                            "account_branding": true,
+                            "sitemap_vertical_design": true,
+                            "sitemap_import_slickplan": true,
+                            "sitemap_import_wordpress": true,
+                            "sitemap_import_google": true,
+                            "sitemap_import_crawler": true,
+                            "sitemap_import_dash_hierarchy": true,
+                            "sitemap_export_pdf": true,
+                            "sitemap_export_eps": true,
+                            "sitemap_export_png": true,
+                            "sitemap_export_html": true,
+                            "sitemap_export_xml": true,
+                            "sitemap_export_csv": true,
+                            "sitemap_export_docx": true,
+                            "sitemap_color_themes": true,
+                            "sitemap_swatch_presets": true,
+                            "sitemap_custom_color": true,
+                            "sitemap_text_line_color": true,
+                            "sitemap_shadows_gradients": true,
+                            "sitemap_sections": true,
+                            "sitemap_comments": true,
+                            "sitemap_share_link": true,
+                            "sitemap_share_email": true,
+                            "sitemap_share_basecamp": true,
+                            "sitemap_share_social": true,
+                            "cell_color": true,
+                            "cell_text_color": true,
+                            "cell_note": true,
+                            "cell_url": true,
+                            "cell_archetype": true,
+                            "cell_group": true,
+                            "cell_cloning": true,
+                            "batch_editing": true,
+                            "cell_files": true,
+                            "cell_file_maxsize": 5242880
+                        }
+                    {% endif %}
+                };
+            </script>
+
+        {% endwith %}
+    {% endblock custom_javascripts %}
+{% endblock body %}

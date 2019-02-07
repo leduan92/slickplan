@@ -1,0 +1,40 @@
+body, html{
+    height: 100%;
+    background: #f1f1f1;
+}
+.login-container{
+    margin: 0 auto;
+    max-width: 500px;
+    margin-top: 50px;
+    padding: 20px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+.login-container form{
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 15px 0 15px;
+}
+.login-container .login-header{
+    padding: 15px;
+    font-size: 20px;
+    background-color: #dbdbdb;
+    border-bottom: 3px solid #815dc0;
+    color: #4a2b6b;
+    margin: -25px -25px 15px -25px;
+    font-weight: bold;
+    text-align: center;
+}
+.login-footer {
+    background: #f1f1f1 none repeat scroll 0 0;
+    bottom: 0;
+    left: 0;
+    padding: 15px;
+    position: fixed;
+    right: 0;
+    text-align: center;
+    box-shadow: 0px 0 3px 1px rgba(0,0,0,0.3);
+}
+.login-footer .logo{
+    width: 16px;
+}

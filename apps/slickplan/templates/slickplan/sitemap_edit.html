@@ -1,0 +1,2174 @@
+{% extends 'slickplan/layout.html' %}
+{% load static from staticfiles %}
+{% block metas %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
+
+{% block title %}{{ sitemap }} {{ sitemap_version.name }}{% endblock title %}
+
+{% block javascripts %}
+    {{ block.super }}
+
+    <script type="text/javascript">
+        jQuery.noConflict();
+        jQuery(document).ready(function ($) {
+
+            var params = {
+                route: ["sitemap", "edit", "{{ id }}"],
+                "archetypes": {
+                    "_form": {
+                        "id": "_form",
+                        "name": "Form",
+                        "icon": "",
+                        "desc": "Input\/output interaction with a system. This could be a basic data entry form or something more AJAX-y."
+                    },
+                    "_listing": {
+                        "id": "_listing",
+                        "name": "Listing",
+                        "icon": "",
+                        "desc": "A view that presents many links to content, such as tag view, an archive, or search results. It's similar to a Portal, but this is usually more of a utility view."
+                    },
+                    "_portal": {
+                        "id": "_portal",
+                        "name": "Portal",
+                        "icon": "",
+                        "desc": "A view designed as an doormat for a collection of content. These are usually category pages that usher people deeper into a section. Compared to a Listing, this view is often more curated."
+                    },
+                    "_consumption": {
+                        "id": "_consumption",
+                        "name": "Consumption",
+                        "icon": "",
+                        "desc": "A view designed for extended reading, such as an article. Often this is presented as a stack to suggest lots of content that shares an identical form."
+                    },
+                    "_consumptionstack": {
+                        "id": "_consumptionstack",
+                        "name": "Consumption Stack",
+                        "icon": "",
+                        "desc": "A view designed for extended reading, such as an article. Often this is presented as a stack to suggest lots of content that shares an identical form."
+                    },
+                    "_gallery": {
+                        "id": "_gallery",
+                        "name": "Gallery",
+                        "icon": "",
+                        "desc": "Essentially the same as a listing, but represented as a grid."
+                    },
+                    "_dialog": {
+                        "id": "_dialog",
+                        "name": "Dialog",
+                        "icon": "",
+                        "desc": "A modal view. I use this when it's essential to describe an interaction that occurs within a certain page state."
+                    },
+                    "_process": {
+                        "id": "_process",
+                        "name": "Process",
+                        "icon": "",
+                        "desc": "A process that a user can't see, but whose operation is critical to the experience. A process that blocks for a long time before returning data is a good example."
+                    },
+                    "_interactive": {
+                        "id": "_interactive",
+                        "name": "Interactive",
+                        "icon": "",
+                        "desc": "A game-like or novel interactive experience. Usually the quality and nature of interaction is meaningfully different from a Form archetype."
+                    },
+                    "_file": {
+                        "id": "_file",
+                        "name": "File",
+                        "icon": "",
+                        "desc": "A physically downloadable file, like a PDF or an executable program."
+                    },
+                    "_fragment": {
+                        "id": "_fragment",
+                        "name": "Fragment",
+                        "icon": "",
+                        "desc": "Bits of consumable information on a page. I use this only when it's essential to document in-page content like lightboxes or tabs."
+                    },
+                    "_external": {
+                        "id": "_external",
+                        "name": "External",
+                        "icon": "",
+                        "desc": "An object outside of the scope of the design, but whose presence needs to be accounted for. A direct mail campaign that drives users to the site would be a good example."
+                    },
+                    "_custom": {"desc": ""}
+                },
+                "fontawesome": {
+                    "adjust": "\uf042",
+                    "adn": "\uf170",
+                    "align-center": "\uf037",
+                    "align-justify": "\uf039",
+                    "align-left": "\uf036",
+                    "align-right": "\uf038",
+                    "ambulance": "\uf0f9",
+                    "anchor": "\uf13d",
+                    "android": "\uf17b",
+                    "angellist": "\uf209",
+                    "angle-double-down": "\uf103",
+                    "angle-double-left": "\uf100",
+                    "angle-double-right": "\uf101",
+                    "angle-double-up": "\uf102",
+                    "angle-down": "\uf107",
+                    "angle-left": "\uf104",
+                    "angle-right": "\uf105",
+                    "angle-up": "\uf106",
+                    "apple": "\uf179",
+                    "archive": "\uf187",
+                    "area-chart": "\uf1fe",
+                    "arrow-circle-down": "\uf0ab",
+                    "arrow-circle-left": "\uf0a8",
+                    "arrow-circle-o-down": "\uf01a",
+                    "arrow-circle-o-left": "\uf190",
+                    "arrow-circle-o-right": "\uf18e",
+                    "arrow-circle-o-up": "\uf01b",
+                    "arrow-circle-right": "\uf0a9",
+                    "arrow-circle-up": "\uf0aa",
+                    "arrow-down": "\uf063",
+                    "arrow-left": "\uf060",
+                    "arrow-right": "\uf061",
+                    "arrow-up": "\uf062",
+                    "arrows": "\uf047",
+                    "arrows-alt": "\uf0b2",
+                    "arrows-h": "\uf07e",
+                    "arrows-v": "\uf07d",
+                    "asterisk": "\uf069",
+                    "at": "\uf1fa",
+                    "backward": "\uf04a",
+                    "ban": "\uf05e",
+                    "bar-chart": "\uf080",
+                    "barcode": "\uf02a",
+                    "bars": "\uf0c9",
+                    "beer": "\uf0fc",
+                    "behance": "\uf1b4",
+                    "behance-square": "\uf1b5",
+                    "bell": "\uf0f3",
+                    "bell-o": "\uf0a2",
+                    "bell-slash": "\uf1f6",
+                    "bell-slash-o": "\uf1f7",
+                    "bicycle": "\uf206",
+                    "binoculars": "\uf1e5",
+                    "birthday-cake": "\uf1fd",
+                    "bitbucket": "\uf171",
+                    "bitbucket-square": "\uf172",
+                    "bold": "\uf032",
+                    "bolt": "\uf0e7",
+                    "bomb": "\uf1e2",
+                    "book": "\uf02d",
+                    "bookmark": "\uf02e",
+                    "bookmark-o": "\uf097",
+                    "briefcase": "\uf0b1",
+                    "btc": "\uf15a",
+                    "bug": "\uf188",
+                    "building": "\uf1ad",
+                    "building-o": "\uf0f7",
+                    "bullhorn": "\uf0a1",
+                    "bullseye": "\uf140",
+                    "bus": "\uf207",
+                    "calculator": "\uf1ec",
+                    "calendar": "\uf073",
+                    "calendar-o": "\uf133",
+                    "camera": "\uf030",
+                    "camera-retro": "\uf083",
+                    "car": "\uf1b9",
+                    "caret-down": "\uf0d7",
+                    "caret-left": "\uf0d9",
+                    "caret-right": "\uf0da",
+                    "caret-square-o-down": "\uf150",
+                    "caret-square-o-left": "\uf191",
+                    "caret-square-o-right": "\uf152",
+                    "caret-square-o-up": "\uf151",
+                    "caret-up": "\uf0d8",
+                    "cc": "\uf20a",
+                    "cc-amex": "\uf1f3",
+                    "cc-discover": "\uf1f2",
+                    "cc-mastercard": "\uf1f1",
+                    "cc-paypal": "\uf1f4",
+                    "cc-stripe": "\uf1f5",
+                    "cc-visa": "\uf1f0",
+                    "certificate": "\uf0a3",
+                    "chain-broken": "\uf127",
+                    "check": "\uf00c",
+                    "check-circle": "\uf058",
+                    "check-circle-o": "\uf05d",
+                    "check-square": "\uf14a",
+                    "check-square-o": "\uf046",
+                    "chevron-circle-down": "\uf13a",
+                    "chevron-circle-left": "\uf137",
+                    "chevron-circle-right": "\uf138",
+                    "chevron-circle-up": "\uf139",
+                    "chevron-down": "\uf078",
+                    "chevron-left": "\uf053",
+                    "chevron-right": "\uf054",
+                    "chevron-up": "\uf077",
+                    "child": "\uf1ae",
+                    "circle": "\uf111",
+                    "circle-o": "\uf10c",
+                    "circle-o-notch": "\uf1ce",
+                    "circle-thin": "\uf1db",
+                    "clipboard": "\uf0ea",
+                    "clock-o": "\uf017",
+                    "cloud": "\uf0c2",
+                    "cloud-download": "\uf0ed",
+                    "cloud-upload": "\uf0ee",
+                    "code": "\uf121",
+                    "code-fork": "\uf126",
+                    "codepen": "\uf1cb",
+                    "coffee": "\uf0f4",
+                    "cog": "\uf013",
+                    "cogs": "\uf085",
+                    "columns": "\uf0db",
+                    "comment": "\uf075",
+                    "comment-o": "\uf0e5",
+                    "comments": "\uf086",
+                    "comments-o": "\uf0e6",
+                    "compass": "\uf14e",
+                    "compress": "\uf066",
+                    "copyright": "\uf1f9",
+                    "credit-card": "\uf09d",
+                    "crop": "\uf125",
+                    "crosshairs": "\uf05b",
+                    "css3": "\uf13c",
+                    "cube": "\uf1b2",
+                    "cubes": "\uf1b3",
+                    "cutlery": "\uf0f5",
+                    "database": "\uf1c0",
+                    "delicious": "\uf1a5",
+                    "desktop": "\uf108",
+                    "deviantart": "\uf1bd",
+                    "digg": "\uf1a6",
+                    "dot-circle-o": "\uf192",
+                    "download": "\uf019",
+                    "dribbble": "\uf17d",
+                    "dropbox": "\uf16b",
+                    "drupal": "\uf1a9",
+                    "eject": "\uf052",
+                    "ellipsis-h": "\uf141",
+                    "ellipsis-v": "\uf142",
+                    "empire": "\uf1d1",
+                    "envelope": "\uf0e0",
+                    "envelope-o": "\uf003",
+                    "envelope-square": "\uf199",
+                    "eraser": "\uf12d",
+                    "eur": "\uf153",
+                    "exchange": "\uf0ec",
+                    "exclamation": "\uf12a",
+                    "exclamation-circle": "\uf06a",
+                    "exclamation-triangle": "\uf071",
+                    "expand": "\uf065",
+                    "external-link": "\uf08e",
+                    "external-link-square": "\uf14c",
+                    "eye": "\uf06e",
+                    "eye-slash": "\uf070",
+                    "eyedropper": "\uf1fb",
+                    "facebook": "\uf09a",
+                    "facebook-square": "\uf082",
+                    "fast-backward": "\uf049",
+                    "fast-forward": "\uf050",
+                    "fax": "\uf1ac",
+                    "female": "\uf182",
+                    "fighter-jet": "\uf0fb",
+                    "file": "\uf15b",
+                    "file-archive-o": "\uf1c6",
+                    "file-audio-o": "\uf1c7",
+                    "file-code-o": "\uf1c9",
+                    "file-excel-o": "\uf1c3",
+                    "file-image-o": "\uf1c5",
+                    "file-o": "\uf016",
+                    "file-pdf-o": "\uf1c1",
+                    "file-powerpoint-o": "\uf1c4",
+                    "file-text": "\uf15c",
+                    "file-text-o": "\uf0f6",
+                    "file-video-o": "\uf1c8",
+                    "file-word-o": "\uf1c2",
+                    "files-o": "\uf0c5",
+                    "film": "\uf008",
+                    "filter": "\uf0b0",
+                    "fire": "\uf06d",
+                    "fire-extinguisher": "\uf134",
+                    "flag": "\uf024",
+                    "flag-checkered": "\uf11e",
+                    "flag-o": "\uf11d",
+                    "flask": "\uf0c3",
+                    "flickr": "\uf16e",
+                    "floppy-o": "\uf0c7",
+                    "folder": "\uf07b",
+                    "folder-o": "\uf114",
+                    "folder-open": "\uf07c",
+                    "folder-open-o": "\uf115",
+                    "font": "\uf031",
+                    "forward": "\uf04e",
+                    "foursquare": "\uf180",
+                    "frown-o": "\uf119",
+                    "futbol-o": "\uf1e3",
+                    "gamepad": "\uf11b",
+                    "gavel": "\uf0e3",
+                    "gbp": "\uf154",
+                    "gift": "\uf06b",
+                    "git": "\uf1d3",
+                    "git-square": "\uf1d2",
+                    "github": "\uf09b",
+                    "github-alt": "\uf113",
+                    "github-square": "\uf092",
+                    "gittip": "\uf184",
+                    "glass": "\uf000",
+                    "globe": "\uf0ac",
+                    "google": "\uf1a0",
+                    "google-plus": "\uf0d5",
+                    "google-plus-square": "\uf0d4",
+                    "google-wallet": "\uf1ee",
+                    "graduation-cap": "\uf19d",
+                    "h-square": "\uf0fd",
+                    "hacker-news": "\uf1d4",
+                    "hand-o-down": "\uf0a7",
+                    "hand-o-left": "\uf0a5",
+                    "hand-o-right": "\uf0a4",
+                    "hand-o-up": "\uf0a6",
+                    "hdd-o": "\uf0a0",
+                    "header": "\uf1dc",
+                    "headphones": "\uf025",
+                    "heart": "\uf004",
+                    "heart-o": "\uf08a",
+                    "history": "\uf1da",
+                    "home": "\uf015",
+                    "hospital-o": "\uf0f8",
+                    "html5": "\uf13b",
+                    "ils": "\uf20b",
+                    "inbox": "\uf01c",
+                    "indent": "\uf03c",
+                    "info": "\uf129",
+                    "info-circle": "\uf05a",
+                    "inr": "\uf156",
+                    "instagram": "\uf16d",
+                    "ioxhost": "\uf208",
+                    "italic": "\uf033",
+                    "joomla": "\uf1aa",
+                    "jpy": "\uf157",
+                    "jsfiddle": "\uf1cc",
+                    "key": "\uf084",
+                    "keyboard-o": "\uf11c",
+                    "krw": "\uf159",
+                    "language": "\uf1ab",
+                    "laptop": "\uf109",
+                    "lastfm": "\uf202",
+                    "lastfm-square": "\uf203",
+                    "leaf": "\uf06c",
+                    "lemon-o": "\uf094",
+                    "level-down": "\uf149",
+                    "level-up": "\uf148",
+                    "life-ring": "\uf1cd",
+                    "lightbulb-o": "\uf0eb",
+                    "line-chart": "\uf201",
+                    "link": "\uf0c1",
+                    "linkedin": "\uf0e1",
+                    "linkedin-square": "\uf08c",
+                    "linux": "\uf17c",
+                    "list": "\uf03a",
+                    "list-alt": "\uf022",
+                    "list-ol": "\uf0cb",
+                    "list-ul": "\uf0ca",
+                    "location-arrow": "\uf124",
+                    "lock": "\uf023",
+                    "long-arrow-down": "\uf175",
+                    "long-arrow-left": "\uf177",
+                    "long-arrow-right": "\uf178",
+                    "long-arrow-up": "\uf176",
+                    "magic": "\uf0d0",
+                    "magnet": "\uf076",
+                    "male": "\uf183",
+                    "map-marker": "\uf041",
+                    "maxcdn": "\uf136",
+                    "meanpath": "\uf20c",
+                    "medkit": "\uf0fa",
+                    "meh-o": "\uf11a",
+                    "microphone": "\uf130",
+                    "microphone-slash": "\uf131",
+                    "minus": "\uf068",
+                    "minus-circle": "\uf056",
+                    "minus-square": "\uf146",
+                    "minus-square-o": "\uf147",
+                    "mobile": "\uf10b",
+                    "money": "\uf0d6",
+                    "moon-o": "\uf186",
+                    "music": "\uf001",
+                    "newspaper-o": "\uf1ea",
+                    "openid": "\uf19b",
+                    "outdent": "\uf03b",
+                    "pagelines": "\uf18c",
+                    "paint-brush": "\uf1fc",
+                    "paper-plane": "\uf1d8",
+                    "paper-plane-o": "\uf1d9",
+                    "paperclip": "\uf0c6",
+                    "paragraph": "\uf1dd",
+                    "pause": "\uf04c",
+                    "paw": "\uf1b0",
+                    "paypal": "\uf1ed",
+                    "pencil": "\uf040",
+                    "pencil-square": "\uf14b",
+                    "pencil-square-o": "\uf044",
+                    "phone": "\uf095",
+                    "phone-square": "\uf098",
+                    "picture-o": "\uf03e",
+                    "pie-chart": "\uf200",
+                    "pied-piper": "\uf1a7",
+                    "pied-piper-alt": "\uf1a8",
+                    "pinterest": "\uf0d2",
+                    "pinterest-square": "\uf0d3",
+                    "plane": "\uf072",
+                    "play": "\uf04b",
+                    "play-circle": "\uf144",
+                    "play-circle-o": "\uf01d",
+                    "plug": "\uf1e6",
+                    "plus": "\uf067",
+                    "plus-circle": "\uf055",
+                    "plus-square": "\uf0fe",
+                    "plus-square-o": "\uf196",
+                    "power-off": "\uf011",
+                    "print": "\uf02f",
+                    "puzzle-piece": "\uf12e",
+                    "qq": "\uf1d6",
+                    "qrcode": "\uf029",
+                    "question": "\uf128",
+                    "question-circle": "\uf059",
+                    "quote-left": "\uf10d",
+                    "quote-right": "\uf10e",
+                    "random": "\uf074",
+                    "rebel": "\uf1d0",
+                    "recycle": "\uf1b8",
+                    "reddit": "\uf1a1",
+                    "reddit-square": "\uf1a2",
+                    "refresh": "\uf021",
+                    "renren": "\uf18b",
+                    "repeat": "\uf01e",
+                    "reply": "\uf112",
+                    "reply-all": "\uf122",
+                    "retweet": "\uf079",
+                    "road": "\uf018",
+                    "rocket": "\uf135",
+                    "rss": "\uf09e",
+                    "rss-square": "\uf143",
+                    "rub": "\uf158",
+                    "scissors": "\uf0c4",
+                    "search": "\uf002",
+                    "search-minus": "\uf010",
+                    "search-plus": "\uf00e",
+                    "share": "\uf064",
+                    "share-alt": "\uf1e0",
+                    "share-alt-square": "\uf1e1",
+                    "share-square": "\uf14d",
+                    "share-square-o": "\uf045",
+                    "shield": "\uf132",
+                    "shopping-cart": "\uf07a",
+                    "sign-in": "\uf090",
+                    "sign-out": "\uf08b",
+                    "signal": "\uf012",
+                    "sitemap": "\uf0e8",
+                    "skype": "\uf17e",
+                    "slack": "\uf198",
+                    "sliders": "\uf1de",
+                    "slideshare": "\uf1e7",
+                    "smile-o": "\uf118",
+                    "sort": "\uf0dc",
+                    "sort-alpha-asc": "\uf15d",
+                    "sort-alpha-desc": "\uf15e",
+                    "sort-amount-asc": "\uf160",
+                    "sort-amount-desc": "\uf161",
+                    "sort-asc": "\uf0de",
+                    "sort-desc": "\uf0dd",
+                    "sort-numeric-asc": "\uf162",
+                    "sort-numeric-desc": "\uf163",
+                    "soundcloud": "\uf1be",
+                    "space-shuttle": "\uf197",
+                    "spinner": "\uf110",
+                    "spoon": "\uf1b1",
+                    "spotify": "\uf1bc",
+                    "square": "\uf0c8",
+                    "square-o": "\uf096",
+                    "stack-exchange": "\uf18d",
+                    "stack-overflow": "\uf16c",
+                    "star": "\uf005",
+                    "star-half": "\uf089",
+                    "star-half-o": "\uf123",
+                    "star-o": "\uf006",
+                    "steam": "\uf1b6",
+                    "steam-square": "\uf1b7",
+                    "step-backward": "\uf048",
+                    "step-forward": "\uf051",
+                    "stethoscope": "\uf0f1",
+                    "stop": "\uf04d",
+                    "strikethrough": "\uf0cc",
+                    "stumbleupon": "\uf1a4",
+                    "stumbleupon-circle": "\uf1a3",
+                    "subscript": "\uf12c",
+                    "suitcase": "\uf0f2",
+                    "sun-o": "\uf185",
+                    "superscript": "\uf12b",
+                    "table": "\uf0ce",
+                    "tablet": "\uf10a",
+                    "tachometer": "\uf0e4",
+                    "tag": "\uf02b",
+                    "tags": "\uf02c",
+                    "tasks": "\uf0ae",
+                    "taxi": "\uf1ba",
+                    "tencent-weibo": "\uf1d5",
+                    "terminal": "\uf120",
+                    "text-height": "\uf034",
+                    "text-width": "\uf035",
+                    "th": "\uf00a",
+                    "th-large": "\uf009",
+                    "th-list": "\uf00b",
+                    "thumb-tack": "\uf08d",
+                    "thumbs-down": "\uf165",
+                    "thumbs-o-down": "\uf088",
+                    "thumbs-o-up": "\uf087",
+                    "thumbs-up": "\uf164",
+                    "ticket": "\uf145",
+                    "times": "\uf00d",
+                    "times-circle": "\uf057",
+                    "times-circle-o": "\uf05c",
+                    "tint": "\uf043",
+                    "toggle-off": "\uf204",
+                    "toggle-on": "\uf205",
+                    "trash": "\uf1f8",
+                    "trash-o": "\uf014",
+                    "tree": "\uf1bb",
+                    "trello": "\uf181",
+                    "trophy": "\uf091",
+                    "truck": "\uf0d1",
+                    "try": "\uf195",
+                    "tty": "\uf1e4",
+                    "tumblr": "\uf173",
+                    "tumblr-square": "\uf174",
+                    "twitch": "\uf1e8",
+                    "twitter": "\uf099",
+                    "twitter-square": "\uf081",
+                    "umbrella": "\uf0e9",
+                    "underline": "\uf0cd",
+                    "undo": "\uf0e2",
+                    "university": "\uf19c",
+                    "unlock": "\uf09c",
+                    "unlock-alt": "\uf13e",
+                    "upload": "\uf093",
+                    "usd": "\uf155",
+                    "user": "\uf007",
+                    "user-md": "\uf0f0",
+                    "users": "\uf0c0",
+                    "video-camera": "\uf03d",
+                    "vimeo-square": "\uf194",
+                    "vine": "\uf1ca",
+                    "vk": "\uf189",
+                    "volume-down": "\uf027",
+                    "volume-off": "\uf026",
+                    "volume-up": "\uf028",
+                    "weibo": "\uf18a",
+                    "weixin": "\uf1d7",
+                    "wheelchair": "\uf193",
+                    "wifi": "\uf1eb",
+                    "windows": "\uf17a",
+                    "wordpress": "\uf19a",
+                    "wrench": "\uf0ad",
+                    "xing": "\uf168",
+                    "xing-square": "\uf169",
+                    "yahoo": "\uf19e",
+                    "yelp": "\uf1e9",
+                    "youtube": "\uf167",
+                    "youtube-play": "\uf16a",
+                    "youtube-square": "\uf166"
+                },
+                {% if not sitemap.is_locked %}"allow_edit": true,{% endif %}
+                "users_list": [{% for guest in user.my_guests %}{
+                    "first_name": "{{ guest.first_name }}",
+                    "last_name": "{{ guest.last_name }}",
+                    "email": "{{ guest.email }}",
+                    "name": "{{ guest.full_name }}",
+                    "label": "{{ guest.get_label }}",
+                    "value": {{ guest.id }},
+                    "type": 9
+                    },{% endfor %}''],
+                {#                "s3": {#}
+                {#                    "key": "AKIAJLEEEEFZPY7B4IYA",#}
+                {#                    "bucket": "slickplan",#}
+                {#                    "acl": "private",#}
+                {#                    "folder": "124752_l04nfgigs4",#}
+                {#                    "policy": "eyJleHBpcmF0aW9uIjoiMjAxNS0xMC0yOVQxNzozOTozNy4wMDBaIiwiY29uZGl0aW9ucyI6W3siYnVja2V0Ijoic2xpY2twbGFuIn0seyJhY2wiOiJwcml2YXRlIn0seyJzdWNjZXNzX2FjdGlvbl9zdGF0dXMiOiIyMDEifSxbInN0YXJ0cy13aXRoIiwiJGtleSIsIjEyNDc1Ml9sMDRuZmdpZ3M0XC8iXSxbInN0YXJ0cy13aXRoIiwiJENvbnRlbnQtVHlwZSIsIiJdLFsic3RhcnRzLXdpdGgiLCIkbmFtZSIsIiJdLFsic3RhcnRzLXdpdGgiLCIkRmlsZW5hbWUiLCIxMjQ3NTJfbDA0bmZnaWdzNFwvIl0sWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsMCw1MjQyODgwXV19",#}
+                {#                    "signature": "puvZXmrSiMBisRddT3QH55VjAqM="#}
+                {#                },#}
+            };
+            Slickplan.appInit(Object.assign(params_init, params));
+        });
+
+        window._SLICKPLAN_JSON = {
+            
+            {% for site in sitemap_data %}
+                "{{ site.sitemap_key }}":{
+                    "options":jQuery.parseJSON('{{ site.options|escapejs }}'),
+                    "data": jQuery.parseJSON('{{ site.data|escapejs }}'),
+                    "cells": jQuery.parseJSON('{{ site.cells|escapejs }}')
+                },
+            {% endfor %}
+        };
+
+        window._SLICKPLAN_GROUPS = jQuery.parseJSON('{{ sitemap_groups|escapejs }}');
+
+        {% if sitemap.is_status_locked %}
+            window._SLICKPLAN_LOCK = {
+                "type": "error",
+                "message": "This sitemap has been locked <a href=\"#\" id=\"action-unlock\"><i class=\"fa fa-unlock\"><\/i> Unlock<\/a>"
+            };
+            $("#sitemap-logo").hide(true);
+        {% endif %}
+        {% if sitemap.is_status_approved %}
+            window._SLICKPLAN_LOCK = {
+                "type": "success",
+                "message": "This sitemap has been approved <a href=\"#\" id=\"action-unlock\"><i class=\"fa fa-unlock\"><\/i> Unlock<\/a>"
+            };
+            $("#sitemap-logo").hide(true);
+        {% endif %}
+    </script>
+
+{% endblock javascripts %}
+
+{% block layout_content %}
+    <div id="sitemap-top">
+        <div id="sitemap-name">
+            <div class="name">
+                <h1>
+                    <span>{{ sitemap }}</span>
+                    <a href="#" data-modal="change-name">Edit</a>
+                </h1>
+
+                <h2>Version {{ sitemap_version.name }}
+                    {#                    <span>(Last Saved <span id="lastsaved">Oct 14th, 2015 at 4:48 PM</span>#}
+                    <span>(Last Saved <span id="lastsaved">{{ sitemap.modified | date:"M jS, Y" }} at
+                        {{ sitemap.modified | date:"P" | upper }}</span>
+                        &nbsp;|&nbsp; Page Count: <span id="pagecount">{{ page_count }}</span>)</span>
+                </h2>
+            </div>
+            <button type="button" class="button blue" id="comments">
+                <span>{{ sitemap_version.comments.all | length }}</span> Comments
+            </button>
+{#            <button type="button" class="button blue" id="contributors" data-modal="contributors">Contributors</button>#}
+{#            <button type="button" class="button blue" id="share" data-modal="share">Share</button>#}
+            <div class="select white sversion">
+                <select style="display: none;" class="ui-white change_sitemap" id="change-sitemap-version">
+                    <option value="">Version</option>
+                    {% for version in sitemap.versions.all %}
+                        <option value="{% ifnotequal version.id sitemap_version.id %}{{ version.id }}{% endifnotequal %}"
+                                {% ifequal version.id sitemap_version.id %}selected{% endifequal %}>{{ version }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="select white snames">
+                <select style="display: none;" class="ui-white change_sitemap" id="change-sitemap">
+                    <option value="">Select Project</option>
+                    {% for site in sitemaps %}
+                        <option value="{% ifnotequal sitemap.id site.id %}{{ site.get_first_version.id }}{% endifnotequal %}"
+                                {% ifequal sitemap.id site.id %}selected{% endifequal %}>{{ site }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        {% if not sitemap.is_locked %}
+            {% include 'slickplan/sitemap_edit_themes.html' %}
+        {% endif %}
+        {% include 'slickplan/comment.html' %}
+        <a href="#" id="headercollapse"></a>
+    </div>
+
+    <div id="main" class="sitemap">
+        <div id="users-list"></div>
+
+        {% include 'slickplan/sitemap_edit_top_nav.html' %}
+
+        <div id="form-notify"><span></span><a class="close"><i class="fa fa-times-circle"></i></a></div>
+    </div>
+
+    <div id="sitemap-wrapper" data-locked="{% if sitemap.is_locked %}1{% else %}0{% endif %}" data-approved="{% if sitemap.is_status_approved %}2{% else %}0{% endif %}" data-role="">
+        <div id="sitemap-logo" style="display: block">
+            <div class="sitemap-logo {% if sitemap_version.logo_visible %}visible{% endif %} {% if sitemap_version.logo_text %}textlogo{% endif %}">
+                <img id="image-form-newlogo"
+                     {% if sitemap_version.logo %}src='{{ sitemap_version.logo.url }}'{% endif %}>
+
+                <div id="text-logo">
+                    <div class="text">{{ sitemap_version.logo_text }}</div>
+                </div>
+                <a class="delete" href="#">Delete</a>
+                <a href="#" data-modal="sitemap-logo">Edit</a>
+            </div>
+            <a href="#" class="add-logo" data-modal="sitemap-logo">✚ <span>Add Logo</span></a>
+        </div>
+        <div id="slickplan-sitemap" data-id="{{ sitemap_version.id }}"></div>
+        <div style="left: -99999px; top: -99999px;" id="cell-info-tooltip"><span></span></div>
+    </div>
+    <div class="show" id="back-to-top">Back to top</div>
+
+    <div id="lightbox-cell-files">
+        <div class="error" style="display: none;"><span></span><a class="close"><i class="fa fa-times-circle"></i></a>
+        </div>
+        <div class="title">
+            <span id="lightbox-cell-name">Library</span>
+            <button type="reset" class="circle reset">Close</button>
+        </div>
+        <div class="row row-container">
+            <div class="empty">
+                <div class="droparea" id="lightbox-drop-area">
+                    <i class="fa fa-upload"></i>
+
+                    <p class="title-initial">Drop image files anywhere</p>
+
+                    <p class="title-drop">Drop image files anywhere</p>
+
+                    <p class="desc">Alternatively,
+                        <span style="position: relative;" id="lightbox-upload-empty">
+                            <a style="position: relative; z-index: 1;" href="#" class="uploadbutton"
+                               id="pluploadcellfile" data-maxsize="5242880" data-multiple="1" data-mimes="images"
+                               data-s3="1" data-droptarget="lightbox-cell-files">
+                                <span class="text">select files manually</span>
+                            </a> or
+                            <a href="#" class="openlibrary">use existing from library</a>
+                               <div style="position: absolute; top: 0px; left: 0px; width: 0px; height: 0px; overflow: hidden; z-index: 0;"#}
+                                 class="moxie-shim moxie-shim-html5" id="html5_1a1mf3h7iaull8l1din3668lf6_container">#}
+                                <input id="html5_1a1mf3h7iaull8l1din3668lf6"
+                                       style="font-size: 999px; opacity: 0; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"#}
+                                       multiple="" accept="image/jpeg,image/gif,image/png" type="file">
+                           </div>
+                        </span>.
+                    </p>
+                </div>
+            </div>
+            <div class="library">
+                <div class="list">
+                    <div class="wrapper">
+                        <div id="lightbox-scroll-files" class="scroll-area">
+                        </div>
+                    </div>
+                </div>
+                <div class="buttons-right">
+                    <button type="button" class="button userColor add">Add Images</button>
+                    <button type="button" class="button cancel">Cancel</button>
+                </div>
+                <div class="buttons-left">
+                    <button type="button" class="button remove">Remove Permanently</button>
+                </div>
+            </div>
+            <div class="files">
+                <div class="files-preview" id="lightbox-drop-area-preview">
+                    <div class="toolbar">
+                        <button type="button" class="button userColor download">Download
+                            <small>(<span id="lightbox-file-size"></span>)</small>
+                        </button>
+                        <button type="button" class="button userColor viewfull">View Full-Size</button>
+                        <div class="fileinfo">
+                            <p class="name"><span id="lightbox-file-name"></span></p>
+
+                            <p class="meta">
+                                Uploaded by <span id="lightbox-uploaded-by" class="highlight"></span>
+                                on <span id="lightbox-uploaded-date" class="highlight"></span>
+                                at <span id="lightbox-uploaded-time" class="highlight"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="file-preview">
+                        <div class="wrapper">
+                        </div>
+                    </div>
+                    <div class="files-thumbs withnav">
+                        <div class="thumbs">
+                            <div class="prev"><i class="fa fa-angle-left"></i></div>
+                            <div class="container-wrapper">
+                                <div class="container"></div>
+                            </div>
+                            <div class="next"><i class="fa fa-angle-right"></i></div>
+                        </div>
+                        <a href="#" class="upload-button userColor"><i class="fa fa-upload"></i></a>
+                    </div>
+                </div>
+                {% include 'slickplan/comment_mockups.html' %}
+            </div>
+        </div>
+    </div>
+
+    <ul aria-activedescendant="ui-selectmenu-item-308" style="display: none; width: 71px; left: 707px; top: 119px;"
+        class="ui-selectmenu-menu ui-widget ui-widget-content ui-corner-all ui-white change_sitemap ui-selectmenu-menu-popup"
+        aria-hidden="true" role="listbox" aria-labelledby="change-sitemap-version-button"
+        id="change-sitemap-version-menu">
+        <li class="ui-corner-top" role="presentation">
+            <a href="#" tabindex="-1" role="option" aria-selected="false">Version</a>
+        </li>
+        <li class="ui-corner-bottom ui-selectmenu-item-selected ui-state-active" role="presentation">
+            <a id="ui-selectmenu-item-308" href="#" tabindex="-1" role="option" aria-selected="true"> 1.0</a>
+        </li>
+    </ul>
+    <ul aria-activedescendant="ui-selectmenu-item-140" style="display: none; width: 121px; left: 576px; top: 119px;"
+        class="ui-selectmenu-menu ui-widget ui-widget-content ui-corner-all ui-white change_sitemap ui-selectmenu-menu-popup"
+        aria-hidden="true" role="listbox" aria-labelledby="change-sitemap-button" id="change-sitemap-menu">
+        <li class="ui-corner-top" role="presentation"><a href="#" tabindex="-1" role="option" aria-selected="false">Select
+            Project</a></li>
+        <li role="presentation"><a href="#" tabindex="-1" role="option" aria-selected="false"> lolo</a></li>
+        <li class="ui-corner-bottom ui-selectmenu-item-selected ui-state-active" role="presentation"><a
+                id="ui-selectmenu-item-140" href="#" tabindex="-1" role="option" aria-selected="true"> {{ sitemap }}</a>
+        </li>
+    </ul>
+    <ul aria-activedescendant="ui-selectmenu-item-391" style="display: none; width: 8px; left: 0px; top: 0px;"
+        class="ui-selectmenu-menu ui-widget ui-widget-content ui-corner-all ui-version ui-selectmenu-menu-popup"
+        aria-hidden="true" role="listbox" aria-labelledby="version1-button" id="version1-menu">
+        <li class="ui-corner-top ui-selectmenu-item-selected ui-state-active" role="presentation"><a
+                id="ui-selectmenu-item-391" href="#" tabindex="-1" role="option" aria-selected="true"> 2.8</a></li>
+        <li class="ui-corner-bottom" role="presentation"><a href="#" tabindex="-1" role="option" aria-selected="false">
+            1.0</a></li>
+    </ul>
+    <div aria-labelledby="ui-id-1" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 2001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+            <span class="ui-dialog-title" id="ui-id-1">&nbsp;</span>
+            <a role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#">
+                <span class="ui-icon ui-icon-closethick">close</span>
+            </a>
+        </div>
+        <div style="display: block;" id="modal-color-save" class="modal ui-dialog-content ui-widget-content">
+            <form action="https://arieskienmendoza.slickplan.com/sitemap/edit/177985#" method="post">
+                <h1 class="desc">
+                    <a href="#" class="button light ico-close close">✕</a>
+                    Save your palette
+                    <small>You can save up to 10 swatches at a time.</small>
+                </h1>
+                <fieldset>
+                    <div class="palette">
+                        <ul class="palette colors"></ul>
+                    </div>
+                    <div class="input left">
+                        <label for="form-name">Palette Name</label>
+                        <input value="" autocorrect="off" autocapitalize="off" autocomplete="off"
+                               name="new_palette[name]"
+                               id="palette-form-name" type="text">
+                    </div>
+                </fieldset>
+                <div class="submit">
+                    <input value="Save Palette" type="submit">
+
+                    <div class="loading"></div>
+                </div>
+                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">
+            </form>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-2" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 2001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title"
+                                                                                                id="ui-id-2">&nbsp;</span><a
+                role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span
+                class="ui-icon ui-icon-closethick">close</span></a></div>
+        <div style="display: block;" id="modal-color-load" class="modal ui-dialog-content ui-widget-content">
+            <form action="https://arieskienmendoza.slickplan.com/sitemap/edit/177985#" method="post">
+                <fieldset>
+                    <h1>Load a palette <a href="#" class="button light ico-close close">✕</a></h1>
+
+                    <div class="sitemaps table tablefont" id="custom-palette-table">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Date Saved</th>
+                            </tr>
+                            </thead>
+                        </table>
+                        <div class="table-scroll table-palettes">
+                            <table>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="submit nomargin">
+                    <input class="button light" id="delete-palettes" value="Delete Palette" type="reset">
+                    <input value="Load" type="submit">
+
+                    <div class="loading"></div>
+                </div>
+                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">
+            </form>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-3" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 2001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+            <span class="ui-dialog-title" id="ui-id-3">&nbsp;</span>
+            <a role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span
+                    class="ui-icon ui-icon-closethick">close</span></a></div>
+        <div style="display: block;" id="modal-change-name" class="modal ui-dialog-content ui-widget-content">
+            <form action="https://arieskienmendoza.slickplan.com/sitemap/edit/177985" method="post">
+                <fieldset>
+                    <h1>Change Name <a href="#" class="button light ico-close close">✕</a></h1>
+
+                    <div class="input left" style="width: 546px;">
+                        <label for="form-change-name">Sitemap Name</label>
+                        <input autocorrect="off" autocapitalize="off" autocomplete="off" name="change[name]"
+                               id="form-change-name" value="{{ sitemap }}" type="text">
+                    </div>
+                    <input name="change[version]" id="form-change-version" value="{{ sitemap_version.name }}"
+                           maxlength="6" type="hidden">
+                </fieldset>
+                <div class="submit">
+                    <input value="Save Changes" type="submit">
+                    {#                    <div class="loading"></div>#}
+                </div>
+                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">
+            </form>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-4" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 2001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title"
+                                                                                                id="ui-id-4">&nbsp;</span><a
+                role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span
+                class="ui-icon ui-icon-closethick">close</span></a></div>
+        <div style="display: block;" id="modal-save-as" class="modal ui-dialog-content ui-widget-content">
+            <form action="https://arieskienmendoza.slickplan.com/sitemap/edit/177985#" method="post">
+                <h1>Save As <a href="#" class="button light ico-close close">✕</a></h1>
+                <fieldset>
+                    <div class="input left" style="width: 634px;">
+                        <label for="form-name">Sitemap Name</label>
+                        <input value="" autocorrect="off" autocapitalize="off" autocomplete="off" name="clone[name]"
+                               id="form-name" type="text">
+                    </div>
+                </fieldset>
+                <div class="submit">
+                    <input value="Save As" type="submit">
+
+                    <div class="loading"></div>
+                </div>
+                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">
+            </form>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-5" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 2001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+            <span class="ui-dialog-title" id="ui-id-5">&nbsp;</span>
+            <a role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#">
+                <span class="ui-icon ui-icon-closethick">close</span>
+            </a>
+        </div>
+        <div style="display: block;" id="modal-save-version" class="modal ui-dialog-content ui-widget-content">
+            <form action="https://arieskienmendoza.slickplan.com/sitemap/edit/177985" method="post">
+                <fieldset>
+                    <h1>Save New Version <a href="#" class="button light ico-close close">✕</a></h1>
+
+                    <div class="input">
+                        <label for="form-new-version">New Version</label>
+                        <input autocorrect="off" autocapitalize="off" autocomplete="off" name="change[version]"
+                               value="2.0" maxlength="6" id="form-new-version" type="text">
+                        <input name="change[name]" value="{{ sitemap }}" type="hidden">
+                    </div>
+                </fieldset>
+                <div class="submit">
+                    <input value="Save New Version" type="submit">
+
+                    <div class="loading"></div>
+                </div>
+                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">
+            </form>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-6" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 2001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+            <span class="ui-dialog-title" id="ui-id-6">&nbsp;</span>
+            <a role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#">
+                <span class="ui-icon ui-icon-closethick">close</span>
+            </a>
+        </div>
+        <div style="display: block;" id="modal-shortcuts" class="modal ui-dialog-content ui-widget-content">
+            <form action="https://arieskienmendoza.slickplan.com/sitemap/edit/177985" method="post">
+                <fieldset>
+                    <h1 class="noborder">Keyboard Shortcuts <a href="#" class="button light ico-close close">✕</a></h1>
+
+                    <div class="sitemaps table tablefont">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <th>Action</th>
+                                <th>Key Stroke</th>
+                            </tr>
+                            <tr>
+                                <td>Undo</td>
+                                <td>CTRL Z</td>
+                            </tr>
+                            <tr>
+                                <td>Redo</td>
+                                <td>CTRL Y</td>
+                            </tr>
+                            <tr>
+                                <td>Zoom Out</td>
+                                <td>CTRL -</td>
+                            </tr>
+                            <tr>
+                                <td>Zoom In</td>
+                                <td>CTRL +</td>
+                            </tr>
+                            <tr>
+                                <td>New Page</td>
+                                <td>Shift Enter</td>
+                            </tr>
+                            <tr>
+                                <td>New First Level Page</td>
+                                <td>CTRL E</td>
+                            </tr>
+                            <tr>
+                                <td>New Child Page</td>
+                                <td>CTRL Enter</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </fieldset>
+                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">
+            </form>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-7" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 2001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+            <span class="ui-dialog-title" id="ui-id-7">&nbsp;</span>
+            <a role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#">
+                <span class="ui-icon ui-icon-closethick">close</span>
+            </a>
+        </div>
+        <div style="display: block;" id="modal-cells-clone" class="modal ui-dialog-content ui-widget-content">
+            <form action="https://arieskienmendoza.slickplan.com/sitemap/edit/177985" method="post">
+                <fieldset>
+                    <h1><a href="#" class="button light ico-close close">✕</a><span>Clone Page or Group of Pages</span>
+                    </h1>
+
+                    <div class="select versions smodal">
+                        <select style="display: none;" id="clone-section-id" class="ui-version ui-smodal">
+                            <option value="">Select Section</option>
+                        </select>
+                        <!--<a style="width: 404px;"
+                           class="ui-selectmenu ui-widget ui-state-default ui-corner-all ui-selectmenu-popup ui-select-size-1"
+                           id="clone-section-id-button" role="button" href="#" aria-haspopup="true"
+                           aria-owns="clone-section-id-menu">
+                            <span class="ui-selectmenu-status"> Select Section</span>
+                            <span class="ui-selectmenu-icon ui-icon ui-icon-triangle-1-s"></span>
+                        </a>-->
+                    </div>
+                    <div class="select versions smodal">
+                        <select style="display: none;" id="clone-parent-page" class="ui-version ui-smodal">
+                            <option value="">Select Parent Page</option>
+                        </select>
+                    </div>
+                    <div class="radio">
+                        <input id="clone-childcells0" name="clone[childcells]" value="0" checked="checked" type="radio">
+                        <label for="clone-childcells0">Only Selected Page</label>
+                    </div>
+                    <div class="radio">
+                        <input id="clone-childcells1" name="clone[childcells]" value="1" type="radio">
+                        <label for="clone-childcells1">Selected Page and Child Pages</label>
+                    </div>
+                    <div class="radio">
+                        <input id="clone-childcells2" name="clone[childcells]" value="2" type="radio">
+                        <label for="clone-childcells2">Only Child Pages</label>
+                    </div>
+                    <div class="checkbox">
+                        <input id="clone-assection" value="1" type="checkbox">
+                        <label for="clone-assection">Clone as Section</label>
+                    </div>
+                    <div class="checkbox">
+                        <input id="clone-includearchetypes" value="1" type="checkbox">
+                        <label for="clone-includearchetypes">Include Page Types</label>
+                    </div>
+                    <div class="checkbox">
+                        <input id="clone-includelinks" value="1" type="checkbox">
+                        <label for="clone-includelinks">Include Links</label>
+                    </div>
+                    <div class="checkbox">
+                        <input id="clone-includenotes" value="1" type="checkbox">
+                        <label for="clone-includenotes">Include Notes</label>
+                    </div>
+                </fieldset>
+                <div class="submit">
+                    <input value="Cancel" class="cancel" type="reset">
+                    <input value="Clone" type="submit">
+
+                    <div class="loading"></div>
+                </div>
+                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">
+            </form>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-8" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 2001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title"
+                                                                                                id="ui-id-8">&nbsp;</span><a
+                role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span
+                class="ui-icon ui-icon-closethick">close</span></a></div>
+        <div style="display: block;" id="modal-font-awesome" class="modal ui-dialog-content ui-widget-content">
+            <h1>Select an icon for your page type <a href="#" class="button light ico-close close">✕</a></h1>
+
+            <div class="icons-list area-scroll"></div>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-9" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 2001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title"
+                                                                                                id="ui-id-9">&nbsp;</span><a
+                role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span
+                class="ui-icon ui-icon-closethick">close</span></a></div>
+        <div style="display: block;" id="modal-group-warning" class="modal ui-dialog-content ui-widget-content">
+            <form action="https://arieskienmendoza.slickplan.com/sitemap/edit/177985" method="post">
+                <fieldset>
+                    <h1>Heads Up! <a href="#" class="button light ico-close close">✕</a></h1>
+
+                    <p>This cell is currently part of a group. You have a couple options.</p>
+
+                    <div class="button-info clearfix">
+                        <button type="button" class="button blue" id="groups-update-cell">Update Group</button>
+                        <p>The change you are making will affect all cells in the group.</p>
+                    </div>
+                    <div class="button-info or-separator clearfix">
+                        <p>- or -</p>
+                    </div>
+                    <div class="button-info clearfix">
+                        <button type="button" class="button blue" id="groups-unlink-cell">Unlink &amp; Update</button>
+                        <p>Unlink this cell from the group and apply changes to this cell only.</p>
+                    </div>
+                </fieldset>
+                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">
+            </form>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-10" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 2001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+            <span class="ui-dialog-title"
+                  id="ui-id-10">&nbsp;</span><a
+                role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span
+                class="ui-icon ui-icon-closethick">close</span></a></div>
+        <div style="display: block;" id="modal-sitemap-logo" class="modal ui-dialog-content ui-widget-content">
+            {#            <form action="https://arieskienmendoza.slickplan.com/sitemap/edit/177985" method="post">#}
+            <form action="" method="post">
+                <fieldset>
+                    <h1>Sitemap Logo <a href="#" class="button light ico-close close">✕</a></h1>
+
+                    <div class="radio">
+                        <div class="left">
+                            <input id="form-uselogo1" name="sitemap_logo[type]" value="text" type="radio">
+                            <label for="form-uselogo1">Use client name</label>
+                        </div>
+                        <div class="left">
+                            <input id="form-uselogo2" name="sitemap_logo[type]" value="logo" type="radio">
+                            <label for="form-uselogo2">Use client logo</label>
+                        </div>
+                    </div>
+                    <div class="logoplace" style="display: none;">
+                        <div id="logoplaceholder">
+                            <span>235px</span>
+                            <span>76px</span>
+
+                            <div><img src="{% static "slickplan/img/default-logo.png" %}" alt="Company Logo"
+                                      id="image-form-companylogo"></div>
+                        </div>
+                        <p>.png .jpg or .gif (400 KB max)</p>
+
+                        <p>We recommend a .png file with a transparent background</p>
+                    </div>
+                    <div class="logoplacetext" style="display: none;">
+                        <div class="input">
+                            <label for="form-logo-client-name">Client Name</label>
+                            <input autocorrect="off" autocapitalize="off" autocomplete="off" name="sitemap_logo[text]"
+                                   value="" maxlength="65" id="form-logo-client-name" type="text">
+                        </div>
+                    </div>
+                    <div class="upload" style="display: none;">
+                        <div style="position: relative;" id="pluploaddroplogo">
+                            <span class="drop_instructions">Drop file here or</span>
+                            <a style="position: relative; z-index: 1;" href="#" class="uploadbutton"
+                               id="pluploadbtndroplogo" data-maxsize="409800" data-droptarget="pluploaddroplogo"
+                               data-mimes="images" data-name="pluploaddroplogo">select file</a>
+                            <input name="sitemap_logo[file]" id="sitemap-logo-file" type="hidden">
+
+                            {#                            <div style="position: absolute; top: 0px; left: 0px; width: 0px; height: 0px; overflow: hidden; z-index: 0;"#}
+                            {#                                 class="moxie-shim moxie-shim-html5" id="html5_1a1mf3h7bctu14hv1l5k1ble1hu23_container">#}
+                            {#                                <input id="html5_1a1mf3h7bctu14hv1l5k1ble1hu23"#}
+                            {#                                       style="font-size: 999px; opacity: 0; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"#}
+                            {#                                       accept="image/jpeg,image/gif,image/png" type="file"></div>#}
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="submit nomargin">
+                    <input value="OK" type="submit">
+
+                    <div class="loading"></div>
+                </div>
+                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">
+            </form>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-11" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 2001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title"
+                                                                                                id="ui-id-11">&nbsp;</span><a
+                role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span
+                class="ui-icon ui-icon-closethick">close</span></a></div>
+{#        <div style="display: block;" id="modal-contributors" class="modal ui-dialog-content ui-widget-content">#}
+{#            <form action="https://arieskienmendoza.slickplan.com/sitemap/edit/177985#" method="post">#}
+{#                <input name="form[contributors]" value="1" type="hidden">#}
+{##}
+{#                <h1>Contributors <a href="#" class="button light ico-close close">✕</a></h1>#}
+{#                <fieldset class="col small-margin">#}
+{#                    <h1>Current Editors <a href="#" class="button light ico-plus" data-topmodal="add-contributor"#}
+{#                                           data-type="editor">Add Editor</a></h1>#}
+{##}
+{#                    <div class="usersbox editors ui-droppable">#}
+{#                    </div>#}
+{#                </fieldset>#}
+{#                <fieldset class="col small-margin">#}
+{#                    <h1>Current Viewers <a href="#" class="button light ico-plus" data-topmodal="add-contributor"#}
+{#                                           data-type="viewer">Add Viewer</a></h1>#}
+{##}
+{#                    <div class="usersbox viewers ui-droppable">#}
+{#                    </div>#}
+{#                </fieldset>#}
+{#                <div class="submit nomargin">#}
+{#                    <input value="Save Changes" type="submit">#}
+{##}
+{#                    <div class="loading"></div>#}
+{#                </div>#}
+{#                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">#}
+{#            </form>#}
+{#        </div>#}
+    </div>
+    <div aria-labelledby="ui-id-12" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 2001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title"
+                                                                                                id="ui-id-12">&nbsp;</span><a
+                role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span
+                class="ui-icon ui-icon-closethick">close</span></a></div>
+        <div style="display: block;" id="modal-open" class="modal ui-dialog-content ui-widget-content">
+            <h1>Open <a href="#" class="button light ico-close close">✕</a></h1>
+
+            <div class="sitemaps table">
+                <table>
+                    <thead>
+                    <tr>
+                        <th><span>Sitemap Name</span></th>
+                        <th><span>Version</span></th>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="table-scroll" id="fileopentable">
+                    <table>
+                        <tbody class="version">
+                        {% for sitemap in sitemaps %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'slickplan:slickplan_sitemap_edit' id=sitemap_version.id %}">{{ sitemap }}</a>
+                                </td>
+                                <td>
+                                    <form action="{% url 'slickplan:slickplan_sitemap_edit' id=sitemap_version.id %}"
+                                          method="post">
+                                        <fieldset>
+                                            <select style="display: none;" name="version" class="ui-version"
+                                                    id="version1">
+                                                {% for version in sitemap.versions.all %}
+                                                    <option value="
+                                                            {% ifnotequal version.id sitemap_version.id %}{{ version.id }}{% endifnotequal %}"
+                                                            {% ifequal version.id sitemap_version.id %}selected{% endifequal %}>{{ version }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <input value="Open" class="button light compact" type="submit">
+                                        </fieldset>
+                                        <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY="
+                                               type="hidden">
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-13" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 2001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-modal-export">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+            <span class="ui-dialog-title" id="ui-id-13">&nbsp;</span>
+            <a role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span
+                    class="ui-icon ui-icon-closethick">close</span></a></div>
+        <div style="display: block;" id="modal-export" class="modal importenabled onetimepayment-step3 ui-dialog-content ui-widget-content ui-tabs ui-widget ui-corner-all">
+            <ul role="tablist" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+                <li aria-selected="true" aria-labelledby="ui-id-25" aria-controls="export-tab" tabindex="0" role="tab"
+                    class="ui-state-default ui-corner-top ui-tabs-active ui-state-active"><a id="ui-id-25" tabindex="-1"
+                                                                                             role="presentation"
+                                                                                             class="ui-tabs-anchor"
+                                                                                             href="#export-tab">Export</a>
+                </li>
+                <li aria-selected="false" aria-labelledby="ui-id-26" aria-controls="import-tab" tabindex="-1" role="tab"
+                    class="ui-state-default ui-corner-top"><a id="ui-id-26" tabindex="-1" role="presentation"
+                                                              class="ui-tabs-anchor" href="#import-tab">Import</a>
+                </li>
+            </ul>
+            <form aria-hidden="false" aria-expanded="true" role="tabpanel" class="ui-tabs-panel ui-widget-content ui-corner-bottom" aria-labelledby="ui-id-25" action="https://arieskienmendoza.slickplan.com/sitemap/edit/177985" method="post" id="export-tab">
+                <h1>Export your site plan
+                    <a href="http://help.slickplan.com/hc/en-us/articles/202262434" class="help" target="_top"><i class="fa fa-question-circle"></i></a>
+                    <a href="#" class="button light ico-close close">✕</a>
+                </h1>
+                <fieldset>
+                    <div class="radio clear">
+                        <input name="export[type]" id="form-type1" value="pdf" checked="checked" type="radio">
+                        <label for="form-type1">Save as a PDF</label>
+                    </div>
+                    <div id="exportopts" class="pdf">
+                        <div class="radio paper clear pdf png eps">
+                            <input name="export[paper-size]" id="form-paper3" value="GLETTER" checked="checked" type="radio">
+                            <label for="form-paper3" class="small"><p>8x10</p><img src="{% static "slickplan/img/paper-check.png" %}"></label>
+                            <input name="export[paper-size]" id="form-paper5" value="A4" type="radio">
+                            <label for="form-paper5" class="small"><p>A4</p><img src="{% static "slickplan/img/paper-check.png" %}"></label>
+                            <input name="export[paper-size]" id="form-paper2" value="LETTER" type="radio">
+                            <label for="form-paper2" class="middle"><p>8.5x11</p><img src="{% static "slickplan/img/paper-check.png" %}"></label>
+                            <input name="export[paper-size]" id="form-paper4" value="A3" type="radio">
+                            <label for="form-paper4" class="big"><p>A3</p><img src="{% static "slickplan/img/paper-check.png" %}"></label>
+                            <input name="export[paper-size]" id="form-paper1" value="TABLOID" type="radio">
+                            <label for="form-paper1" class="big"><p>11x17</p><img src="{% static "slickplan/img/paper-check.png" %}"></label>
+                        </div>
+                        <div class="checkbox pdf png eps">
+                            <input name="export[landscape]" id="form-landscape" value="1" type="checkbox">
+                            <label for="form-landscape">Landscape</label>
+                        </div>
+                        <div class="checkbox pdf png eps">
+                            <input name="export[mono]" id="form-mono" value="1" type="checkbox">
+                            <label for="form-mono">Export without colors</label>
+                        </div>
+                        <div class="checkbox eps png html">
+                            <input name="export[notes]" id="form-xnote" value="1" type="checkbox">
+                            <label for="form-xnote">Add notes</label>
+                        </div>
+                        <div class="checkbox pdf">
+                            <input name="export[notes_annots]" id="form-notesannots" value="1" type="checkbox">
+                            <label for="form-notesannots">Add notes as interactive annotations</label>
+                        </div>
+                        <div class="checkbox pdf">
+                            <input name="export[notes_legend]" id="form-noteslegend" value="1" type="checkbox">
+                            <label for="form-noteslegend">Add notes in a legend</label>
+                        </div>
+                        <div class="checkbox pdf png eps">
+                            <input name="export[archetypes]" id="form-xarchetypes" value="1" type="checkbox">
+                            <label for="form-xarchetypes">Add page type</label>
+                        </div>
+                        <div class="checkbox pdf png eps">
+                            <input name="export[archetypes_desc]" id="form-xarchetypesdesc" value="1" type="checkbox">
+                            <label for="form-xarchetypesdesc">Add page type descriptions</label>
+                        </div>
+                        <div class="checkbox pdf png eps">
+                            <input name="export[datever]" id="form-datever" value="1" checked="checked" type="checkbox">
+                            <label for="form-datever">Add date &amp; version</label>
+                        </div>
+                        <div class="checkbox html">
+                            <input name="export[css]" id="form-css" value="1" type="checkbox">
+                            <label for="form-css">Include CSS</label>
+                        </div>
+                        <div class="checkbox pdf png eps">
+                            <input name="export[page_count]" id="form-pagecount" value="1" checked="checked" type="checkbox">
+                            <label for="form-pagecount">Include Page Count</label>
+                        </div>
+                    </div>
+                    <div class="radio clear">
+                        <input name="export[type]" id="form-typeeps" value="eps" type="radio">
+                        <label for="form-typeeps">Vector (EPS)</label>
+                    </div>
+                    <div class="radio clear">
+                        <input name="export[type]" id="form-type6" value="png" type="radio">
+                        <label for="form-type6">PNG</label>
+                    </div>
+                    <div class="radio clear">
+                        <input name="export[type]" id="form-type4" value="html" type="radio">
+                        <label for="form-type4">HTML</label>
+                    </div>
+                    <div class="radio clear">
+                        <input name="export[type]" id="form-type5" value="xml" type="radio">
+                        <label for="form-type5">XML</label>
+                    </div>
+                    <div class="radio clear">
+                        <input name="export[type]" id="form-type7" value="csv" type="radio">
+                        <label for="form-type7">CSV</label>
+                    </div>
+                    <div class="radio clear">
+                        <input name="export[type]" id="form-type8" value="docx" type="radio">
+                        <label for="form-type8">Content Outline (DOCX)</label>
+                    </div>
+                </fieldset>
+                <div class="submit">
+                    <input value="Export" type="submit">
+
+                    {#                    <div class="loading"></div>#}
+                </div>
+                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">
+            </form>
+            <form aria-hidden="true" aria-expanded="false" style="display: none;" role="tabpanel"
+                  class="ui-tabs-panel ui-widget-content ui-corner-bottom" aria-labelledby="ui-id-26"
+                  action="https://arieskienmendoza.slickplan.com/sitemap/edit/177985" method="post"
+                  enctype="multipart/form-data" id="import-tab">
+                <h1>Import a new sitemap <a href="#" class="button light ico-close close">✕</a></h1>
+                <fieldset>
+                    <p>You can import Slickplan sitemaps by uploading the files you or anyone else has previously
+                        exported
+                        as XML data or by linking to an existing website. The site crawler will only index internal,
+                        public
+                        links. <em>Importing this file will overwrite your existing sitemap.</em></p>
+
+                    <div class="radio clear radio-slickplan">
+                        <input name="import[type]" id="form-import2" value="slickplan" checked="checked" type="radio">
+                        <label for="form-import2" class="small">Slickplan XML</label>
+                    </div>
+                    <div id="importopts" class="slickplan">
+                        <div class="upload plainupload slickplan wordpress xml dash">
+                            <input value="" autocorrect="off" autocapitalize="off" autocomplete="off" class="filename" readonly="" type="text">
+                            <a href="#" class="button light">Browse</a>
+                            <input name="import_file" class="plainupload" type="file">
+                        </div>
+                        <div class="input url crawler">
+                            <input autocorrect="off" autocapitalize="off" autocomplete="off" name="import_from_url" id="form-import_from_url" value="http://" type="text">
+                        </div>
+                        <label class="heading xml crawler">Cell Text</label>
+
+                        <div class="radio clear xml crawler">
+                            <input name="import[cell_text]" id="form-celltext1" value="filedir" type="radio">
+                            <label for="form-celltext1">Use file/directory name</label>
+                        </div>
+                        <div class="radio clear xml crawler">
+                            <input name="import[cell_text]" id="form-celltext2" value="h1" type="radio">
+                            <label for="form-celltext2">Use H1</label>
+                        </div>
+                        <div class="radio clear xml crawler">
+                            <input name="import[cell_text]" id="form-celltext3" value="title" checked="checked" type="radio">
+                            <label for="form-celltext3">Use page title</label>
+                        </div>
+                        <label class="heading crawler">Follow Mode</label>
+
+                        <div class="radio clear crawler">
+                            <input name="import[follow_mode]" id="form-follow_mode1" value="1" type="radio">
+                            <label for="form-follow_mode1">Domain and all subdomains</label>
+                        </div>
+                        <div class="radio clear crawler">
+                            <input name="import[follow_mode]" id="form-follow_mode2" value="2" checked="checked"
+                                   type="radio">
+                            <label for="form-follow_mode2">Domain only</label>
+                        </div>
+                        <div class="radio clear crawler">
+                            <input name="import[follow_mode]" id="form-follow_mode3" value="3" type="radio">
+                            <label for="form-follow_mode3" style="width: 100%;">Domain and Directory Path Only <span style="text-transform: lowercase;">(e.g. http://example.com/dir/)</span></label>
+                        </div>
+                        <label class="heading wordpress xml crawler">Other</label>
+
+                        <div class="checkbox clear wordpress xml crawler">
+                            <input name="import[link]" id="form-import-link" value="1" type="checkbox">
+                            <label for="form-import-link">Add link</label>
+                        </div>
+                        <div class="checkbox clear  xml crawler">
+                            <input name="import[note]" id="form-import-note" value="1" type="checkbox">
+                            <label for="form-import-note">Add meta description note</label>
+                        </div>
+                        <div class="checkbox clear  crawler">
+                            <input name="import[limit]" id="form-import-limit" value="1" type="checkbox">
+                            <label for="form-import-limit">Limit number of Pages</label>
+                        </div>
+                        <div class="input page-limit hide-me clearfix">
+                            <input name="import[pages_limit]" id="form-import-pages_limit" value="100" min="1" max="2000" type="number">
+
+                            <p>Set the maximum number of pages that you want the import tool to crawl.</p>
+                        </div>
+                        <div class="checkbox clear  crawler">
+                            <input name="import[exclude]" id="form-import-exclude" value="1" type="checkbox">
+                            <label for="form-import-exclude">Omit Directories</label>
+                        </div>
+                        <div class="input exclude-field hide-me">
+                            <input autocorrect="off" autocapitalize="off" autocomplete="off" name="import[exclusions][]" value="/example/*" type="text">
+                            <a href="#" class="import-new-field"><i class="fa fa-plus"></i> Add Directory</a>
+                        </div>
+                        <div class="clear textarea dash">
+                            <p>or paste the content below:</p>
+                            <textarea autocorrect="off" autocapitalize="off" autocomplete="off" name="import[dash_content]"></textarea>
+                        </div>
+                        <div class="clear textp dash">
+                            <p>Slickplan supports text files using dash hierarchy.</p>
+
+                            <p>Download a template file
+                                <a href="http://help.slickplan.com/hc/en-us/article_attachments/202621514/sample-file.txt">here</a>
+                                or see the
+                                <a href="http://help.slickplan.com/hc/en-us/articles/203700090" target="_top">help section</a>
+                                for details.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="radio clear radio-wordpress">
+                        <input name="import[type]" id="form-import1" value="wordpress" type="radio">
+                        <label for="form-import1" class="small">Wordpress XML</label>
+                    </div>
+                    <div class="radio clear radio-google">
+                        <input name="import[type]" id="form-import3" value="xml" type="radio">
+                        <label for="form-import3" class="small">Sitemap XML</label>
+                    </div>
+                    <div class="radio clear radio-crawler">
+                        <input name="import[type]" id="form-import4" value="crawler" type="radio">
+                        <label for="form-import4" class="small">Use an existing site</label>
+                    </div>
+                    <div class="radio clear radio-dash">
+                        <input name="import[type]" id="form-import5" value="dash" type="radio">
+                        <label for="form-import5" class="small">Use a text file</label>
+                    </div>
+                </fieldset>
+                <div class="submit">
+                    <input value="Import" type="submit">
+                    <div class="loading"></div>
+                </div>
+                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">
+            </form>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-14" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 2001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-modal-share">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title"
+                                                                                                id="ui-id-14">&nbsp;</span><a
+                role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span
+                class="ui-icon ui-icon-closethick">close</span></a></div>
+        <div style="display: block;" id="modal-share"
+             class="modal hastabs ui-dialog-content ui-widget-content ui-tabs ui-widget ui-corner-all">
+            <ul role="tablist" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+                <li aria-selected="true" aria-labelledby="ui-id-27" aria-controls="share-link" tabindex="0" role="tab"
+                    class="ui-state-default ui-corner-top ui-tabs-active ui-state-active">
+                    <a id="ui-id-27" tabindex="-1"
+                       role="presentation"
+                       class="ui-tabs-anchor"
+                       href="#share-link">Sitemap
+                        Link</a>
+                </li>
+                <li aria-selected="false" aria-labelledby="ui-id-28" aria-controls="share-email" tabindex="-1"
+                    role="tab"
+                    class="ui-state-default ui-corner-top"><a id="ui-id-28" tabindex="-1" role="presentation"
+                                                              class="ui-tabs-anchor" href="#share-email">Send An
+                    Email</a>
+                </li>
+                <li aria-selected="false" aria-labelledby="ui-id-29" aria-controls="share-basecamp" tabindex="-1"
+                    role="tab"
+                    class="ui-state-default ui-corner-top"><a id="ui-id-29" tabindex="-1" role="presentation"
+                                                              class="ui-tabs-anchor" href="#share-basecamp">Post Message
+                    to
+                    Basecamp</a>
+                </li>
+                <li aria-selected="false" aria-labelledby="ui-id-30" aria-controls="share-social" tabindex="-1"
+                    role="tab"
+                    class="socials-icons ui-state-default ui-corner-top"><a id="ui-id-30" tabindex="-1"
+                                                                            role="presentation"
+                                                                            class="ui-tabs-anchor" href="#share-social">Post
+                    Social Networks</a>
+                </li>
+                <li aria-selected="false" aria-labelledby="ui-id-31" aria-controls="share-password" tabindex="-1"
+                    role="tab"
+                    class="ui-state-default ui-corner-top"><a id="ui-id-31" tabindex="-1" role="presentation"
+                                                              class="ui-tabs-anchor" href="#share-password">Privacy</a>
+                </li>
+            </ul>
+            <form aria-hidden="false" aria-expanded="true" role="tabpanel"
+                  class="ui-tabs-panel ui-widget-content ui-corner-bottom" aria-labelledby="ui-id-27"
+                  action="https://arieskienmendoza.slickplan.com/sitemap/edit/177985#" method="post" id="share-link">
+                <fieldset id="share-social-link">
+                    <h1><span>Sitemap Link</span><a href="#" class="button light ico-close close">✕</a></h1>
+
+                    <div class="input">
+                        <input autocorrect="off" autocapitalize="off" autocomplete="off" class="autoselect"
+                               value="http://arieskienmendoza.slickplan.com/wfnltqxqq" readonly="" type="text">
+                        <button type="button" class="button right" id="share-clipboard"
+                                data-clipboard-text="http://arieskienmendoza.slickplan.com/wfnltqxqq">Copy to Clipboard
+                        </button>
+                    </div>
+                </fieldset>
+                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">
+            </form>
+            <form aria-hidden="true" aria-expanded="false" style="display: none;" role="tabpanel"
+                  class="ui-tabs-panel ui-widget-content ui-corner-bottom" aria-labelledby="ui-id-28"
+                  action="https://arieskienmendoza.slickplan.com/sitemap/edit/177985#" method="post" id="share-email">
+                <fieldset>
+                    <h1 class="email"><span>Select Email Recipients</span><a href="#"
+                                                                             class="button light ico-close close">✕</a>
+                    </h1>
+
+                    <div class="recipients">
+                    </div>
+                    <div id="add-recipient">
+                        <div class="input">
+                            <input value="" autocorrect="off" autocapitalize="off" autocomplete="off"
+                                   placeholder="RECIPIENT NAME" type="text">
+                        </div>
+                        <div class="input">
+                            <input value="" autocorrect="off" autocapitalize="off" autocomplete="off"
+                                   placeholder="RECIPIENT EMAIL" type="text">
+                        </div>
+                        <div class="submit noborder nomargin">
+                            <button type="submit" class="button light"><span>Add Recipient</span></button>
+                        </div>
+                    </div>
+                    <h1>Message</h1>
+
+                    <div class="input">
+                        <input autocorrect="off" autocapitalize="off" autocomplete="off" id="share-mail-subject"
+                               name="subject" value="{{ sitemap }}" type="text">
+                    </div>
+                    <div class="textarea">
+                    <textarea autocorrect="off" autocapitalize="off" autocomplete="off" id="share-mail-message"
+                              name="message">
+                        I've created a new sitemap named {{ sitemap }}: http://arieskienmendoza.slickplan.com/wfnltqxqq
+                    </textarea>
+                    </div>
+                    <div class="submit noborder nomargin">
+                        <input value="Send message" type="submit">
+
+                        <div class="loading"></div>
+                    </div>
+                </fieldset>
+                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">
+            </form>
+            <form aria-hidden="true" aria-expanded="false" style="display: none;" role="tabpanel"
+                  aria-labelledby="ui-id-29"
+                  action="https://arieskienmendoza.slickplan.com/sitemap/edit/177985#" method="post" id="share-basecamp"
+                  class="noacc ui-tabs-panel ui-widget-content ui-corner-bottom">
+                <fieldset>
+                    <h1 class="basecamp"><span>Post to Basecamp</span><a href="#"
+                                                                         class="button light ico-close close">✕</a>
+                    </h1>
+
+                    <div class="message">
+                        <p><a href="{% url 'slickplan:accounts_preferences' %}">Configure</a>
+                            your account with Basecamp project management</p>
+                    </div>
+                </fieldset>
+                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">
+            </form>
+            <form aria-hidden="true" aria-expanded="false" style="display: none;" role="tabpanel"
+                  class="ui-tabs-panel ui-widget-content ui-corner-bottom" aria-labelledby="ui-id-30"
+                  action="https://arieskienmendoza.slickplan.com/sitemap/edit/177985#" method="post" id="share-social">
+                <fieldset id="share-social-twitter">
+                    <h1 class="twitter"><span>Post to twitter</span>
+                        <a href="#"
+                           class="button light ico-close close">✕</a>
+                    </h1>
+
+                    <div class="input">
+                        <input autocorrect="off" autocapitalize="off" autocomplete="off"
+                               value="I've created a new sitemap named {{ sitemap }}: http://arieskienmendoza.slickplan.com/wfnltqxqq"
+                               type="text">
+                    </div>
+                    <div class="submit right nomargin noborder">
+                        <input value="Post" type="submit">
+
+                        <div class="loading"></div>
+                    </div>
+                </fieldset>
+                <fieldset id="share-social-facebook">
+                    <h1 class="facebook"><span>Post to facebook</span></h1>
+
+                    <div class="input">
+                        <input autocorrect="off" autocapitalize="off" autocomplete="off" name=""
+                               value="I've created a new sitemap named {{ sitemap }}: http://arieskienmendoza.slickplan.com/wfnltqxqq"
+                               type="text">
+                    </div>
+                    <div class="submit right nomargin noborder">
+                        <input value="Post" type="submit">
+
+                        <div class="loading"></div>
+                    </div>
+                </fieldset>
+                <fieldset id="share-social-linkedin">
+                    <h1 class="linkedin"><span>Post to linkedin</span></h1>
+
+                    <div class="input">
+                        <input autocorrect="off" autocapitalize="off" autocomplete="off" name=""
+                               value="I've created a new sitemap named {{ sitemap }}: http://arieskienmendoza.slickplan.com/wfnltqxqq"
+                               type="text">
+                    </div>
+                    <div class="submit right nomargin noborder">
+                        <input value="Post" type="submit">
+
+                        <div class="loading"></div>
+                    </div>
+                </fieldset>
+                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">
+            </form>
+            <form aria-hidden="true" aria-expanded="false" style="display: none;" role="tabpanel"
+                  class="ui-tabs-panel ui-widget-content ui-corner-bottom" aria-labelledby="ui-id-31"
+                  action="https://arieskienmendoza.slickplan.com/sitemap/edit/177985#" method="post" id="share-password"
+                  data-haspasswd="0">
+                <fieldset id="share-social-password">
+                    <h1 class="passprotect"><span>Privacy Settings</span><a href="#"
+                                                                            class="button light ico-close close">✕</a>
+                    </h1>
+
+                    <p>To secure this sitemap please click the checkbox below and enter a password. This action will
+                        require
+                        anyone you share this site map with to login before they can view the sitemap.</p>
+
+                    <div class="checkbox">
+                        <input id="form-enablepass" name="password_protect_enabled" value="1" type="checkbox">
+                        <label for="form-enablepass"> Enable password protection</label>
+                    </div>
+                    <div class="input" style="display: none;">
+                        <input autocorrect="off" autocapitalize="off" autocomplete="off" id="form-share-password"
+                               name="password_protect" value="" type="password">
+                        <button class="button right" type="submit">Save Password</button>
+                    </div>
+                </fieldset>
+                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">
+            </form>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-15" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 2001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+            <span class="ui-dialog-title" id="ui-id-15">&nbsp;</span>
+            <a role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span
+                    class="ui-icon ui-icon-closethick">close</span></a>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-16" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 9001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title"
+                                                                                                id="ui-id-16">&nbsp;</span><a
+                role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span
+                class="ui-icon ui-icon-closethick">close</span></a></div>
+
+        {#        <div style="display: block;" id="modal-confirm" class="modal ui-dialog-content ui-widget-content">#}
+        {#            <form action="https://arieskienmendoza.slickplan.com/sitemap/edit/177985" method="post">#}
+        {#                <fieldset>#}
+        {#                    <h1><span></span> <a href="#" class="button light ico-close close">✕</a></h1>#}
+        {#                    <p></p>#}
+        {#                </fieldset>#}
+        {#                <div class="submit">#}
+        {#                    <div class="checkboxes clearfix"></div>#}
+        {#                    <div class="confirm-checkbox clearfix">#}
+        {#                        <div class="checkbox">#}
+        {#                            <input id="modal-confirm-checkbox" value="1" type="checkbox">#}
+        {#                            <label for="modal-confirm-checkbox">Don’t show me this again</label>#}
+        {#                        </div>#}
+        {#                    </div>#}
+        {#                    <input value="No" class="cancel" id="modal-confirm-cancel" type="reset">#}
+        {#                    <input value="Yes" id="modal-confirm-submit" type="submit">#}
+        {##}
+        {#                    <div class="loading"></div>#}
+        {#                </div>#}
+        {#                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">#}
+        {#            </form>#}
+        {#        </div>#}
+
+    </div>
+    <div aria-labelledby="ui-id-17" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 3001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-top-modal">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title"
+                                                                                                id="ui-id-17">&nbsp;</span><a
+                role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span
+                class="ui-icon ui-icon-closethick">close</span></a></div>
+        <div style="display: block;" id="topmodal-farbtastic" class="top-modal ui-dialog-content ui-widget-content">
+            <h1><span>Custom Color</span> <a href="#" class="button light ico-close close">✕</a></h1>
+
+            <div class="colorpicker">
+                <div id="colorpicker">
+                    <div class="farbtastic">
+                        <div style="background-color: rgb(0, 170, 255);" class="color"></div>
+                        <div class="wheel"></div>
+                        <div class="overlay"></div>
+                        <div style="left: 68px; top: 176px;" class="h-marker marker"></div>
+                        <div style="left: 126px; top: 64px;" class="sl-marker marker"></div>
+                    </div>
+                </div>
+                <input autocorrect="off" autocapitalize="off" autocomplete="off" id="colorinput" name="color"
+                       maxlength="7"
+                       value="cbd7dd" type="text">
+                <label>Hex color</label>
+            </div>
+            <div class="submit">
+                <input class="bsubmit" value="OK" type="submit">
+                <input class="breset" value="Reset" type="reset">
+            </div>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-18" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 3001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-tooltip-modal">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title"
+                                                                                                id="ui-id-18">&nbsp;</span><a
+                role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span
+                class="ui-icon ui-icon-closethick">close</span></a></div>
+        <div style="display: block;" id="topmodal-cell-url"
+             class="top-modal tooltip-modal tooltip-modal-right ui-dialog-content ui-widget-content">
+            <div class="tooltip-modal-titlebar">
+                <a href="#" class="close">x</a>
+            </div>
+            <div>
+                <div id="cell-urls">
+                    <div class="radio">
+                        <div class="left">
+                            <input id="cell-new-link-external" name="cell_new_link" value="external" type="radio">
+                            <label for="cell-new-link-external">External Link</label>
+                        </div>
+                        <div class="left">
+                            <input id="cell-new-link-internal" name="cell_new_link" value="internal" type="radio">
+                            <label for="cell-new-link-internal">Internal Link</label>
+                        </div>
+                    </div>
+                    <div id="cell-new-link-external-links">
+                        <div>
+                            <div class="external-link link-fields input clearfix">
+                                <label>URL:</label>
+                                <input autocorrect="off" autocapitalize="off" autocomplete="off" value="http://"
+                                       class="url" type="text">
+                                <label>Label:</label>
+                                <input autocorrect="off" autocapitalize="off" autocomplete="off" value="" class="label"
+                                       type="text">
+                                <a href="#" class="remove" style="display: none">
+                                    <img src="{% static "slickplan/img/btn-remove.png" %}" alt="-">
+
+                                    <div class="tooltip">Delete Link</div>
+                                </a>
+                                <a href="#" class="new-row">
+                                    <img src="{% static "slickplan/img/btn-add.png" %}" alt="+">
+
+                                    <div class="tooltip">Add Link</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="cell-new-link-internal-links" class="internal-link link-fields input">
+                        <label>Select Section:</label>
+
+                        <div class="select versions smodal smodal-top">
+                            <select style="display: none;" id="cell-link-top-section-id"
+                                    class="ui-version ui-smodal ui-smodal-top">
+                                <option value="">Select Section</option>
+                            </select>
+                        </div>
+                        <label>Select Page:</label>
+
+                        <div class="select versions smodal smodal-top">
+                            <select style="display: none;" id="cell-link-top-parent-page"
+                                    class="ui-version ui-smodal ui-smodal-top">
+                                <option value="">Select Page</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="buttons three">
+                    <button type="button" id="url-cancel"><span>Cancel</span> <i class="fa fa-times"></i></button>
+                    <button type="button" id="url-save">Save <i class="fa fa-floppy-o"></i></button>
+                    <button type="button" id="url-delete">Delete <i class="fa fa-trash-o"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-19" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 3001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-top-modal">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+            <span class="ui-dialog-title" id="ui-id-19">&nbsp;</span>
+            <a role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#">
+                <span class="ui-icon ui-icon-closethick">close</span>
+            </a>
+        </div>
+        <div style="display: block;" id="topmodal-add-contributor"
+             class="top-modal ui-dialog-content ui-widget-content">
+            <form action="https://arieskienmendoza.slickplan.com/sitemap/edit/177985#" method="post">
+                <a href="#" class="add" data-topmodal="add-new-contributor">Add new User</a>
+                <a href="#" class="button light ico-close close">✕</a>
+                <fieldset>
+                    <div class="input">
+                        <input value="" class="ui-autocomplete-input" autocorrect="off" autocapitalize="off"
+                               autocomplete="off" name="user" placeholder="SEARCH EXISTING USERS" type="text">
+                        <span class="ui-helper-hidden-accessible" aria-live="polite" role="status"></span>
+                    </div>
+                    <div class="autocomplete-placeholder">
+                        <ul style="z-index: 3002; display: none;" tabindex="0" id="ui-id-24"
+                            class="ui-autocomplete ui-menu ui-widget ui-widget-content ui-corner-all"></ul>
+                    </div>
+                    <div class="checkbox topm lockunlock">
+                        <input id="tm-sitemap-admin-check" type="checkbox">
+                        <label for="tm-sitemap-admin-check">Lock/Unlock Permissions</label>
+                    </div>
+                    <div class="checkbox topm approval">
+                        <input id="tm-sitemap-approval-check" type="checkbox">
+                        <label for="tm-sitemap-approval-check">Responsible For Approval</label>
+                    </div>
+                </fieldset>
+                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">
+            </form>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-20" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 3001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-top-modal">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+            <span class="ui-dialog-title" id="ui-id-20">&nbsp;</span>
+            <a role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#">
+                <span class="ui-icon ui-icon-closethick">close</span>
+            </a>
+        </div>
+        <div style="display: block;" id="topmodal-add-new-contributor"
+             class="top-modal ui-dialog-content ui-widget-content">
+            <h1 class="add">Add new User <a href="#" class="button light ico-close close">✕</a></h1>
+
+            <form action="https://arieskienmendoza.slickplan.com/account/users" method="post">
+                <fieldset>
+                    <div class="input">
+                        <label for="form-contributor-firstname">First Name</label>
+                        <input value="" autocorrect="off" autocapitalize="off" autocomplete="off"
+                               id="form-contributor-firstname" name="add[first_name]" type="text">
+                    </div>
+                    <div class="input">
+                        <label for="form-contributor-lastname">Last Name</label>
+                        <input value="" autocorrect="off" autocapitalize="off" autocomplete="off"
+                               id="form-contributor-lastname" name="add[last_name]" type="text">
+                    </div>
+                    <div class="input">
+                        <label for="form-contributor-email">Email</label>
+                        <input value="" autocorrect="off" autocapitalize="off" autocomplete="off"
+                               id="form-contributor-email" name="add[email]" type="text">
+                    </div>
+                    <div class="checkbox topm lockunlock">
+                        <input id="tmn-sitemap-admin-check" type="checkbox">
+                        <label for="tmn-sitemap-admin-check">Lock/Unlock Permissions</label>
+                    </div>
+                    <div class="checkbox topm approval">
+                        <input id="tmn-sitemap-approval-check" type="checkbox">
+                        <label for="tmn-sitemap-approval-check">Responsible For Approval</label>
+                    </div>
+                </fieldset>
+                <div class="submit">
+                    <input class="button light compact" value="Submit" type="submit">
+
+                    <div class="loading"></div>
+                </div>
+                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">
+            </form>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-21" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 3001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-top-modal">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title"
+                                                                                                id="ui-id-21">&nbsp;</span><a
+                role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span
+                class="ui-icon ui-icon-closethick">close</span></a></div>
+        <div style="display: block;" id="topmodal-edit-contributor"
+             class="top-modal ui-dialog-content ui-widget-content">
+            <h1 class="add">Edit User <a href="#" class="button light ico-close close">✕</a></h1>
+
+            <form action="https://arieskienmendoza.slickplan.com/account/users" method="post">
+                <fieldset>
+                    <div class="input">
+                        <label for="form-contributor-firstname">First Name</label>
+                        <input value="" autocorrect="off" autocapitalize="off" autocomplete="off"
+                               id="form-econtributor-firstname" name="edit[first_name]" type="text">
+                    </div>
+                    <div class="input">
+                        <label for="form-contributor-lastname">Last Name</label>
+                        <input value="" autocorrect="off" autocapitalize="off" autocomplete="off"
+                               id="form-econtributor-lastname" name="edit[last_name]" type="text">
+                    </div>
+                    <div class="input">
+                        <label for="form-contributor-email">Email</label>
+                        <input value="" autocorrect="off" autocapitalize="off" autocomplete="off"
+                               id="form-econtributor-email" name="edit[email]" type="text">
+                    </div>
+                    <div class="checkbox topm lockunlock">
+                        <input id="tme-sitemap-admin-check" type="checkbox">
+                        <label for="tme-sitemap-admin-check">Lock/Unlock Permissions</label>
+                    </div>
+                    <div class="checkbox topm approval">
+                        <input id="tme-sitemap-approval-check" type="checkbox">
+                        <label for="tme-sitemap-approval-check">Responsible For Approval</label>
+                    </div>
+                </fieldset>
+                <div class="submit">
+                    <input class="button light compact" value="Save" type="submit">
+
+                    <div class="loading"></div>
+                </div>
+                <input name="_nonce" value="QiRL/6rjnkH9oYsysMo3i7k26oBcINOaEAB3WX1A3XY=" type="hidden">
+            </form>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-22" role="dialog" tabindex="-1"
+         style="display: none; outline: 0px none; z-index: 3001; position: absolute;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-tooltip-modal sl-resizeable sl-resizeable-x ui-resizable">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+            <span class="ui-dialog-title" id="ui-id-22">&nbsp;</span>
+            <a role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span
+                    class="ui-icon ui-icon-closethick">close</span></a>
+        </div>
+        <div style="display: block;" id="topmodal-cell-note"
+             class="top-modal tooltip-modal resizeable resizeable-x ui-dialog-content ui-widget-content">
+            <div>
+                <div class="note-text"></div>
+                <textarea autocorrect="off" autocapitalize="off" autocomplete="off" name="note"
+                          id="form-cell-note"></textarea>
+
+                <div class="buttons three">
+                    <button type="button" id="note-edit"><span>Edit</span> <i class="fa fa-times"></i></button>
+                    <button type="button" id="note-save">Save <i class="fa fa-floppy-o"></i></button>
+                    <button type="button" id="note-delete">Delete <i class="fa fa-trash-o"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div aria-labelledby="ui-id-23" role="dialog" tabindex="-1" style="display: none; outline: 0px none; z-index: 3001;"
+         class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-tooltip-modal tooltip-modal-left">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title"
+                                                                                                id="ui-id-23">&nbsp;</span><a
+                role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span
+                class="ui-icon ui-icon-closethick">close</span></a></div>
+        <div style="display: block;" id="topmodal-cell-archetype"
+             class="top-modal tooltip-modal tooltip-modal-left tooltip-archetypes ui-dialog-content ui-widget-content">
+            <div>
+                <div class="tooltip-modal-titlebar">
+                    <a href="#" class="close">x</a>
+                </div>
+                <div class="types list clearfix">
+                    <div id="archetypes-list">
+                        <div data-archetype="_form" class="archetype archetype-form" title="Form">
+                            <span>Form</span>
+                            <a href="#" class="help" title="What is Form?"><i class="fa fa-question"></i></a>
+                        </div>
+                        <div data-archetype="_listing" class="archetype archetype-listing" title="Listing">
+                            <span>Listing</span>
+                            <a href="#" class="help" title="What is Listing?"><i class="fa fa-question"></i></a>
+                        </div>
+                        <div data-archetype="_portal" class="archetype archetype-portal" title="Portal">
+                            <span>Portal</span>
+                            <a href="#" class="help" title="What is Portal?"><i class="fa fa-question"></i></a>
+                        </div>
+                        <div data-archetype="_consumption" class="archetype archetype-consumption" title="Consumption">
+                            <span>Consumption</span>
+                            <a href="#" class="help" title="What is Consumption?"><i class="fa fa-question"></i></a>
+                        </div>
+                        <div data-archetype="_consumptionstack" class="archetype archetype-consumptionstack"
+                             title="Consumption Stack">
+                            <span>Consumption Stack</span>
+                            <a href="#" class="help" title="What is Consumption Stack?"><i
+                                    class="fa fa-question"></i></a>
+                        </div>
+                        <div data-archetype="_gallery" class="archetype archetype-gallery" title="Gallery">
+                            <span>Gallery</span>
+                            <a href="#" class="help" title="What is Gallery?"><i class="fa fa-question"></i></a>
+                        </div>
+                        <div data-archetype="_dialog" class="archetype archetype-dialog" title="Dialog">
+                            <span>Dialog</span>
+                            <a href="#" class="help" title="What is Dialog?"><i class="fa fa-question"></i></a>
+                        </div>
+                        <div data-archetype="_process" class="archetype archetype-process" title="Process">
+                            <span>Process</span>
+                            <a href="#" class="help" title="What is Process?"><i class="fa fa-question"></i></a>
+                        </div>
+                        <div data-archetype="_interactive" class="archetype archetype-interactive" title="Interactive">
+                            <span>Interactive</span>
+                            <a href="#" class="help" title="What is Interactive?"><i class="fa fa-question"></i></a>
+                        </div>
+                        <div data-archetype="_file" class="archetype archetype-file" title="File">
+                            <span>File</span>
+                            <a href="#" class="help" title="What is File?"><i class="fa fa-question"></i></a>
+                        </div>
+                        <div data-archetype="_fragment" class="archetype archetype-fragment" title="Fragment">
+                            <span>Fragment</span>
+                            <a href="#" class="help" title="What is Fragment?"><i class="fa fa-question"></i></a>
+                        </div>
+                        <div data-archetype="_external" class="archetype archetype-external" title="External">
+                            <span>External</span>
+                            <a href="#" class="help" title="What is External?"><i class="fa fa-question"></i></a>
+                        </div>
+                        <div id="archetype-custom">
+                            <a href="#" class="userColor"><span>Add custom page type</span></a>
+                        </div>
+                    </div>
+                    <div id="archetype-desc">
+                        <div class="title"><h4></h4><a href="#">Close</a></div>
+                        <div class="text"></div>
+                    </div>
+                    <div id="archetype-custom-add">
+                        <div class="title"><h4>Custom Page Type</h4><a href="#">Close</a></div>
+                        <div class="text">
+                            <div class="input left">
+                                <label for="form-page_type_name">Page Type Name</label>
+                                <input value="" autocorrect="off" autocapitalize="off" autocomplete="off"
+                                       name="page_type_name" id="form-page_type_name" maxlength="25" type="text">
+                                <input name="page_type_icon" id="form-page_type_icon" type="hidden">
+                            </div>
+                            <div class="input left cbuttons">
+                                <div class="custom-icon-options clearfix">
+                                    <div id="archetype-custom-icon-wrapper" class="borderr"></div>
+                                    <div id="archetype-custom-icon">
+                                        <a href="#" class="userColor borderr" data-modal="font-awesome"><span>Add custom icon</span></a>
+                                    </div>
+                                    <div id="archetype-custom-icon-remove">
+                                        <a href="#" class="borderr"><span>Remove</span></a>
+                                    </div>
+                                </div>
+                                <div id="archetype-custom-description">
+                                    <a href="#" class="userColor borderr"><span>Add Description</span></a>
+                                </div>
+                                <div id="archetype-custom-wysiwyg">
+                                    <textarea autocorrect="off" autocapitalize="off" autocomplete="off"
+                                              id="form-cell-archetype-desc"></textarea>
+                                </div>
+                                <div id="archetype-custom-delete">
+                                    <a href="#" class="borderr"><span>Delete custom page type</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="buttons three">
+                    <button type="button" id="archetype-cancel">Cancel <i class="fa fa-times"></i></button>
+                    <button type="button" id="archetype-save">Save <i class="fa fa-floppy-o"></i></button>
+                    <button type="button" id="archetype-delete">Delete <i class="fa fa-trash-o"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="map-dropdown">
+        <ul>
+            <li><a href="#" class="delete"><i class="icon fa fa-times"></i> <span class="name">Delete</span></a></li>
+            <li><a href="#" class="dblclick"><span class="icon"><span class="letter">T</span><i
+                    class="fa fa-pencil"></i></span> <span class="name">Edit Name</span></a></li>
+            <li><a href="#" class="cellmodal color ecolor" data-modalid="farbtastic"><span class="icon"><i
+                    class="fa fa-square-o"></i><i class="fa fa-eyedropper"></i></span> <span class="name">Edit Page Color</span></a>
+            </li>
+            <li><a href="#" class="cellmodal textcolor tcolor" data-modalid="farbtastic"><span class="icon"><span
+                    class="letter">T</span><i class="fa fa-eyedropper"></i></span> <span
+                    class="name">Edit Text Color</span></a></li>
+            <li><a href="#" class="cellmodal cellclone"><i class="icon fa fa-files-o"></i> <span
+                    class="name">Clone</span></a></li>
+            <li><a href="#" class="cellmodal cellsection"><i class="icon fa fa-slickplansection"></i> <span
+                    class="name">Add Section</span></a></li>
+            <li><a href="#" class="cellmodal cellsectionremove"><i class="icon fa fa-slickplansection"></i> <span
+                    class="name">Remove Section</span></a></li>
+            <li><a href="#" class="cellmodal desc" data-modalid="cell-note"><i class="icon fa fa-file-o"></i> <span
+                    class="name">Add Note</span></a></li>
+            <li><a href="#" class="cellmodal url" data-modalid="cell-url"><i class="icon fa fa-link"></i> <span
+                    class="name">Add Link</span></a></li>
+            <li><a href="#" class="cellmodal archetype" data-modalid="cell-archetype"><i class="icon fa fa-flag"></i>
+                <span class="name">Page Type</span></a></li>
+            <li><a href="#" class="xcellfile"><i class="icon fa fa-picture-o"></i> <span
+                    class="name">Design Mockups</span></a></li>
+            <li><a href="#" class="expandcollapse collapse"><i class="icon fa fa-eye-slash"></i> <span class="name">Hide Children</span></a>
+            </li>
+            <li><a href="#" class="expandcollapse expand"><i class="icon fa fa-eye"></i> <span class="name">Show Children</span></a>
+            </li>
+        </ul>
+    </div>
+    <ul aria-activedescendant="ui-selectmenu-item-361" style="display: none; width: 142px; left: 153px; top: 30px;"
+        class="ui-selectmenu-menu ui-widget ui-widget-content ui-corner-all ui-white ui-selectmenu-menu-popup"
+        aria-hidden="true" role="listbox" aria-labelledby="level-button" id="level-menu">
+        <li class="ui-corner-top ui-selectmenu-item-selected ui-state-active" role="presentation"><a
+                id="ui-selectmenu-item-361" href="#" tabindex="-1" role="option" aria-selected="true"> Level</a></li>
+        <li class="ui-corner-bottom" role="presentation"><a href="#" tabindex="-1" role="option" aria-selected="false">
+            All</a></li>
+    </ul>
+    <ul aria-activedescendant="ui-selectmenu-item-28" style="display: none; width: 142px; left: 153px; top: 30px;"
+        class="ui-selectmenu-menu ui-widget ui-widget-content ui-corner-all ui-white ui-selectmenu-menu-popup"
+        aria-hidden="true" role="listbox" aria-labelledby="level-custom-button" id="level-custom-menu">
+        <li class="ui-corner-top ui-selectmenu-item-selected ui-state-active" role="presentation"><a
+                id="ui-selectmenu-item-28" href="#" tabindex="-1" role="option" aria-selected="true"> Level</a></li>
+        <li class="ui-corner-bottom" role="presentation"><a href="#" tabindex="-1" role="option" aria-selected="false">
+            All</a></li>
+    </ul>
+{% endblock layout_content %}

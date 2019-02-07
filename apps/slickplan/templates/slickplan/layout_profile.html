@@ -1,0 +1,15 @@
+{% extends 'slickplan/layout.html' %}
+{% load active_tag %}
+
+
+{% block top %}
+    <div id="top-nav">
+        <ul>
+            <li class="{% add_active request 'slickplan:accounts_settings' %} {% add_active request 'slickplan:accounts_home' %}"><a href="{% url 'slickplan:accounts_settings' %}">My Account</a></li>
+            <li class="{% add_active request 'slickplan:accounts_users' %}"><a href="{% url 'slickplan:accounts_users' %}">Edit Users</a></li>
+            <li class="{% add_active request 'slickplan:accounts_preferences' %}"><a href="{% url 'slickplan:accounts_preferences' %}">General Settings</a></li>
+            <li class="{% add_active request 'slickplan:accounts_company' %}"><a href="{% url 'slickplan:accounts_company' %}">Company Settings</a></li>
+            <li class="{% add_active request 'slickplan:accounts_messages' %}"><a href="{% url 'slickplan:accounts_messages' %}">Manage Messages</a></li>
+        </ul>
+    </div>
+{% endblock top %}

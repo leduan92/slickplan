@@ -1,0 +1,104 @@
+<hmtl>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style>
+.title-1{
+    font-size: 18px;
+}
+.title-2{
+    font-size: 15px;
+}
+.line-separator{ border-top: 1px solid #eaeaea; }
+button, .button{
+    color: #fff;
+    background-color: #3276b1;
+    border-color: #285e8e;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 3px;
+    display: inline-block;
+    padding: 6px 12px;
+    font-weight: normal;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+}
+#mail-container{
+    background-color: #f5f5f5;
+    padding: 25px;
+    margin: 0 auto;
+    margin:10px 25px;
+    border-radius: 1px;
+    box-shadow: 0 2px 2px rgba(0,0,0,0.3);
+}
+#mail-footer{
+    text-decoration: center;
+    color: gray;
+    font-size: 13px;
+}
+a{
+    color: #333;
+    text-decoration: none;
+}
+</style>
+    </head>
+<body>
+    <div id="mail-container">
+        <table style="width: 100%;">
+            {% block header_container %}
+            <tr>
+                <td style="font-size: 20px;font-weight: bold;color: #555; text-align: center;">
+                    <table style="width:100%;">
+                        <tr>
+                            <td id="mail-header" align="center" style="color: #555;text-align: center;">
+                                {% block header_logo %}
+
+                                {% endblock %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="mail-subheader" align="center">
+                                {% block header_title %}{% endblock %}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            {% endblock %}
+            {% block body_container %}
+            <tr>
+                <td style="padding: 20px; border: 1px solid #ddd; border-top: 3px solid #4F8DB3; background-color: white; padding-top: 20px;">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td id="mail-body-header" style="color:#333;font-family:Helvetica;font-size:15px;padding-top:20px;padding-bottom:10px;text-align: left; border-bottom: 1px solid #4F8DB3;">
+                                {% block body_title %}{% endblock %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="mail-body" style="color:#333;font-family:Helvetica;font-size:15px;padding-top:20px;padding-bottom:10px;text-align: left;">
+                                {% block body %}{% endblock %}
+                            </td>
+                        </tr>
+                        {% endblock %}
+                        {% block footer_container %}
+                        <tr>
+                            <td id="mail-footer" style="text-align: left;">
+                                {% block footer %}{% endblock %}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            {% endblock %}
+        </table>
+    </div>
+</div id="mail-footer">
+    <a href="mosaicbloom.com">Mosaicboolm</a>
+</div>
+</body>

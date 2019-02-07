@@ -1,0 +1,74 @@
+<div id="sitemap-comments-top">
+    <div class="name">
+        <h1>{{ sitemap.name }}</h1>
+        <h2>Version {{ sitemap_version.name }}</h2>
+    </div>
+    <p class="batch">* Batch Editing will overwrite current page state</p>
+    <button type="submit" class="circle submit">Submit</button>
+    <button type="reset" class="circle reset">Close</button>
+</div>
+<div id="sitemap-comments">
+    <div class="left">
+        <div id="scroll-area">
+            <h3>Comments</h3>
+            {% if comments %}
+                {% for comment in comments %}
+
+                    <div id="comment-item-{{ comment.id }}" data-id="{{ comment.id }}" class="item group-{{ comment.id }} parent{% ifnotequal comment.file_cell  None %} hasfile hasfile-{{ comment.file_cell.file.alias }} hasfile-cell-{{ comment.file_cell.cell_id }}{% endifnotequal %}" {% ifnotequal comment.file_cell  None %} data-cell-id="{{ comment.file_cell.cell_id }} " data-file-id="{{ comment.file_cell.file.alias }} " {% endifnotequal %}>
+                        <div class="comment">
+                            <p>{% ifnotequal comment.file_cell  None %} <img style="width: 125px; height: 125px;" src="{{ comment.file_cell.file.file.url }}"/> {% else %} {{ comment.comment }} {% endifnotequal %}<br/></p>
+                        </div>
+                        <div class="foot">
+                            <img width="35px" height="35px" src="{{ comment.owner.get_avatar }}">
+                            <span class="name">{{ comment.owner.user }}</span>
+                            <span class="date">{{ comment.created | date:"F j, Y" }}</span>
+                            {% if not sitemap.lock %}
+                                <a href="#" data-delete="{{ comment.id }}">Delete</a>
+                            {% endif %}
+                            <a href="#" class="reply" data-id="{{ comment.id }}">Reply</a>
+                        </div>
+                    </div>
+                    {% for child_comment in comment.get_childs %}
+                        <div id="comment-item-{{ child_comment.id }}" data-id="{{ child_comment.id }}" class="item group-{{ child_comment.id }} group-{{ comment.id }} indent">
+                            <div class="comment">
+                                <p>{{ child_comment.comment }}<br/></p>
+                            </div>
+                            <div class="foot">
+                                <img width="35px" height="35px" src="{{ child_comment.owner.get_avatar }}">
+                                <span class="name">{{ child_comment.owner }}</span>
+                                <span class="date">{{ child_comment.created | date:"F j, Y" }}</span>
+                                {% if not sitemap.lock %}
+                                    <a href="#" data-delete="{{ child_comment.id }}">Delete</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% else %}
+                <div class="item">
+                    <div class="comment">
+                        <p>No comments</p>
+                    </div>
+                </div>
+            {% endif %}
+
+            <h4>End of Comments</h4>
+        </div>
+    </div>
+    <div class="right">
+        <h3>Your Comment</h3>
+        <form action="" method="post" id="post-comment">
+            <div class="reply">
+                Reply To: <span></span> (<a href="#">cancel</a>)
+            </div>
+            <div class="wysiwyg">
+                <textarea id="form-comment" name="comment"></textarea>
+            </div>
+            <div class="submit">
+                <input type="submit" class="button blue" value="Post Comment">
+                <div class="loading"></div>
+            </div>
+            <input type="hidden" name="_nonce" value="9qE5nupwG1BfOZYMkP2DuNJ403wuFpLKd5INybzXN58=" />
+        </form>
+    </div>
+</div>

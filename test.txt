@@ -1,0 +1,1 @@
+wkhtmltoimage -q --quality 10 --width 2855 --height 1064 http://localhost:8000/app/board/preview/7/ C:\wamp\www\Desarrollo\Django\conceptboard\media\uploads/boards/7/output_small.png

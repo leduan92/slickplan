@@ -1,0 +1,43 @@
+{% extends "email/template.html" %}
+{% block header_title %}
+    <h3>Invitación</h3>
+{% endblock %}
+{% block body_title %}
+    <!-- <h3>Invitación a colaborar</h3> -->
+{% endblock %}
+{% block body %}
+    <p class="title-2">
+        {% if profile %}
+            Hola {{profile.usuario.first_name}},
+        {% else %}
+            Hola,
+        {% endif %}
+    </p>
+    <p>
+        {{from.first_name}} {{from.last_name}} te ha invitado a participar en MosaicBloom.
+    </p>
+    {% if board %}
+    <p>
+        <div class="title-2">Tablero: {{board.nombre}}</div>
+        <a href="{{link_to}}">{{link_to}}</a>
+    </p>
+    {% endif %}
+    {% if project %}
+    <p>
+        <div class="title-2">Proyecto: {{project.nombre}}</div>
+        <a href="{{link_to}}">{{link_to}}</a>
+    </p>
+    {% endif %}
+    {% if message %}
+        <div class="line-separator"></div>
+        <p>{{message}} </p>
+    {% else %}
+
+    {% endif %}
+    <p>
+        <a class="button" href="{{link_to}}">Ir a Mosaicbloom</a>.
+    </p>
+
+    <p>Atentamente, equipo de MosaicBloom</p>
+
+{% endblock %}

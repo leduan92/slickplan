@@ -1,0 +1,260 @@
+{% extends 'slickplan/layout_profile.html' %}
+
+{% block title %}Edit Users{% endblock title %}
+
+{% block javascripts %}
+    {{ block.super }}
+
+    {% load static %}
+    <script src="{% static 'slickplan/js/jquery.validate.js' %}"></script>
+    <script type="text/javascript">
+        jQuery.noConflict();
+        jQuery(document).ready(function ($) {
+
+           var params= {
+                route: ["settings", "users"]
+           };
+           Slickplan.appInit(Object.assign(params_init, params));
+            $("#submit-data").on("click", function(e) {
+                e.preventDefault();
+                var n = $("#mform-add-first-name");
+                var p = $("#mform-add-last-name");
+                var r = $("#mform-add-email");
+                var o = $("#mform-add-password");
+                var data = [{
+                    value: n.val(),
+                    tiperror: n.parent(),
+                    rules: {empty: "First Name must not be empty"},
+                    css: {bottom: 5},
+                    left: 11
+                }, {
+                    value: p.val(),
+                    tiperror: p.parent(),
+                    rules: {empty: "Last Name must not be empty"},
+                    css: {bottom: 5}
+                }, {
+                    value: r.val(),
+                    tiperror: r.parent(),
+                    rules: {empty: "Email must not be empty", email: "Email is not valid"},
+                    css: {bottom: 5},
+                    left: 11
+                }];
+                if (o.val()) {
+                    data.push({
+                        value: o.val(),
+                        tiperror: o.parent(),
+                        rules: {length: [6, "Password must be at least 6 characters"]},
+                        css: {bottom: 5}
+                    })
+                }
+                var result = $("#modal-form-add-user").validate(data);
+                console.log(result);
+                e.preventDefault();
+            });
+            var clicked = [];
+            $("#letters a").click(function () {
+                var obj = $(this),
+                    letter_list = $("#letters"),
+                    text = obj.text(),
+                    all = letter_list.find("li.all");
+                if (text === 'ALL') {
+                    clicked = [];
+                }
+                else {
+                    if (obj.parent().hasClass('inactive') || clicked.length == 0) {
+                        obj.addClass("filter").parent().removeClass("inactive");
+                        clicked.push(text);
+                    }
+                    else {
+                        obj.removeClass("filter");
+                        var aux = [];
+                        for (var i = 0; i < clicked.length; i++) {
+                            if (typeof clicked[i] === "string" && clicked[i] !== text) {
+                                aux.push(clicked[i]);
+                            }
+                        }
+                        clicked = aux;
+                    }
+                }
+                if (clicked.length) {
+                    all.addClass("active").end().find("a").not(".filter").parent().not(".all").addClass("inactive");
+                    $("#usersbox > *").not(":last").each(function () {
+                        var s = $(this);
+                        if (isInArray(clicked, $.trim(s.children("span:first").text()).charAt(0).toUpperCase()) ||
+                            isInArray(clicked, $.trim(s.children("span:last").text()).charAt(0).toUpperCase())) {
+                            s.show();
+                        } else {
+                            s.hide();
+                        }
+                    })
+                }
+                else {
+                    all.removeClass("active").end().find("a").removeClass("filter").parent().removeClass("inactive");
+                    $("#usersbox > *").not(":last").show();
+                }
+            });
+
+            var isInArray = function (array, value) {
+                var count = 0;
+                for (var i = 0; i < array.length; i++) {
+                    if (array[i] === value) {
+                        return true;
+                    } else {
+                        count++;
+                    }
+                }
+                if (count === array.length)
+                    return false;
+            }
+        })
+    </script>
+
+{% endblock javascripts %}
+
+{% block layout_content %}
+    <div id="main" class="edit-users">
+        <form action="" method="post">
+            {% csrf_token %}
+            <h1>Users:</h1>
+            <ul id="letters">
+{#                                {% with letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']  %}{% endwith %}#}
+                <li><a href="#">A</a>
+                <li><a href="#">B</a>
+                <li><a href="#">C</a>
+                <li><a href="#">D</a>
+                <li><a href="#">E</a>
+                <li><a href="#">F</a>
+                <li><a href="#">G</a>
+                <li><a href="#">H</a>
+                <li><a href="#">I</a>
+                <li><a href="#">J</a>
+                <li><a href="#">K</a>
+                <li><a href="#">L</a>
+                <li><a href="#">M</a>
+                <li><a href="#">N</a>
+                <li><a href="#">O</a>
+                <li><a href="#">P</a>
+                <li><a href="#">Q</a>
+                <li><a href="#">R</a>
+                <li><a href="#">S</a>
+                <li><a href="#">T</a>
+                <li><a href="#">U</a>
+                <li><a href="#">V</a>
+                <li><a href="#">W</a>
+                <li><a href="#">X</a>
+                <li><a href="#">Y</a>
+                <li><a href="#">Z</a>
+                <li class="all"><a href="#">ALL</a>
+            </ul>
+            <button type="button" class="button" data-modal="add-user">Add User</button>
+            <div id="usersbox">
+                <div id="userb-{{ user_slick.id }}" data-id="{{ user_slick.id }}" data-email="{{ user.email }}" class="contrib-box owner  ">
+                    <span>{{ user.first_name }}</span>
+                    <span>{{ user.last_name }}</span>
+                    {% load static %}
+                    <a href="{% url 'slickplan:accounts_settings' %}" class="edit"
+                       style="background: url({% static 'slickplan/img/sprite-20141017.png' %}) -27px -407px no-repeat;">Edit</a>
+                </div>
+                {% for guest in user.my_guests %}
+                    <div id="userb-{{ guest.id }}" data-id="{{ guest.id }}" data-email="{{ guest.email }}" class="contrib-box owner">
+                        <span>{{ guest.first_name }}</span>
+                        <span>{{ guest.last_name }}</span>
+                        <a href="#" class="delete">Delete</a>
+                        <a href="{% url 'slickplan:accounts_settings' %}" class="edit">Edit</a>
+                    </div>
+                {% endfor %}
+                <a href="#" class="add" data-modal="add-user" id="add-guest-user">Add User</a>
+            </div>
+            <input type="hidden" name="_nonce" value="NiiVzu736sRl3ghaD9+ihzzOiVLs52gknXG+MwYl1/w="/></form>
+    </div>
+    <div id="modal-add-user" class="modal">
+        <form method="post" id="modal-form-add-user">
+            {% csrf_token %}
+            <fieldset>
+                <h1>Add User <a href="#" class="button light ico-close close">&#10005;</a></h1>
+
+                <div class="input left">
+                    <label for="mform-add-first-name">First Name</label>
+                    <input type="text" id="mform-add-first-name" name="add[first_name]">
+                </div>
+                <div class="input right">
+                    <label for="mform-add-last-name">Last Name</label>
+                    <input type="text" id="mform-add-last-name" name="add[last_name]">
+                </div>
+                <div class="input clear left">
+                    <label for="mform-add-email">Email Address</label>
+                    <input type="text" id="mform-add-email" name="add[email]">
+                </div>
+                <div class="input right">
+                    <label for="mform-add-password">Password</label>
+                    <input type="password" id="mform-add-password" name="add[password]">
+                </div>
+                <div class="checkbox clear">
+                    <input type="checkbox" id="mform-add-user-type" name="add[user_type]" value="9">
+                    <label for="mform-add-user-type">Administrator Account</label>
+                </div>
+            </fieldset>
+            <div class="submit">
+                <input type="submit" value="Add User" id="submit-data">
+            </div>
+            <input type="hidden" name="_nonce" value="NiiVzu736sRl3ghaD9+ihzzOiVLs52gknXG+MwYl1/w="/></form>
+    </div>
+    <div id="modal-edit-user" class="modal">
+        <form action="#" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="edit[user_id]" id="mform-edit-user-id" value="0">
+            <fieldset>
+                <h1>Edit User <a href="#" class="button light ico-close close">&#10005;</a></h1>
+
+                <div class="input left">
+                    <label for="mform-edit-first-name">First Name</label>
+                    <input type="text" id="mform-edit-first-name" name="edit[first_name]">
+                </div>
+                <div class="input right">
+                    <label for="mform-edit-last-name">Last Name</label>
+                    <input type="text" id="mform-edit-last-name" name="edit[last_name]">
+                </div>
+                <div class="input clear left">
+                    <label for="mform-edit-email">Email Address</label>
+                    <input type="text" id="mform-edit-email" name="edit[email]">
+                </div>
+                <div class="input right">
+                    <label for="mform-edit-email">Change Password</label>
+                    <input type="password" id="mform-edit-password" name="edit[password]">
+                </div>
+                <div class="checkbox clear">
+                    <input type="checkbox" id="mform-edit-active" name="edit[active]" value="1">
+                    <label for="mform-edit-active">Active User</label>
+                    <input type="checkbox" id="mform-edit-user-type" name="edit[user_type]" value="9">
+                    <label for="mform-edit-user-type">Administrator Account</label>
+                </div>
+            </fieldset>
+            <div class="submit">
+                <input type="submit" value="Save User">
+            </div>
+            <input type="hidden" name="_nonce" value="NiiVzu736sRl3ghaD9+ihzzOiVLs52gknXG+MwYl1/w="/></form>
+    </div>
+
+    {#    <div id="modal-confirm" class="modal">#}
+    {#        <form action="" method="post">#}
+    {#            <fieldset>#}
+    {#                <h1><span></span> <a href="#" class="button light ico-close close">&#10005;</a></h1>#}
+    {##}
+    {#                <p></p>#}
+    {#            </fieldset>#}
+    {#            <div class="submit">#}
+    {#                <div class="checkboxes clearfix"></div>#}
+    {#                <div class="confirm-checkbox clearfix">#}
+    {#                    <div class="checkbox">#}
+    {#                        <input type="checkbox" id="modal-confirm-checkbox" value="1">#}
+    {#                        <label for="modal-confirm-checkbox">Don’t show me this again</label>#}
+    {#                    </div>#}
+    {#                </div>#}
+    {#                <input type="reset" value="No" class="cancel" id="modal-confirm-cancel">#}
+    {#                <input type="submit" value="Yes" id="modal-confirm-submit">#}
+    {#            </div>#}
+    {#            <input type="hidden" name="_nonce" value="NiiVzu736sRl3ghaD9+ihzzOiVLs52gknXG+MwYl1/w="/></form>#}
+    {#    </div>#}
+
+
+{% endblock layout_content %}

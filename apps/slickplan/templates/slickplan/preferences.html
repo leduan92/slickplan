@@ -1,0 +1,139 @@
+{% extends 'slickplan/layout_profile.html' %}
+
+{% block title %}General Settings{% endblock title %}
+
+{% block javascripts %}
+    {{ block.super }}
+
+    <script type="text/javascript">
+        jQuery.noConflict();
+        jQuery(document).ready(function ($) {
+
+            var params= {
+                route: ["account", "preferences"]
+            };
+            Slickplan.appInit(Object.assign(params_init, params));
+        });
+    </script>
+
+{% endblock javascripts %}
+
+
+{% block layout_content %}
+
+    <div id="main" class="account settings">
+        <form action="{% url 'slickplan:accounts_preferences' %}" method="post">
+            {% csrf_token %}
+            {#            {{ form }}#}
+            <h1>General Settings</h1>
+            <fieldset>
+                <label>Auto Save</label>
+
+                <div class="switch">
+                    <input type="checkbox" id="form-{{ form.autosave.name }}" name="{{ form.autosave.name }}" value="1" tabindex="1" {% if form.autosave.value %}checked{% endif %}>
+                    {#                    {{ form.autosave }}#}
+                    <label for="form-{{ form.autosave.name }}">On/Off</label>
+                </div>
+            </fieldset>
+            <fieldset>
+                <label>Warn Before Leaving Page</label>
+
+                <div class="switch">
+                    <input type="checkbox" id="form-{{ form.warn_before_leaving_page.name }}" name="{{ form.warn_before_leaving_page.name }}" value="1" tabindex="2" {% if form.warn_before_leaving_page.value %}checked{% endif %}>
+                    <label for="form-{{ form.warn_before_leaving_page.name }}">On/Off</label>
+                </div>
+            </fieldset>
+            <fieldset>
+                <label>Email Me When A Comment Is Added</label>
+
+                <div class="switch">
+                    <input type="checkbox" id="form-{{ form.new_comment_nofity.name }}" name="{{ form.new_comment_nofity.name }}" value="1" tabindex="3" {% if form.new_comment_nofity.value %}checked{% endif %}>
+                    <label for="form-{{ form.new_comment_nofity.name }}">On/Off</label>
+                </div>
+            </fieldset>
+            <fieldset>
+                <label>Use Regular Case Text on Cells</label>
+
+                <div class="switch">
+                    <input type="checkbox" id="form-uppercase" name="{{ form.sitemap_label_regular_case.name }}" value="1" tabindex="4" {% if form.sitemap_label_regular_case.value %}checked{% endif %}>
+                    <label for="form-uppercase">On/Off</label>
+                </div>
+            </fieldset>
+            <fieldset>
+                <label>Automatically Number Cells</label>
+
+                <div class="switch">
+                    <input type="checkbox" id="form-cells_numbering" name="{{ form.cells_numbering.name }}" value="1" tabindex="5" {% if form.cells_numbering.value %}checked{% endif %}>
+                    <label for="form-cells_numbering">On/Off</label>
+                </div>
+            </fieldset>
+            <fieldset>
+                <label>Show Company Header on Shared Sitemaps</label>
+
+                <div class="switch">
+                    <input type="checkbox" id="form-show_company_header" name="{{ form.show_company_header.name }}" value="1" tabindex="6" {% if form.show_company_header.value %}checked{% endif %}>
+                    <label for="form-show_company_header">On/Off</label>
+                </div>
+            </fieldset>
+            <fieldset class="basecamp classic">
+                <label>Basecamp</label>
+
+                <div class="radio">
+                    <input type="radio" id="form-basecampclassic0" name="{{ form.basecamp_version.name }}" value="0" tabindex="7" {% if not form.basecamp_version.value %}checked{% endif %}>
+                    <label for="form-basecampclassic0">New</label>
+                </div>
+                <div class="radio">
+                    <input type="radio" id="form-basecampclassic1" name="{{ form.basecamp_version.name }}" value="1" tabindex="8" {% if form.basecamp_version.value %}checked{% endif %}>
+                    <label for="form-basecampclassic1">Classic</label>
+                </div>
+                <div class="switch">
+                    <input type="checkbox" id="form-basecamp" name="{{ form.basecamp_enabled.name }}" value="1" tabindex="9" {% if form.basecamp_enabled.value %}checked{% endif %}>
+                    <label for="form-basecamp">On/Off</label>
+                </div>
+                <div id="basecampclassic">
+                    <div class="text">.basecamphq.com</div>
+                    <div class="input">
+                        <input type="text" name="{{ form.basecamp_domain.name }}" value="{{ form.basecamp_domain.value }}" placeholder="SUB DOMAIN" tabindex="11" autocomplete="off">
+                    </div>
+                    <div class="input">
+                        <input type="text" name="{{ form.basecamp_auth_key.name }}" value="{{ form.basecamp_auth_key.value }}" placeholder="AUTHENTICATION TOKEN" tabindex="10" maxlength="40" autocomplete="off">
+                    </div>
+                    <div class="help" data-modal="help"></div>
+                </div>
+            </fieldset>
+            <div class="submit">
+                <input type="submit" value="Save New Settings" tabindex="12">
+            </div>
+            <input type="hidden" name="_nonce" value="R4SDEh6/GwQeJR85a14r+qiYLIPIz2caxhl6TeW99xE="/>
+        </form>
+    </div>
+
+    <div id="modal-help" class="modal">
+        <form>
+            <h1>How to find your authentication token <a href="#" class="button light ico-close close">&#10005;</a></h1>
+            <input type="hidden" name="_nonce" value="R4SDEh6/GwQeJR85a14r+qiYLIPIz2caxhl6TeW99xE="/>
+        </form>
+    </div>
+
+    {#    <div id="modal-confirm" class="modal">#}
+    {#        <form action="" method="post">#}
+    {#            <fieldset>#}
+    {#                <h1><span></span> <a href="#" class="button light ico-close close">&#10005;</a></h1>#}
+    {##}
+    {#                <p></p>#}
+    {#            </fieldset>#}
+    {#            <div class="submit">#}
+    {#                <div class="checkboxes clearfix"></div>#}
+    {#                <div class="confirm-checkbox clearfix">#}
+    {#                    <div class="checkbox">#}
+    {#                        <input type="checkbox" id="modal-confirm-checkbox" value="1">#}
+    {#                        <label for="modal-confirm-checkbox">Don’t show me this again</label>#}
+    {#                    </div>#}
+    {#                </div>#}
+    {#                <input type="reset" value="No" class="cancel" id="modal-confirm-cancel">#}
+    {#                <input type="submit" value="Yes" id="modal-confirm-submit">#}
+    {#            </div>#}
+    {#            <input type="hidden" name="_nonce" value="R4SDEh6/GwQeJR85a14r+qiYLIPIz2caxhl6TeW99xE="/></form>#}
+    {#    </div>#}
+
+{% endblock layout_content %}

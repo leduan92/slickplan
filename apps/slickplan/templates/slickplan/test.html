@@ -1,0 +1,87 @@
+<div style="display: table;" class="commentsarea">
+    <div class="wrapper">
+        <div id="lightbox-scroll-area" class="scroll-area tinyscrollbar-enabled">
+            <div style="height: 205px;" class="scrollbar">
+                <div style="height: 205px;" class="track">
+                    <div style="top: 0px; height: 60px;" class="thumb">
+
+                    </div>
+                </div>
+            </div>
+            <div class="viewport">
+                <div style="top: 0px;" class="overview">
+                    <div class="comment">
+                        <p>este es mi comments</p>
+                    </div>
+
+                    <div class="foot">
+                        <img src="/static/img/default-avatar.png">
+                        <span class="name">osvaldo Larrea</span>
+                        <span class="date">Jul 18th, 2016 at 10:24 AM</span>
+                        <a href="#" data-delete="13338">Delete</a>
+                    </div>
+
+                    <div class="comment">
+                        <p>adsfhbasdgasd</p>
+                    </div>
+                    <div class="foot">
+                        <img src="/static/img/default-avatar.png">
+                        <span class="name">osvaldo Larrea</span>
+                        <span class="date">Today at 3:23 PM</span>
+                        <a href="#" data-delete="13391">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="lightbox-scroll-area" class="scroll-area">
+
+            <div class="viewport">
+                <div style="top: 0px;" class="overview">
+                    {% if comments %}
+                    {% for comment in comments %}
+                        {% ifnotequal comment.file_cell  None %}
+                            <div id="comment-item-{{ comment.id }}" data-id="{{ comment.id }}" data-cell-id="{{ comment.file_cell.cell_id }}" class="item group-{{ comment.id }} parent hasfile hasfile-{{ comment.file_cell.file.alias }} hasfile-cell-{{ comment.file_cell.cell_id }}" data-file-id="{{ comment.file_cell.file.alias }} ">
+                                <div class="comment">
+                                    <p>{{ comment.comment }}<br/></p>
+                                </div>
+                                <div class="foot">
+                                    <img width="35px" height="35px" src="{{ comment.owner.get_avatar }}">
+                                    <span class="name">{{ comment.owner.user }}</span>
+                                    <span class="date">{{ comment.created | date:"F j, Y" }}</span>
+                                    {% if not sitemap.lock %}
+                                        <a href="#" data-delete="{{ comment.id }}">Delete</a>
+                                    {% endif %}
+                                    <a href="#" class="reply" data-id="{{ comment.id }}">Reply</a>
+                                </div>
+                            </div>
+                            {% for child_comment in comment.get_childs %}
+                                <div id="comment-item-{{ child_comment.id }}" data-id="{{ child_comment.id }}" class="item group-{{ child_comment.id }} group-{{ comment.id }} indent">
+                                    <div class="comment">
+                                        <p>{{ child_comment.comment }}<br/></p>
+                                    </div>
+                                    <div class="foot">
+                                        <img width="35px" height="35px" src="{{ child_comment.owner.get_avatar }}">
+                                        <span class="name">{{ child_comment.owner }}</span>
+                                        <span class="date">{{ child_comment.created | date:"F j, Y" }}</span>
+                                        {% if not sitemap.lock %}
+                                            <a href="#" data-delete="{{ child_comment.id }}">Delete</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endifnotequal %}
+                    {% endfor %}
+                    {% else %}
+                        <div class="item">
+                            <div class="comment">
+                                <p>No comments</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            </div>

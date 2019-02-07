@@ -1,0 +1,18 @@
+{% extends "email/template.html" %}
+{% block header_title %}
+    <h3>Aviso !!!</h3>
+{% endblock %}
+{% block body_title %}
+    <h3>{% from_user %} {% generic_text %}</h3>
+{% endblock %}
+{% block body %}
+    <p>
+        Usted esta recibiendo estas notificicaciones porque el administrador de su red ha
+    establecido esa condición en la configuración global de la misma.
+    </p>
+
+    <p>
+        Atentamente.
+    </p>
+
+{% endblock %}

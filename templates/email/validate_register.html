@@ -1,0 +1,26 @@
+{% extends "email/template.html" %}
+{% block header_title %}
+    <h3>Registro de usuario</h3>
+{% endblock %}
+{% block body_title %}
+    <h3>Nuevo registro de usuario</h3>
+{% endblock %}
+{% block body %}
+    <p>
+        ¡Bienvenido/a a la comunidad de {{net.domain}}!
+    </p>
+    <p>
+        Gracias por unirse a la comunidad.
+    </p>
+    <p>
+        Para activar su cuenta en la comunidad de {{net.domain}} en Socialcast, haga
+        clic en el siguiente vínculo.
+    </p>
+    <p>
+        <a href="https://sc.cloudmicry.com/activate/123456878/xvDF5w91r0CFmhh9jq469Q">https://sc.cloudmicry.com/activate/123456878/xvDF5w91r0CFmhh9jq469Q"</a>
+    </p>
+    <p>
+        Atentamente.
+    </p>
+
+{% endblock %}
