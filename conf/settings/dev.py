@@ -14,7 +14,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'slickplan',
-        'USER': 'root',
+        'USER': 'slickplan',
         'PASSWORD': '',
         'HOST': '',
         'PORT': '',

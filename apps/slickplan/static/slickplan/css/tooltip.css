@@ -1,7 +1,5 @@
 a.tooltip {
-{#   color: #CC3E6E;#}
     text-decoration: none;
-
 }
 a.tooltip:hover {
     border-bottom: 1px dotted #CC3E6E;

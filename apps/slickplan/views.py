@@ -15,6 +15,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from django.utils import formats
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import Permission
 from django.contrib.auth import views as auth_views
 
 from .forms import *
@@ -187,9 +188,8 @@ def sitemap_edit(request, id):
     try:
         host = ''.join(['http://', request.META['HTTP_HOST']])
     except:
-        host = 'http://localhost'
+        host = 'http://127.0.0.1:8000'
 
-    print(request.META)
     user = request.user
     user_slick = user.userslick
 
@@ -201,14 +201,6 @@ def sitemap_edit(request, id):
     comments = sitemap_version.comments.filter(reply=None)
 
     slickplan_lock = {}
-
-    # if sitemap.status == SITEMAP_STATUS_CHOICE.LOCKED:
-    #     slickplan_lock['type'] = "error"
-    #     slickplan_lock['message'] = "This sitemap has been locked <a href=\"#\" id=\"action-unlock\"><i class=\"fa fa-unlock\"><\/i> Unlock<\/a>"
-    # if sitemap.status == SITEMAP_STATUS_CHOICE.APPROVED:
-    #     slickplan_lock['type'] = "success"
-    #     slickplan_lock['message'] = 'This sitemap has been approved <a href=\"#\" id=\"action-unlock\"><i class=\"fa fa-unlock\"><\/i> Unlock<\/a>'
-
 
     sitemap_blank = '{\"svgmainsection\":{\"data\":{\"section\": \"svgmainsection\"},\"options\":{},\"cells\":[]}}'
     sitemap_json_params = sitemap_version.description.replace("'", '\"') \
@@ -250,7 +242,6 @@ def sitemap_edit(request, id):
     if request.POST:
         response = dict()
         params = request.POST.copy()
-        print(params)
         params_json = {}
         if request.FILES:
             if "sitemap_logo[file]" in params.keys() or "sitemap_logo[text]" in params.keys():
@@ -448,7 +439,9 @@ def sitemap_edit(request, id):
             cell_id = params_json["cell_id"]
             sitemap_files = SiteMapFile.objects.filter(sitemap_files__sitemap_version=sitemap_id).distinct()
             files = []
-            host = "http://127.0.0.1:8000"
+            # host = "http://127.0.0.1:8000"
+            # host = request.get_host()
+            # print(host)
             for file in sitemap_files:
                 if SiteMapFileCell.objects.filter(cell_id=cell_id, file=file,
                                                   sitemap_version=sitemap_version).count() > 0:
@@ -492,7 +485,7 @@ def sitemap_edit(request, id):
             sitemap_cell["file"] = sitemap_get_file
             SiteMapFileCell.objects.create(**sitemap_cell)
 
-            host = "http://127.0.0.1:8000"
+            # host = "http://127.0.0.1:8000"
             file_d = dict()
             file_d["id"] = sitemap_get_file.pk
             file_d["alias"] = sitemap_get_file.alias
@@ -540,7 +533,7 @@ def sitemap_edit(request, id):
             sitemap_file.save()
 
             response['success'] = 1
-            host = "http://127.0.0.1:8000"
+            #host = "http://127.0.0.1:8000"
             response["etag"] = sitemap_file.etag
             response["key"] = sitemap_file.key
             response["location"] = host + sitemap_file.file.url
@@ -680,13 +673,59 @@ def settings(request):
 @login_required()
 @csrf_exempt
 def users(request):
-    # if request.POST:
-    #     params = request.POST.copy()
-    #     response = dict()
-    #
+    guest_user = User()
+    userslick = UserSlick()
+    if request.POST:
+        params = request.POST
+        key = "add_user_type" in params
+        guest_user.first_name = params["add_first_name"]
+        guest_user.last_name = params['add_last_name'].split(' ')
+        email = params['add_email']
+        username = guest_user.first_name + "_" + guest_user.last_name[0] + "_" + guest_user.last_name[1]
+        value = User.objects.filter(username=username).count()
+        if value is not 0:
+            username = get_user_name(email)
+            guest_user.username = username
+        else:
+            guest_user.username = username
 
-    data = {}
-    return render_to_response('slickplan/users.html', data, context_instance=RequestContext(request))
+        if params["add_password"] is not None:
+            guest_user.set_password(params['add_password'])
+        else:
+            password = User.objects.make_random_password()
+            guest_user.set_password(password)
+        guest_user.email = email
+        guest_user.save()
+        if key and params["add_user_type"] == "isStaff":
+            guest_user.is_staff = True
+            add_guest_user_permissions(guest_user, True)
+        else:
+            guest_user.is_staff = False
+            add_guest_user_permissions(guest_user, False)
+        userslick.user = guest_user
+        userslick.save()
+
+    data = {"success": True, "msg": "Se ha creado el usuario"}
+    return render_to_response('slickplan/users.html', {}, context_instance=RequestContext(request))
+
+
+def get_user_name(str):
+    first = str.split('@')
+    domain = first[1].split('.')
+    return first[0] + '_' + domain[0]
+
+
+def add_guest_user_permissions(user, isStaff):
+    if isStaff is True:
+        permission = Permission.objects.all()
+        user.user_permissions.add(*permission)
+    else:
+        permission = Permission.objects.filter(codename__in=[
+                                                    "change_userlist", "add_sitemap",
+                                                    "change_sitemap", "delete_sitemap"
+                                              ])
+        user.user_permissions.add(*permission)
+    user.save()
 
 
 @login_required()

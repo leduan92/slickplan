@@ -15,41 +15,47 @@
                 route: ["settings", "users"]
            };
            Slickplan.appInit(Object.assign(params_init, params));
+
+            var n = $("#mform-add-first-name");
+            var p = $("#mform-add-last-name");
+            var r = $("#mform-add-email");
+            var o = $("#mform-add-password");
+
             $("#submit-data").on("click", function(e) {
-                e.preventDefault();
-                var n = $("#mform-add-first-name");
-                var p = $("#mform-add-last-name");
-                var r = $("#mform-add-email");
-                var o = $("#mform-add-password");
-                var data = [{
-                    value: n.val(),
-                    tiperror: n.parent(),
-                    rules: {empty: "First Name must not be empty"},
-                    css: {bottom: 5},
-                    left: 11
-                }, {
-                    value: p.val(),
-                    tiperror: p.parent(),
-                    rules: {empty: "Last Name must not be empty"},
-                    css: {bottom: 5}
-                }, {
-                    value: r.val(),
-                    tiperror: r.parent(),
-                    rules: {empty: "Email must not be empty", email: "Email is not valid"},
-                    css: {bottom: 5},
-                    left: 11
-                }];
-                if (o.val()) {
-                    data.push({
-                        value: o.val(),
-                        tiperror: o.parent(),
-                        rules: {length: [6, "Password must be at least 6 characters"]},
-                        css: {bottom: 5}
-                    })
-                }
-                var result = $("#modal-form-add-user").validate(data);
-                console.log(result);
-                e.preventDefault();
+                $("#modal-form-add-user").validate({
+                    errorClass: "error",
+                    focusCleanup: true,
+                    rules: {
+                        add_first_name: "required",
+                        add_last_name: "required",
+                        add_email: {
+                            required: true,
+                            email: true
+                        },
+                        add_password: {
+                            minlength: 6
+                        }
+                    },
+                    messages: {
+                        add_first_name: "Especifique su nombre",
+                        add_last_name: "Especifique sus apellidos",
+                        add_email: {
+                            required: "Especifique su email",
+                            email: "El formato es incorrecto"
+                        },
+                        add_password: {
+                            minlength: $.validator.format("Debe tener al menos {0} caracteres")
+                        }
+                    },
+                    invalidHandler: function (event, validator) {
+                        var errors = validator.numberOfInvalids();
+                        if (errors) {
+                            $("#modal-add-user").css({
+                                "overflow-y": "auto"
+                            });
+                        }
+                    }
+                });
             });
             var clicked = [];
             $("#letters a").click(function () {
@@ -115,9 +121,15 @@
     <div id="main" class="edit-users">
         <form action="" method="post">
             {% csrf_token %}
-            <h1>Users:</h1>
-            <ul id="letters">
-{#                                {% with letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']  %}{% endwith %}#}
+            <h1>
+                Users
+                <span class="count">
+                    {% with total=user.my_guests.count|add:1 %}
+                        ({{ total|default:1 }})
+                    {% endwith %}
+                </span>
+            </h1>
+            <ul id="letters" style="margin-left: 110px;">
                 <li><a href="#">A</a>
                 <li><a href="#">B</a>
                 <li><a href="#">C</a>
@@ -146,7 +158,7 @@
                 <li><a href="#">Z</a>
                 <li class="all"><a href="#">ALL</a>
             </ul>
-            <button type="button" class="button" data-modal="add-user">Add User</button>
+            <button id="add-user" type="button" class="button" data-modal="add-user">Add User</button>
             <div id="usersbox">
                 <div id="userb-{{ user_slick.id }}" data-id="{{ user_slick.id }}" data-email="{{ user.email }}" class="contrib-box owner  ">
                     <span>{{ user.first_name }}</span>
@@ -168,36 +180,40 @@
             <input type="hidden" name="_nonce" value="NiiVzu736sRl3ghaD9+ihzzOiVLs52gknXG+MwYl1/w="/></form>
     </div>
     <div id="modal-add-user" class="modal">
-        <form method="post" id="modal-form-add-user">
-            {% csrf_token %}
-            <fieldset>
-                <h1>Add User <a href="#" class="button light ico-close close">&#10005;</a></h1>
+        <div id="modal-user">
+            <div id="modal-body">
+                <form method="post" id="modal-form-add-user">
+                    {% csrf_token %}
+                    <fieldset>
+                        <h1>Adicionar Usuario <a href="#" class="button light ico-close close">&#10005;</a></h1>
 
-                <div class="input left">
-                    <label for="mform-add-first-name">First Name</label>
-                    <input type="text" id="mform-add-first-name" name="add[first_name]">
-                </div>
-                <div class="input right">
-                    <label for="mform-add-last-name">Last Name</label>
-                    <input type="text" id="mform-add-last-name" name="add[last_name]">
-                </div>
-                <div class="input clear left">
-                    <label for="mform-add-email">Email Address</label>
-                    <input type="text" id="mform-add-email" name="add[email]">
-                </div>
-                <div class="input right">
-                    <label for="mform-add-password">Password</label>
-                    <input type="password" id="mform-add-password" name="add[password]">
-                </div>
-                <div class="checkbox clear">
-                    <input type="checkbox" id="mform-add-user-type" name="add[user_type]" value="9">
-                    <label for="mform-add-user-type">Administrator Account</label>
-                </div>
-            </fieldset>
-            <div class="submit">
-                <input type="submit" value="Add User" id="submit-data">
+                        <div class="input left">
+                            <label for="mform-add-first-name">Nombre</label>
+                            <input type="text" id="mform-add-first-name" name="add_first_name">
+                        </div>
+                        <div class="input right">
+                            <label for="mform-add-last-name">Apellidos</label>
+                            <input type="text" id="mform-add-last-name" name="add_last_name">
+                        </div>
+                        <div class="input clear left">
+                            <label for="mform-add-email">Email</label>
+                            <input type="email" id="mform-add-email" name="add_email">
+                        </div>
+                        <div class="input right">
+                            <label for="mform-add-password">Contrase&ntilde;a</label>
+                            <input type="password" id="mform-add-password" name="add_password">
+                        </div>
+                        <div class="checkbox clear">
+                            <input type="checkbox" id="mform-add-user-type" name="add_user_type" value="isStaff">
+                            <label for="mform-add-user-type">Administrator Account</label>
+                        </div>
+                    </fieldset>
+                    <div class="submit">
+                        <input type="submit" value="Add User" id="submit-data">
+                    </div>
+                    <input type="hidden" name="_nonce" value="NiiVzu736sRl3ghaD9+ihzzOiVLs52gknXG+MwYl1/w="/></form>
             </div>
-            <input type="hidden" name="_nonce" value="NiiVzu736sRl3ghaD9+ihzzOiVLs52gknXG+MwYl1/w="/></form>
+        </div>
     </div>
     <div id="modal-edit-user" class="modal">
         <form action="#" method="post">
